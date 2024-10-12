@@ -13,5 +13,3 @@ class Test {
         echo "Test function called.\n";
     }
 }
-
-// Add this script to run the Test class

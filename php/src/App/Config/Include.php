@@ -6,4 +6,3 @@
  */
 // Include config files
 require_once __DIR__ . '/Config.php';
-require_once __DIR__ . '/../../autoload.php';

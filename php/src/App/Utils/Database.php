@@ -3,42 +3,21 @@
 namespace App\Utils;
 
 class Database {
-    private $host;
-    private $database_name;
-    private $username;
-    private $password;
+    private $host = DB_HOST;
+    private $database_name = DB_NAME;
+    private $username = DB_USER;
+    private $password = DB_PASSWORD;
 
-    private $port;
-    private $connection;
+    private $port = DB_PORT;
+    private $connection = null;
 
     public function __construct() {
-        $this->host = DB_HOST;
-        $this->database_name = DB_NAME;
-        $this->username = DB_USER;
-        $this->password = DB_PASSWORD;
-        $this->port = DB_PORT;
-    }
-
-    /**
-     * 
-     this function will connect to the database
-     * @throws \Exception
-     * @return void
-     */
-    public function getConnection(){
         $this->connection = pg_connect("host=$this->host dbname=$this->database_name user=$this->username password=$this->password port=$this->port");
-
-        if (!$this->connection) {
-            throw new \Exception("Could not connect to the database.");
-        }
-        else{
-            echo "Connected to the database.\n";
-        }
-
     }
 
-    public function closeConnection(){
-        pg_close($this->connection);
+    public function __destruct(){
+        echo "closed database";
+        $this->connection = pg_close($this->connection);
     }
 
     public function showResult($result){
@@ -81,7 +60,15 @@ class Database {
         else echo "Query executed successfully.\n";
     }
 
-
+    public function fetchAll($query, $params = []){
+        $result = pg_prepare($this->connection, "", $query);
+        $result = pg_execute($this->connection, "", $params);
+        if(!$result) throw new \Exception("Error fetching all.");
+        else{
+            $tables = pg_fetch_all($result);
+            return $tables;
+        }
+    }
 
 
     //show tables debugging
