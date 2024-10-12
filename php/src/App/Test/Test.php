@@ -1,9 +1,6 @@
 <?php
 
-
 namespace App\Test;
-require_once __DIR__ . '/../Config/Include.php';
-
 use App\Utils\Database;
 
 class Test {
@@ -18,6 +15,3 @@ class Test {
 }
 
 // Add this script to run the Test class
-
-$test = new Test();
-$test->test();
