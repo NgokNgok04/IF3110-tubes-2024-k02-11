@@ -6,6 +6,5 @@ echo '<script src="/public/index.js"></script>';
 
 
 use App\Test\Test;
-
 $test = new Test();
 $test->test();
