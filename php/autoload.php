@@ -16,6 +16,7 @@ spl_autoload_register(function ($class) {
 
 /**
  * usage: 
+ * make sure each file included in the autoload.php is in the correct path
  * 
  * use App\Utils\Database;
  * this usage will load the file php/src/App/Utils/Database.php
