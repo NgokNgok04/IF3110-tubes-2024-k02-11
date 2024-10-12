@@ -7,6 +7,6 @@ class Model {
     protected $db; 
 
     public function __construct() {
-        $this->db = $db ?? new Database();
+        $this->db = Database::getInstance();
     }
 }

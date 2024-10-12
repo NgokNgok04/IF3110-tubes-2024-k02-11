@@ -5,7 +5,6 @@ use App\Utils\Database;
 use Exception;
 
 class Users extends Model {
-
     public function getAllUsers(): array|false{
         try {
             $query = "SELECT * FROM users";
@@ -15,5 +14,5 @@ class Users extends Model {
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
-        }
+    }
 }

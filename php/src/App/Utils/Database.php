@@ -9,39 +9,25 @@ class Database {
     private $password = DB_PASSWORD;
 
     private $port = DB_PORT;
-    private $connection = null;
+    private $connection;
+    private static $instance = null;
 
     public function __construct() {
         $this->connection = pg_connect("host=$this->host dbname=$this->database_name user=$this->username password=$this->password port=$this->port");
     }
 
-    public function __destruct(){
-        echo "closed database";
-        $this->connection = pg_close($this->connection);
+    public static function getInstance() {
+        if (self::$instance === null) {
+            self::$instance = new Database();
+        }
+        return self::$instance;
     }
 
-    /**
-     * 
-     this function will execute a query with and without parameters
-     e.g 
-        - without params
-        * $query = "SELECT * FROM users WHERE id = $1";
-        this function will execute the query and return the result
-        
-        - with params
-        *$query = "INSERT INTO users (nama, email, role, password) VALUES ($1, $2, $3, $4)";
-        *    $params = [
-        *       'JohnLocA',
-        *       'john.LocAAAAAA@example.com',
-        *        'jobseeker',
-        *       'password1234'
-        *   ];
-        this function will insert into the users table with values in the params array
-     * @param mixed $query
-     * @param mixed $params
-     * @throws \Exception
-     * @return array|bool
-     */
+    public function __destruct(){
+        echo "closed database";
+        pg_close($this->connection);
+    }
+
     public function executeQuery($query, $params = []){
         $result = pg_prepare($this->connection, "", $query);
         $result = pg_execute($this->connection, "", $params);
@@ -59,7 +45,7 @@ class Database {
             return pg_fetch_all($result);
         }
     }
-    
+
     public function rowCount($query, $params = []) {
         $result = pg_query_params($this->connection, $query, $params);
         if(!$result) throw new \Exception("Error counting rows.");
