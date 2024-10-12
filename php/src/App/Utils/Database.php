@@ -20,16 +20,6 @@ class Database {
         $this->connection = pg_close($this->connection);
     }
 
-    public function showResult($result){
-        if(!$result){
-            throw new \Exception("Error showing result.");
-        }
-        else{
-            $tables = pg_fetch_all($result);
-            return $tables;
-        }
-    }
-
     /**
      * 
      this function will execute a query with and without parameters
@@ -55,9 +45,10 @@ class Database {
     public function executeQuery($query, $params = []){
         $result = pg_prepare($this->connection, "", $query);
         $result = pg_execute($this->connection, "", $params);
-
-        if(!$result) throw new \Exception("Error executing query.");
-        else echo "Query executed successfully.\n";
+        if(!$result){
+            throw new \Exception("Error executing query: " . pg_last_error($this->connection));
+        }
+        return $result;
     }
 
     public function fetchAll($query, $params = []){
@@ -65,8 +56,15 @@ class Database {
         $result = pg_execute($this->connection, "", $params);
         if(!$result) throw new \Exception("Error fetching all.");
         else{
-            $tables = pg_fetch_all($result);
-            return $tables;
+            return pg_fetch_all($result);
+        }
+    }
+    
+    public function rowCount($query, $params = []) {
+        $result = pg_query_params($this->connection, $query, $params);
+        if(!$result) throw new \Exception("Error counting rows.");
+        else{
+            return pg_num_rows($result);
         }
     }
 

@@ -6,7 +6,6 @@ use App\Utils\Database;
 class Test {
     public function __construct() {
         $db = new Database();
-        $db->getConnection();
     }
 
     public function test() {
