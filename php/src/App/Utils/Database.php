@@ -68,7 +68,6 @@ class Database {
         *       'password1234'
         *   ];
         this function will insert into the users table with values in the params array
-
      * @param mixed $query
      * @param mixed $params
      * @throws \Exception
