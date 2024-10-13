@@ -1,23 +1,21 @@
 <?php
-require_once __DIR__ . '/autoload.php';
+include('App/components/navbar.php');
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="public/styles/global.css">
+    <link rel="stylesheet" href="public/styles/navbar.css">
+    <link rel="stylesheet" href="public/styles/login.css">
+    <title>Document</title>
+</head>
+<body>
+    <?php generateNavbar('Not Login');?>
+    <?php include('App/components/login.php')?>
+</body>
+</html>
+<?php
 
-echo 'Hello World!';
-echo '<script src="/public/index.js"></script>';
-
-
-use App\Utils\Database;
-use App\Models\Users;
-
-// $db = new Database();
-// $query = "SELECT * FROM users";
-// $result = $db->rowCount($query);
-// print_r("total data = " . $result . "\n");
-
-$users = new Users();
-$users->getAllUsers();
-
-$users2 = new Users();
-$users2->getAllUsers();
-
-$users3 = new Users();
-$users3->getAllUsers();
+?>
