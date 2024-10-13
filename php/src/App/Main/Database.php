@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Utils;
+namespace App\Main;
 
 class Database {
     private $host = DB_HOST;
@@ -13,6 +13,7 @@ class Database {
     private static $instance = null;
 
     public function __construct() {
+        echo "connected to database";
         $this->connection = pg_connect("host=$this->host dbname=$this->database_name user=$this->username password=$this->password port=$this->port");
     }
 
@@ -28,7 +29,7 @@ class Database {
         pg_close($this->connection);
     }
 
-    public function executeQuery($query, $params = []){
+    public function execute($query, $params = []){
         $result = pg_prepare($this->connection, "", $query);
         $result = pg_execute($this->connection, "", $params);
         if(!$result){
@@ -43,6 +44,15 @@ class Database {
         if(!$result) throw new \Exception("Error fetching all.");
         else{
             return pg_fetch_all($result);
+        }
+    }
+
+    public function fetch($query, $params = []){
+        $result = pg_prepare($this->connection, "", $query);
+        $result = pg_execute($this->connection, "", $params);
+        if(!$result) throw new \Exception("Error fetching.");
+        else{
+            return pg_fetch_assoc($result);
         }
     }
 
