@@ -14,10 +14,10 @@ use App\Models\Users;
 // print_r("total data = " . $result . "\n");
 
 $users = new Users();
-$users->getAllUsers();
 
-$users2 = new Users();
-$users2->getAllUsers();
+$result = $users->addUser('test', 'broh@capek.com', 'jobseeker','123456');
+if($result) echo "Success add user\n";
+else echo "Failed add user\n";
 
-$users3 = new Users();
-$users3->getAllUsers();
+$result = $users->getAllUsers();
+print_r($result);
