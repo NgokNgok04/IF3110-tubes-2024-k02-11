@@ -1,17 +1,26 @@
+version: "3.8"
+
 services:
-  # TODO web
+  web:
+    image: php:apache
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - ./php/src:/var/www/html
+    depends_on:
+      - db
+    env_file:
+      - .env
 
   db:
-    #postgres 
+    #postgres
     image: postgres:latest # image using
     restart: unless-stopped # restart container if stoppedj
     hostname: milestone-1-db # hostname of container
-    ports:  #exposed port
+    ports: #exposed port
       - 5434:5432 # host:container
     env_file: # environment
       - .env
-    volumes: 
+    volumes:
       - ./data:/var/lib/postgresql/data
-volumes:
-    data:
-# TODO

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-use App\Utils\Database;
+use App\Main\Database;
 use Exception;
 
 class Users extends Model {
