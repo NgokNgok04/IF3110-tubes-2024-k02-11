@@ -5,7 +5,7 @@ services:
     image: php:apache
     build: .
     ports:
-      - "80:80"
+      - "8080:80"
     volumes:
       - ./php/src:/var/www/html
     depends_on:
@@ -19,7 +19,7 @@ services:
     restart: unless-stopped # restart container if stoppedj
     hostname: milestone-1-db # hostname of container
     ports: #exposed port
-      - 5434:5432 # host:container
+      - 5432:5432 # host:container
     env_file: # environment
       - .env
     volumes:

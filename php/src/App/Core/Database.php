@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Main;
+namespace App\Core;
 
 class Database {
     private $host = DB_HOST;
@@ -13,7 +13,12 @@ class Database {
     private static $instance = null;
 
     public function __construct() {
-        echo "connected to database";
+        // echo "connected to database";
+        echo $this->host . "\n"; 
+        echo $this->database_name . "\n"; 
+        echo $this->username . "\n"; 
+        echo $this->port . "\n";
+        echo $this->password . "\n";
         $this->connection = pg_connect("host=$this->host dbname=$this->database_name user=$this->username password=$this->password port=$this->port");
     }
 

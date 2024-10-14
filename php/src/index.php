@@ -1,10 +1,9 @@
 <?php
-include('App/components/navbar.php');
+use App\Core\App;
+
+// include('/App/components/navbar.php');
 require_once __DIR__ . '/autoload.php';
 
 
-use App\Models\Users;
-
-$users = new Users();
-$allUsers = $users->getAllUsers();
-print_r($allUsers);
+if(!session_id()) session_start();
+$app = new App();

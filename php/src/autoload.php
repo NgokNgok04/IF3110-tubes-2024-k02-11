@@ -7,7 +7,7 @@ class AutoLoader {
         spl_autoload_register(function ($class) {
             $file = __DIR__ . '/' . str_replace('\\', '/', $class) . '.php';
             if (file_exists($file)) {
-                echo "Loading file: $file\n";
+                // echo "Loading file: $file\n";
                 require $file;
             } else {
                 // Optionally handle cases where the file doesn't exist
