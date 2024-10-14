@@ -5,6 +5,10 @@ use App\Core\Database;
 use Exception;
 
 class Users extends Model {
+
+    public const Jobseeker = 'jobseeker';
+    public const Company = 'company';
+    
     //get all user data
     public function getAllUsers(): array|false{
         $sql = "SELECT * FROM users";
