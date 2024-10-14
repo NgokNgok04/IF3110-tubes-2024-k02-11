@@ -8,13 +8,10 @@ class Home extends Controller
 {
     public function index()
     {
-        // $this->view('TestView');
-        $db = new Database(); 
-        $table = $db->fetchAll('SELECT * FROM users');
-        print_r($table);
+        $this->view('TestView');
     }
 
-    public function broh(){
+    public function test(){
         echo "broh";
     }
 }

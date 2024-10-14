@@ -23,13 +23,14 @@ class App {
         $this->controller = new $controllerClass;
 
         $methodPart = $url[1] ?? null;
+        // var_dump($methodPart);
         if (isset($methodPart)) {
             if (method_exists($this->controller, $url[1])) {
                 $this->method = $methodPart;
                 unset($url[1]);
             }
         }
-
+        
         $this->params = $url ? array_values($url) : [];
 
         call_user_func_array([$this->controller, $this->method], $this->params);
@@ -38,6 +39,7 @@ class App {
     public function parseURL()
     {
         if (isset($_GET['url'])) {
+            // echo $_GET['url'];
             $url = rtrim($_GET['url'], '/');
             $url = filter_var($url, FILTER_SANITIZE_URL);
             return explode('/', $url);
