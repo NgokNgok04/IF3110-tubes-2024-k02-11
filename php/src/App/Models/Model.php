@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-use App\Main\Database;
+use App\Core\Database;
 
 class Model {
     protected $db; 

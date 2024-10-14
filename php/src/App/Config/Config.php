@@ -21,7 +21,7 @@ function loadEnv($filePath) {
         }
     }
 }
-// loadEnv(__DIR__ . '/../../../../.env');
+loadEnv(__DIR__  . '/.env');
 
 //ports
 define('DB_PORT', value: $_ENV['POSTGRES_PORT']);
