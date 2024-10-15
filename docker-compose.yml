@@ -1,8 +1,26 @@
+version: "3.8"
+
 services:
-  php:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    # TODO
+  web:
+    image: php:apache
+    build: .
+    ports:
+      - "8000:80"
+    volumes:
+      - ./php/src:/var/www/html
+    depends_on:
+      - db
+    env_file:
+      - .env
+
   db:
-# TODO
+    #postgres
+    image: postgres:latest # image using
+    restart: unless-stopped # restart container if stoppedj
+    hostname: milestone-1-db # hostname of container
+    ports: #exposed port
+      - 5432:5432 # host:container
+    env_file: # environment
+      - .env
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/

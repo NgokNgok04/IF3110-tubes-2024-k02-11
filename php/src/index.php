@@ -1,4 +1,9 @@
 <?php
+use App\Core\App;
 
-echo 'Hello World!';
-echo '<script src="/public/index.js"></script>';
+// include('/App/components/navbar.php');
+require_once __DIR__ . '/autoload.php';
+
+
+if(!session_id()) session_start();
+$app = new App();

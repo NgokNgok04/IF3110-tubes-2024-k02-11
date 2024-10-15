@@ -1,0 +1,39 @@
+@font-face {
+  font-family: "MontserratSemiBold";
+  src: url("../fonts/Montserrat-SemiBold.ttf") format("truetype");
+  font-weight: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "MontserratMedium";
+  src: url("../fonts/Montserrat-Medium.ttf") format("truetype");
+  font-weight: normal;
+  font-weight: normal;
+}
+
+.login-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  background-color: #ff944f;
+  width: 500px;
+  height: 400px;
+  border-radius: 5px;
+  border-width: 2px;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
+  padding: 10px 20px;
+}
+
+.login-container h1 {
+  font-family: "MontserratSemiBold";
+  text-align: center;
+  font-size: 30px;
+}
+
+.login-form label {
+  font-family: "MonserratMedium";
+  font-size: 20px;
+  margin: 5px 0px;
+}
