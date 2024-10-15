@@ -5,6 +5,10 @@ use App\Core\Database;
 use Exception;
 
 class Users extends Model {
+
+    public const Jobseeker = 'jobseeker';
+    public const Company = 'company';
+    
     //get all user data
     public function getAllUsers(): array|false{
         $sql = "SELECT * FROM users";
@@ -44,6 +48,14 @@ class Users extends Model {
     public function getUserById($id){
         $sql = "SELECT * FROM users WHERE id = $1";
         $params = [$id];
+        $result = $this->db->fetch($sql, $params);
+        if($result) return $result;
+        else return false;
+    }
+
+    public function getUserByUsername($username){
+        $sql = "SELECT * FROM users WHERE nama = $1";
+        $params = [$username];
         $result = $this->db->fetch($sql, $params);
         if($result) return $result;
         else return false;

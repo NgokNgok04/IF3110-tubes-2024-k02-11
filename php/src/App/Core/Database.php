@@ -7,18 +7,17 @@ class Database {
     private $database_name = DB_NAME;
     private $username = DB_USER;
     private $password = DB_PASSWORD;
-
     private $port = DB_PORT;
     private $connection;
     private static $instance = null;
 
     public function __construct() {
         // echo "connected to database";
-        echo $this->host . "\n"; 
-        echo $this->database_name . "\n"; 
-        echo $this->username . "\n"; 
-        echo $this->port . "\n";
-        echo $this->password . "\n";
+        // echo $this->host . "\n"; 
+        // echo $this->database_name . "\n"; 
+        // echo $this->username . "\n"; 
+        // echo $this->port . "\n";
+        // echo $this->password . "\n";
         $this->connection = pg_connect("host=$this->host dbname=$this->database_name user=$this->username password=$this->password port=$this->port");
     }
 
@@ -30,7 +29,7 @@ class Database {
     }
 
     public function __destruct(){
-        echo "closed database";
+        // echo "closed database";
         pg_close($this->connection);
     }
 
@@ -52,12 +51,17 @@ class Database {
         }
     }
 
-    public function fetch($query, $params = []){
+    public function fetch($query, $params = []) {
         $result = pg_prepare($this->connection, "", $query);
         $result = pg_execute($this->connection, "", $params);
-        if(!$result) throw new \Exception("Error fetching.");
-        else{
-            return pg_fetch_assoc($result);
+        if (!$result) {
+            throw new \Exception("Error fetching.");
+        } else {
+            $data = [];
+            while ($row = pg_fetch_assoc($result)) {
+                $data[] = $row;
+            }
+            return $data;
         }
     }
 
