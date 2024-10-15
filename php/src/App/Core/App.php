@@ -12,7 +12,7 @@ class App {
         $url = $this->parseURL();
         print_r($url);
         if (isset($url[0])) {
-            $controllerFile = __DIR__ . '/../controllers/' . ucfirst($url[0]) . '.php';
+            $controllerFile = __DIR__ . '/../Controllers/' . ucfirst($url[0]) . '.php';
             if (file_exists($controllerFile)) {
                 $this->controller = ucfirst($url[0]);
                 unset($url[0]);

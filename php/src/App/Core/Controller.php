@@ -1,14 +1,18 @@
 <?php
 
-namespace App\Core; 
-use App\Views\TestView;
+namespace App\Core;
 
-class Controller {
-    public function view($view, $data = [])
+class Controller
+{
+    public function view($folder, $view, $data = [])
     {
-        $test = new TestView(); 
-        $test->render();
+        $controllerClass = 'App\\Views\\' . $folder . "\\" . $view;
+        return new $controllerClass;
     }
 
-
+    public function model($model)
+    {
+        $modelClass = 'App\\Models\\' . $model;
+        return new $modelClass;
+    }
 }
