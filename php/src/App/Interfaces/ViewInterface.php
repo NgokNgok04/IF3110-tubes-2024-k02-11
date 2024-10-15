@@ -2,6 +2,7 @@
 
 namespace App\Interfaces;
 
-interface ViewInterface{
+interface ViewInterface
+{
     public function render();
 }

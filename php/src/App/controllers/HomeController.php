@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Interfaces\ControllerInterface;
-use App\Models\CompanyDetail;
 
 class HomeController extends Controller implements ControllerInterface
 {
@@ -19,7 +18,8 @@ class HomeController extends Controller implements ControllerInterface
         // var_dump($temp);
     }
 
-    public function test(){
+    public function test()
+    {
         $temp = $this->view('Test', 'TestView');
         $temp->render();
     }

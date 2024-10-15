@@ -2,7 +2,8 @@
 
 namespace App\Core;
 
-class App {
+class App
+{
     protected $controller = 'HomeController';
     protected $method = 'index';
     protected $params = [];
@@ -32,7 +33,7 @@ class App {
                 unset($url[2]);
             }
         }
-        
+
         $this->params = $url ? array_values($url) : [];
 
         call_user_func_array([$this->controller, $this->method], $this->params);
@@ -49,7 +50,8 @@ class App {
     //     return [];
     // }
 
-    public function parseURL(){
+    public function parseURL()
+    {
         $request = $_SERVER['REQUEST_URI'];
         $request = rtrim($request, '/');
         $request = filter_var($request, FILTER_SANITIZE_URL);
