@@ -5,3 +5,4 @@ CREATE TABLE CompanyDetail (
     lokasi VARCHAR(255),
     about TEXT
 );
+
