@@ -4,7 +4,7 @@ CREATE TYPE status_enum AS ENUM ('accepted', 'rejected', 'waiting');
 
 CREATE TABLE IF NOT EXISTS users (
     user_id SERIAL PRIMARY KEY,
-    username VARCHAR(255) NOT NULL,
+    nama VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     role role_enum
