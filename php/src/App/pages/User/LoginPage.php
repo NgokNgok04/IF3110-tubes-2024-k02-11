@@ -16,7 +16,28 @@
 
         <label for="password" class="form-label">Password</label>
         <input type="password" name="password" id="password" class="form-control" placeholder="password" required>
-        <p>Don't have an account? <a href="<?= BASE_URL ?>/../user/register"><b>Sign Up Here</b></a>.</p>
+        <!-- login button -->
+        <button type="submit" class="btn btn-primary" id = "submitButton">Login</button>
+
+        <p>Don't have an account? <a href="<?= BASE_URL ?>/../user/registerPage"><b>Sign Up Here</b></a>.</p>
     </div>
 </body>
+<script>
+    submitButton = document.getElementById("submitButton");
+    submitButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        let username = document.getElementById("username").value;
+        let password = document.getElementById("password").value;
+
+        let data = {
+            username: username,
+            password: password
+        };
+
+        const form = document.createElement("form");
+        form.action = "/user/login";
+        form.method = "POST";
+        form.submit();
+    });
+</script>
 </html>

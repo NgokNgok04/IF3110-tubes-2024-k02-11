@@ -52,4 +52,12 @@ class Users extends Model {
         if($result) return $result;
         else return false;
     }
+
+    public function getUserByUsername($username){
+        $sql = "SELECT * FROM users WHERE nama = $1";
+        $params = [$username];
+        $result = $this->db->fetch($sql, $params);
+        if($result) return $result;
+        else return false;
+    }
 }
