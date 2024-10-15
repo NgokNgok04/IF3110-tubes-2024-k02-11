@@ -7,6 +7,7 @@ class Controller
     public function view($folder, $view, $data = [])
     {
         $controllerClass = 'App\\Views\\' . $folder . "\\" . $view;
+        echo $controllerClass;
         return new $controllerClass;
     }
 
