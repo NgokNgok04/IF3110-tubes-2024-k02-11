@@ -13,9 +13,9 @@ class CompanyDetail extends Model {
     }
 
     //add new company data
-    public function addCompanyDetail($user_id, $lokasi, $about){
-        $sql = "INSERT INTO companydetail (user_id, lokasi, about) VALUES ($1, $2, $3)";
-        $params = [$user_id, $lokasi, $about];
+    public function addCompanyDetail($user_id, $company_id, $company_name, $lokasi, $about){
+        $sql = "INSERT INTO companydetail (user_id, company_id, company_name, lokasi, about) VALUES ($1, $2, $3, $4, $5)";
+        $params = [$user_id, $company_id, $company_name, $lokasi, $about];
         $result = $this->db->execute($sql, $params);
         if($result) return true;
         else return false;
