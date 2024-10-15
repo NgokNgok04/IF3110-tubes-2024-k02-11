@@ -2,9 +2,8 @@
 
 namespace App\Core;
 
-class Controller
-{
-    public function view($folder, $view, $data = [])
+class Controller {
+    public function view($folder, $view)
     {
         $controllerClass = 'App\\Views\\' . $folder . "\\" . $view;
         echo $controllerClass;
@@ -14,6 +13,7 @@ class Controller
     public function model($model)
     {
         $modelClass = 'App\\Models\\' . $model;
-        return new $modelClass;
+        $objectModel = new $modelClass;
+        return $objectModel;
     }
 }
