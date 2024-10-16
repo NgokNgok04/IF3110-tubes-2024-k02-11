@@ -5,15 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../../public/styles/global.css">
     <link rel="stylesheet" href="../../../public/styles/navbar.css">
-    <link rel="stylesheet" href="../../../public/styles/login.css">
+    <link rel="stylesheet" href="../../../public/styles/register.css">
 </head>
 <body>
     <div>
         <?php
             include(__DIR__ . "/../../Components/register.php");
         ?>
-
-        <p>Already have an account? <a href="/user/loginPage"><b>Login Here</b></a>.</p>
     </div>
 </body>
 </html>

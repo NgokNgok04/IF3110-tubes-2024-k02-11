@@ -12,7 +12,7 @@ class AuthController extends Controller
         // TODO
         // $userRoleClass = 'App\\Models\\UsersRole';
         // require_once __DIR__ . '/../Models/UsersRole.php';
-        $this->model = $this->model('Users'); //this->model tipe harus sesuai dengan nama file model
+        $this->model = $this->model('UsersModel'); //this->model tipe harus sesuai dengan nama file model
     }
     public function loginPage()
     {
@@ -27,7 +27,7 @@ class AuthController extends Controller
     }
 
     public function login() {
-        if ($_POST['submit']){
+        if (isset($_POST['submit'])){
             $hashedPassword = hash('sha256',$_POST['password']);
             $isUserValid = $this->model->getUserByEmail($_POST['email']);
             if ($isUserValid && $isUserValid['password'] == $hashedPassword){
@@ -42,14 +42,19 @@ class AuthController extends Controller
     }
 
     public function register() {
-        if ($_POST['submit']){
+        if (isset($_POST['submit'])){
+            // echo "masuk sini lalala";
             $isUserRegistered = $this->model->getUserByEmail($_POST['email']);
             if ($isUserRegistered) {
-                // modal wrong
-                echo "salah";
+                $_SESSION['register_error'] = 'Username already taken';
+                $_SESSION['register_data'] = $_POST;
+                // $this->registerPage();
+                header("Location: /register");
+                echo "alert('test wahyudi')";
+                // exit();
             } else {
                 $this->model->addUser($_POST['name'],$_POST['email'],$_POST['role'],hash('sha256',$_POST['password']));
-                header("Location: /");
+                header("Location: /",true,301);
             }
         }
     }
