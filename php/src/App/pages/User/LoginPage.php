@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="../../../public/styles/global.css">
         <!-- <link rel="stylesheet" href="../../../public/styles/navbar.css"> -->
         <link rel="stylesheet" href="../../../public/styles/navbar.css">
-        <link rel="stylesheet" href="../../../public/styles/login.css">
+        <!-- <link rel="stylesheet" href="../../../public/styles/login.css"> -->
         <link>
         
     </head>
@@ -17,9 +17,9 @@
             <?php 
                 include(__DIR__ . "/../../Components/navbar.php"); 
                 generateNavbar('Not Login')?>
-            <?php
+            <!-- <?php
                 include(__DIR__ . "/../../Components/login.php");
-            ?>
+            ?> -->
         </div>
     </body>
 </html>

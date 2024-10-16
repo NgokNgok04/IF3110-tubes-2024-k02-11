@@ -26,28 +26,31 @@ class AuthController extends Controller
         $view->render();
     }
 
-    public function register()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Retrieve submitted data
-            $username = $_POST['username'] ?? '';
-            $password = $_POST['password'] ?? '';
-            $type = $_POST['type'] ?? '';
-            $email = $_POST['email'] ?? '';
-
-            echo "Password: $password";
-            echo "Username: $username";
-            echo "Type: $type";
-            echo "Email: $email";
-
-            // check in database if username already exists
-            $user = $this->model->getUserByUsername($username);
-            if ($user) {
-                echo "Username already exists";
+    public function login() {
+        if ($_POST['submit']){
+            $hashedPassword = hash('sha256',$_POST['password']);
+            $isUserValid = $this->model->getUserByEmail($_POST['email']);
+            if ($isUserValid && $isUserValid['password'] == $hashedPassword){
+                $_SESSION['role'] = $isUserValid['role'];
+                header("Location: /", true, 301);
             } else {
-                // add user to database
-                $this->model->addUser($username, $email, $type, $password);
-                echo "User added";
+                echo $_POST['email'] . "<br>";
+                echo $_POST['password'] . "<br>";
+                echo "salah woi";
+            }
+        }
+    }
+
+    public function register() {
+        if ($_POST['submit']){
+            $isUserRegistered = $this->model->getUserByEmail($_POST['email']);
+            if ($isUserRegistered) {
+                // modal wrong
+                echo "salah";
+            } else {
+                $this->model->addUser($_POST['name'],$_POST['email'],$_POST['role'],hash('sha256',$_POST['password']));
+                echo "berhasil ditambahkan";
+                $all = $this->model->getAllUsers();
             }
         }
     }

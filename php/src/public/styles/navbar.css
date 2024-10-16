@@ -11,33 +11,41 @@
   font-weight: normal;
   font-weight: normal;
 }
+@font-face {
+  font-family: "SSP-Light";
+  src: url("../fonts/SourceSansPro-Light.ttf") format("truetype");
+  font-weight: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "SSP-SemiBold";
+  src: url("../fonts/SourceSansPro-Semibold.ttf") format("truetype");
+  font-weight: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "SSP-Regular";
+  src: url("../fonts/SourceSansPro-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-weight: normal;
+}
 
 navbar {
   display: flex;
-  justify-content: space-around;
+  background-color: lightblue;
+}
+navbar button {
+  display: flex;
+  justify-content: center;
   align-items: center;
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #ff9444;
-  font-family: "MontserratMedium";
-  margin-top: 20px;
-  padding-left: 20px;
-  padding-right: 20px;
-  /* width: 320px; */
-  height: 60px;
-  border-radius: 5px;
-  border-width: 2px;
-  box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
+  flex-direction: row;
+  background-color: lightcoral;
+  padding: 10px 5px;
+}
+navbar button img {
+  width: 30px;
 }
 
-navbar a {
-  margin: 0px 10px;
-  padding: 8px 10px;
-  text-align: center;
-}
-navbar a:hover {
-  border-radius: 5px;
-  border-width: 2px;
-  padding: 6px 8px;
+navbar button h1 {
+  font-family: "SSP-SemiBold", sans-serif;
 }

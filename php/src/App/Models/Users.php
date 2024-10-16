@@ -17,25 +17,22 @@ class Users extends Model {
         else return false;
     }
 
+    //check if user is valid
+    public function isUserValid($email, $password): array|bool {
+        $sql = "SELECT password FROM users WHERE email = $1 and password = $2";
+        $params = [$email, $password];
+        $result = $this->db->fetchAll($sql,$params);
+        if ($result) return $result;
+        else return false;
+    }
+
     //add new user data
-    public function addUser($name, $email, $role, $password) {
-        $sql = "INSERT INTO users (nama, email, role, password) VALUES (:name, :email, :role, :password)";
-        
-        $params = [
-            ':name'     => $name,
-            ':email'    => $email,
-            ':role'     => $role,
-            ':password' => $password,
-        ];
-    
-        try {
-            $result = $this->db->execute($sql, $params);
-            return $result ? true : false;
-        } catch (Exception $e) {
-            // Log or display the error message
-            echo "Error: " . $e->getMessage();
-            return false;
-        }
+    public function addUser($name, $email, $role,$password){
+        $sql = "INSERT INTO users ( nama, email, role, password) VALUES (?, ?, ?, ?)";
+        $params = [$name, $email, $role, $password];
+        $result = $this->db->execute($sql, $params);
+        if($result) return true;
+        else return false;
     }
 
     //delete user data
@@ -55,7 +52,7 @@ class Users extends Model {
         if($result) return true;
         else return false;
     }
-
+    
     //get user data by id
     public function getUserById($id){
         $sql = "SELECT * FROM users WHERE id = $1";
@@ -65,9 +62,9 @@ class Users extends Model {
         else return false;
     }
 
-    public function getUserByUsername($username){
-        $sql = "SELECT * FROM users WHERE nama = $1";
-        $params = [$username];
+    public function getUserByEmail($email){
+        $sql = "SELECT * FROM users WHERE email = ?";
+        $params = [$email];
         $result = $this->db->fetch($sql, $params);
         if($result) return $result;
         else return false;

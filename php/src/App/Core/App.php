@@ -23,15 +23,20 @@ class App
     {
         $this->router->get('/login', AuthController::class, 'loginPage');
         $this->router->get('/register', AuthController::class, 'registerPage');
+
         $this->router->get('/', HomeController::class, 'index');
         $this->router->get('/detail-lowongan/{id}', LowonganController::class, 'detailLowonganPage', ['company', 'jobseeker']);
         
+        $this->router->post('/login', AuthController::class, 'login');
+        $this->router->post('/register', AuthController::class, 'register');
+
         // Routes for 'company' role
         $this->router->get('/tambah-lowongan', LowonganController::class, 'tambahLowonganPage', ['company']);
         $this-> router->get('/detail-lamaran/{id}', LamaranController::class, 'detailLamaranPage', ['company']);
         $this->router->get('/edit-lowongan/{id}', LowonganController::class, 'editLowonganPage', ['company']);
         $this->router->get('/profil', CompanyController::class, 'profilePage', ['company']);
         
+
         $this->router->post('/tambah-lowongan', LowonganController::class, 'store', ['company']);
         $this->router->post('/edit-lowongan/{id}', LowonganController::class, 'update', ['company']);
         

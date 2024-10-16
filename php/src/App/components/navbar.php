@@ -2,17 +2,10 @@
 function generateNavbar($type){
     ?>
     <navbar>
-        <a>Home</a>
-        <?php
-            if ($type == 'Company'){
-                echo '<a>Profile</a>';
-            } else if ($type == 'Job Seeker'){
-                echo '<a>Riwayat</a>';
-            } else if ($type == 'Not Login'){
-                echo '<a>Login</a>';
-                echo '<a>Register</a>';
-            }
-        ?>
+        <button>
+            <img src="../../public/images/LIP-Logo.png">
+            <h1>LinkInPurry</h1>
+        </button>
     </navbar>
     <?php 
 }
