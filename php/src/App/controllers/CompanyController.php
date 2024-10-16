@@ -8,7 +8,6 @@ class CompanyController extends Controller
 {
     public function profilePage()
     {
-        $view = $this->view('Company', 'ProfilView');
-        $view->render();
+        $this->view('Company', 'ProfilView');
     }
 }
