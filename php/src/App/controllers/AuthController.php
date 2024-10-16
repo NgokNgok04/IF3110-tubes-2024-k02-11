@@ -32,7 +32,7 @@ class AuthController extends Controller
             $isUserValid = $this->model->getUserByEmail($_POST['email']);
             if ($isUserValid && $isUserValid['password'] == $hashedPassword){
                 $_SESSION['role'] = $isUserValid['role'];
-                header("Location: /", true, 301);
+                header("Location: /");
             } else {
                 echo $_POST['email'] . "<br>";
                 echo $_POST['password'] . "<br>";
@@ -49,8 +49,7 @@ class AuthController extends Controller
                 echo "salah";
             } else {
                 $this->model->addUser($_POST['name'],$_POST['email'],$_POST['role'],hash('sha256',$_POST['password']));
-                echo "berhasil ditambahkan";
-                $all = $this->model->getAllUsers();
+                header("Location: /");
             }
         }
     }
