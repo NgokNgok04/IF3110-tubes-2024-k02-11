@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class Lowongan extends Model{
+class LowonganModel extends Model{
     
     public function getAllLowongan(): array|false{
         $sql = "SELECT * FROM lowongan";

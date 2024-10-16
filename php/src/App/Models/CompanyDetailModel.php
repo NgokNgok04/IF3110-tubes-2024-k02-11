@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Models;
+use Exception;
 
 //refactor
-class company_detail extends Model
+class CompanyDetailModel extends Model
 {
     //get all company data 
     public function getAllCompany(): array|false
@@ -13,7 +14,7 @@ class company_detail extends Model
     }
 
     //add new company data
-    public function addcompany_detail($user_id, $company_id, $company_name, $lokasi, $about)
+    public function addCompanyDetail($user_id, $company_id, $company_name, $lokasi, $about)
     {
         $sql = "INSERT INTO company_detail (user_id, company_id, company_name, lokasi, about) VALUES (
             :user_id, :company_id, :company_name, :lokasi, :about)
@@ -31,7 +32,7 @@ class company_detail extends Model
     }
 
     //delete company data
-    public function deletecompany_detail($id)
+    public function deleteCompanyDetailByID($id)
     {
         $sql = "DELETE FROM company_detail WHERE id = :id";
         $params = [':id' => $id]; 
@@ -54,6 +55,19 @@ class company_detail extends Model
         if($result) return true; 
         return false;
     }
+
+    public function updateCompanyField($company_id, $field, $value){
+        $allowedFields = ['user_id', 'lokasi', 'about'];
+        if (!in_array($field, $allowedFields)) {
+            throw new Exception("Allowed Fields are: 'user_id', 'lokasi', 'about'");
+        }
+        $sql = "UPDATE company_detail SET $field = :value WHERE company_id = :company_id";
+        $params = [':value' => $value, ':company_id' => $company_id];
+        $result = $this->db->execute($sql, $params);
+        if($result) return true;
+        return false;
+    }
+
 
     //get company data by id
     public function getCompanyById($id)

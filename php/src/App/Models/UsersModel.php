@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
+use Exception;
+
 
 
 //refactor: PDO stay safe. 
-class Users extends Model {
-    public const Jobseeker = 'jobseeker';
-    public const Company = 'company';
-
+class UsersModel extends Model {
     // Get all user data
     public function getAllUsers(): array|false {
         $sql = "SELECT * FROM users";
@@ -38,7 +37,7 @@ class Users extends Model {
     }
 
     // Delete user data
-    public function deleteUser($id): bool {
+    public function deleteUserByID($id): bool {
         $sql = "DELETE FROM users WHERE id = :id";
         $params = [':id' => $id];
         $result = $this->db->execute($sql, $params);
@@ -54,6 +53,17 @@ class Users extends Model {
             ':password' => $password,
             ':id'       => $id
         ];
+        $result = $this->db->execute($sql, $params);
+        return (bool) $result;
+    }
+
+    public function updateUserField($id, $field, $value): bool {
+        $allowedFields = ['nama', 'email', 'password'];
+        if (!in_array($field, $allowedFields)) {
+            throw new Exception("Allowed fields are: 'nama', 'email', 'password'");
+        }
+        $sql = "UPDATE users SET $field = :value WHERE id = :id";
+        $params = [':value' => $value, ':id' => $id];
         $result = $this->db->execute($sql, $params);
         return (bool) $result;
     }
