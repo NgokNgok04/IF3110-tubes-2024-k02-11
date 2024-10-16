@@ -3,12 +3,12 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
-use App\Interfaces\ControllerInterface;
 
-class CompanyController extends Controller implements ControllerInterface{
-    public function index()
+class CompanyController extends Controller
+{
+    public function profilePage()
     {
-        $temp = $this->view('Company', 'CompanyView');
-        $temp->render();
+        $view = $this->view('Company', 'ProfilView');
+        $view->render();
     }
 }

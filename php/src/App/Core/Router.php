@@ -2,65 +2,62 @@
 
 namespace App\Core;
 
-class Router {
-    protected $controller = 'HomeController';
-    protected $method = 'index';
-    protected $params = [];
+class Router
+{
 
-    public function __construct()
+    protected $routes = [];
+
+    private function addRoute($route, $controller, $action, $method, $roles = [])
     {
-        $url = $this->parseURL();
-        $this->resolveController($url);
-        $this->resolveMethod($url);
-        $this->params = $url ? array_values($url) : [];
+        $this->routes[$method][$route] = [
+            'controller' => $controller,
+            'action' => $action,
+            'roles' => $roles
+        ];
     }
 
-    public function parseURL()
+    public function get($route, $controller, $action, $roles = [])
     {
-        $request = $_SERVER['REQUEST_URI'];
-        $request = rtrim($request, '/');
-        $request = filter_var($request, FILTER_SANITIZE_URL);
-        return explode('/', $request);
+        $this->addRoute($route, $controller, $action, "GET", $roles);
     }
 
-    protected function resolveController(&$url)
+    public function post($route, $controller, $action, $roles = [])
     {
-        if (isset($url[1])) {
-            $controllerName = ucfirst($url[1]) . 'Controller';
-            $controllerFile = __DIR__ . '/../Controllers/' . $controllerName . '.php';
-            if (file_exists($controllerFile)) {
-                $this->controller = $controllerName;
-                unset($url[1]);
+        $this->addRoute($route, $controller, $action, "POST", $roles);
+    }
+
+    public function dispatch()
+    {
+        $uri = strtok($_SERVER['REQUEST_URI'], '?');
+        $method = $_SERVER['REQUEST_METHOD'];
+        $currentRole = $_SESSION['role'] ?? 'unauthorized';
+
+        foreach ($this->routes[$method] as $route => $data) {
+            // Ubah route yang memiliki parameter seperti {id}
+            $routeRegex = preg_replace('/\{[a-zA-Z0-9_]+\}/', '([a-zA-Z0-9_]+)', $route);
+            $routeRegex = "#^" . $routeRegex . "$#";
+
+            if (preg_match($routeRegex, $uri, $matches)) {
+                array_shift($matches); // Hilangkan full match dari hasil regex
+
+                $controller = $data['controller'];
+                $action = $data['action'];
+                $allowedRoles = $data['roles'];
+
+                // Periksa apakah role pengguna sesuai dengan allowedRoles
+                if (empty($allowedRoles) || in_array($currentRole, $allowedRoles)) {
+                    $controller = new $controller();
+
+                    // Panggil action dengan parameter yang ditemukan (seperti {id})
+                    call_user_func_array([$controller, $action], $matches);
+                    return;
+                } else {
+                    echo "Access Denied for $currentRole!";
+                    return;
+                }
             }
         }
 
-        $controllerClass = 'App\\Controllers\\' . $this->controller;
-        $this->controller = new $controllerClass;
-    }
-
-    protected function resolveMethod(&$url)
-    {
-        $methodPart = $url[2] ?? null;
-        if (isset($methodPart)) {
-            if (method_exists($this->controller, $methodPart)) {
-                $this->method = $methodPart;
-                unset($url[2]);
-            }
-        }
-    }
-
-    public function getController()
-    {
-        return $this->controller;
-    }
-
-    public function getMethod()
-    {
-        return $this->method;
-    }
-
-    public function getParams()
-    {
-        return $this->params;
+        echo "Not Found";
     }
 }

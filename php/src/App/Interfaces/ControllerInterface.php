@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Interfaces; 
+namespace App\Interfaces;
 
-interface ControllerInterface {
+interface ControllerInterface
+{
     public function index();
 }

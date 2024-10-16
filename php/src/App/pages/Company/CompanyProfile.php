@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../../public/styles/company/companyDetail.css">
+    <link rel="stylesheet" href="../../../public/styles/company/company_detail.css">
     <title>Company Detail</title>
 </head>
+
 <body>
     <h1>Company Detail</h1>
-    <form id="updateCompanyDetail"> 
+    <form id="updatecompany_detail">
         <!-- Company Name -->
         <section>
             <label for="companyName">Company Name:</label>
@@ -29,7 +31,7 @@
 
         <!-- Submit Button -->
         <section>
-            <button type="submit" id = "submitButton">Submit</button>
+            <button type="submit" id="submitButton">Submit</button>
         </section>
     </form>
 </body>
@@ -47,10 +49,11 @@
             location: location
         };
 
-        const form = document.getElementById("updateCompanyDetail");
+        const form = document.getElementById("updatecompany_detail");
         form.action = "/company/update";
         form.method = "POST";
         form.submit();
     });
 </script>
+
 </html>

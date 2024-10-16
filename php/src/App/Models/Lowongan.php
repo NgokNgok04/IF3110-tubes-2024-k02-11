@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Models;
-use App\Main\Database;
 
 class Lowongan extends Model{
     

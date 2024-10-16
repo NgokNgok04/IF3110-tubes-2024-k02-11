@@ -4,23 +4,28 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Interfaces\ControllerInterface;
-use App\Models\CompanyDetail;
 
 class HomeController extends Controller implements ControllerInterface
 {
     public function index()
     {
-        $temp = $this->view('Home', 'HomeView');
-        $temp->render();
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company') {
+            $this->companyHome();
 
-        // $user = new CompanyDetail(); 
-        // $user->addCompanyDetail(1, 1, 'PT. ABC', 'Jakarta', 'Perusahaan yang bergerak di bidang IT');
-        // $temp = $user->getAllCompany();
-        // var_dump($temp);
+        } else {
+            $this->jobSeekerHome();
+        }
     }
 
-    public function test(){
-        $temp = $this->view('Test', 'TestView');
-        $temp->render();
+    private function jobSeekerHome()
+    {
+        $view = $this->view('JobSeeker', 'HomeJobSeekerView');
+        $view->render();
+    }
+
+    private function companyHome()
+    {
+        $view = $this->view('Company', 'HomeCompanyView');
+        $view->render();
     }
 }
