@@ -12,18 +12,17 @@ class AuthController extends Controller
         // TODO
         // $userRoleClass = 'App\\Models\\UsersRole';
         // require_once __DIR__ . '/../Models/UsersRole.php';
-        $this->model = $this->model('Users'); //this->model tipe harus sesuai dengan nama file model
+        $this->model = $this->model('UsersModel'); //this->model tipe harus sesuai dengan nama file model
     }
     public function loginPage()
     {
-        $view = $this->view('Auth', 'LoginView');
-        $view->render();
+        $this->view('Auth', 'LoginPage');
+        // $view->render();
     }
 
     public function registerPage()
     {
-        $view = $this->view('Auth', 'RegisterView');
-        $view->render();
+        $this->view('Auth', 'RegisterPage');
     }
 
     public function login() {

@@ -19,13 +19,11 @@ class HomeController extends Controller implements ControllerInterface
 
     private function jobSeekerHome()
     {
-        $view = $this->view('JobSeeker', 'HomeJobSeekerView');
-        $view->render();
+        $this->view('JobSeeker', 'HomeJobSeeker');
     }
 
     private function companyHome()
     {
-        $view = $this->view('Company', 'HomeCompanyView');
-        $view->render();
+        $this->view('Company', 'HomeCompany');
     }
 }

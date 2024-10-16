@@ -12,8 +12,7 @@ class UserController extends Controller{
     }
 
     public function debug(){
-        $view = $this->view('User', 'DebugView'); 
-        $view->render();
+        $this->view('User', 'DebugPage'); 
     }
 
     public function showDebug(){
@@ -22,8 +21,7 @@ class UserController extends Controller{
 
         // var_dump($users);
         // Pass users to the view
-        $view = $this->view('User', 'DebugView', ['users' => $users]);
-        $view->render();
+        $this->view('User', 'DebugPage', ['users' => $users]);
         //TODO
 
     }
