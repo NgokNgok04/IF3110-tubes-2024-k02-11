@@ -4,11 +4,12 @@ namespace App\Core;
 
 class App
 {
+
     protected $controller = 'HomeController';
     protected $method = 'index';
     protected $params = [];
 
-    public function __construct()
+        public function __construct()
     {
         $url = $this->parseURL();
         // print_r($url);
@@ -22,10 +23,10 @@ class App
             }
         }
 
-        $controllerClass = 'App\\Controllers\\' . $this->controller;
+            $controllerClass = 'App\\Controllers\\' . $this->controller;
         $this->controller = new $controllerClass;
 
-        $methodPart = $url[2] ?? null;
+            $methodPart = $url[2] ?? null;
         // var_dump($methodPart);
         if (isset($methodPart)) {
             if (method_exists($this->controller, $url[2])) {
@@ -34,9 +35,9 @@ class App
             }
         }
 
-        $this->params = $url ? array_values($url) : [];
+            $this->params = $url ? array_values($url) : [];
 
-        call_user_func_array([$this->controller, $this->method], $this->params);
+            call_user_func_array([$this->controller, $this->method], $this->params);
     }
 
     // public function parseURL()

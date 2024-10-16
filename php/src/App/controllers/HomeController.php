@@ -9,18 +9,23 @@ class HomeController extends Controller implements ControllerInterface
 {
     public function index()
     {
-        $temp = $this->view('Home', 'HomeView');
-        $temp->render();
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company') {
+            $this->companyHome();
 
-        // $user = new company_detail(); 
-        // $user->addcompany_detail(1, 1, 'PT. ABC', 'Jakarta', 'Perusahaan yang bergerak di bidang IT');
-        // $temp = $user->getAllCompany();
-        // var_dump($temp);
+        } else {
+            $this->jobSeekerHome();
+        }
     }
 
-    public function test()
+    private function jobSeekerHome()
     {
-        $temp = $this->view('Test', 'TestView');
-        $temp->render();
+        $view = $this->view('JobSeeker', 'HomeJobSeekerView');
+        $view->render();
+    }
+
+    private function companyHome()
+    {
+        $view = $this->view('Company', 'HomeCompanyView');
+        $view->render();
     }
 }
