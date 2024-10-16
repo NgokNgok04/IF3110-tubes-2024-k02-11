@@ -12,19 +12,36 @@ class Lowongan extends Model{
     }
 
     public function addLowongan($lowongan_id, $company_id, $posisi, $deskripsi, $jenis_pekerjaan, $jenis_lokasi, $is_open, $created_at, $updated_at){
-        $sql = "INSERT INTO lowongan (lowongan_id, company_id, posisi, deskripsi, jenis_pekerjaan, jenis_lokasi, is_open, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)";
-        $params = [$lowongan_id, $company_id, $posisi, $deskripsi, $jenis_pekerjaan, $jenis_lokasi, $is_open, $created_at, $updated_at];
-        $result = $this->db->execute($sql, $params);
-        if($result) return true;
-        else return false;
+        $sql = "INSERT INTO lowongan (lowongan_id, company_id, posisi, deskripsi, jenis_pekerjaan, jenis_lokasi, is_open, created_at, updated_at) VALUES (
+            :lowongan_id,
+            :company_id, 
+            :posisi, 
+            :deskripsi, 
+            :jenis_pekerjaan, 
+            :jenis_lokasi, 
+            :is_open, 
+            :created_at, 
+            :updated_at, 
+        )";
+        $params = [
+            ':lowongan_id' => $lowongan_id, 
+            ':company_id' => $company_id, 
+            ':posisi' => $posisi, 
+            ':deskripsi' => $deskripsi,
+            ':jenis_pekerjaan' => $jenis_pekerjaan,
+            ':jenis_lokasi' => $jenis_lokasi,
+            ':is_open' => $is_open,
+            ':created_at' => $created_at,
+            ':updated_at' => $updated_at  
+        ];
+        return (bool) $this->db->execute($sql, $params);
     }
 
-    public function deleteLowongan($id){
-        $sql = "DELETE FROM lowongan WHERE id = $1";
-        $params = [$id];
-        $result = $this->db->execute($sql, $params);
-        if($result) return true;
-        else return false;
+    public function deleteLowonganByID($id){
+        $sql = "DELETE FROM lowongan WHERE id = :id";
+        $params = [':id' => $id];
+        return (bool) $this->db->execute($sql, $params);
+
     }
 
     //update lowongan data by id and choose the field
@@ -33,56 +50,44 @@ class Lowongan extends Model{
         if (!in_array($field, $allowedFields)) {
             throw new \InvalidArgumentException("Invalid field name");
         }
-        $sql = "UPDATE lowongan SET $field = $1 WHERE id = $2";
-        $params = [$value, $id];
-        $result = $this->db->execute($sql, $params);
-        if($result) return true;
-        else return false;
-    }
-
-    public function getLowonganById($id){
-        $sql = "SELECT * FROM lowongan WHERE id = $1";
-        $params = [$id];
-        $result = $this->db->fetch($sql, $params);
-        if($result) return $result;
-        else return false;
+        $sql = "UPDATE lowongan SET $field = :value WHERE id = :id";
+        $params = [':value' => $value, ':id' => $id];
+        return (bool) $this->db->execute($sql, $params);
     }
 
     public function getLowonganByCompanyId($company_id){
-        $sql = "SELECT * FROM lowongan WHERE company_id = $1";
-        $params = [$company_id];
+        $sql = "SELECT * FROM lowongan WHERE company_id = :company_id";
+        $params = [':company_id' => $company_id];
         $result = $this->db->fetchAll($sql, $params);
         if($result) return $result;
         else return false;
     }
 
     public function getLowonganByPosisi($posisi){
-        $sql = "SELECT * FROM lowongan WHERE posisi = $1";
-        $params = [$posisi];
+        $sql = "SELECT * FROM lowongan WHERE posisi = :posisi";
+        $params = [':posisi' => $posisi];
         $result = $this->db->fetchAll($sql, $params);
         if($result) return $result;
         else return false;
     }
-
     public function getLowonganByJenisPekerjaan($jenis_pekerjaan){
-        $sql = "SELECT * FROM lowongan WHERE jenis_pekerjaan = $1";
-        $params = [$jenis_pekerjaan];
+        $sql = "SELECT * FROM lowongan WHERE jenis_pekerjaan = :jenis_pekerjaan";
+        $params = [':jenis_pekerjaan' => $jenis_pekerjaan];
         $result = $this->db->fetchAll($sql, $params);
         if($result) return $result;
         else return false;
     }
-
     public function getLowonganByJenisLokasi($jenis_lokasi){
-        $sql = "SELECT * FROM lowongan WHERE jenis_lokasi = $1";
-        $params = [$jenis_lokasi];
+        $sql = "SELECT * FROM lowongan WHERE jenis_lokasi = :jenis_lokasi";
+        $params = [':jenis_lokasi' => $jenis_lokasi];
         $result = $this->db->fetchAll($sql, $params);
         if($result) return $result;
         else return false;
     }
 
     public function getLowonganByIsOpen($is_open){
-        $sql = "SELECT * FROM lowongan WHERE is_open = $1";
-        $params = [$is_open];
+        $sql = "SELECT * FROM lowongan WHERE is_open = :is_open";
+        $params = [':is_open' => $is_open];
         $result = $this->db->fetchAll($sql, $params);
         if($result) return $result;
         else return false;

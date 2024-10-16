@@ -1,90 +1,87 @@
 <?php
 
 namespace App\Models;
-use App\Core\Database;
 
+//refactor
 class company_detail extends Model
 {
     //get all company data 
     public function getAllCompany(): array|false
     {
         $sql = "SELECT * FROM company_detail";
-        $result = $this->db->fetchAll($sql);
-        if ($result)
-            return $result;
-        else
-            return false;
+        return $this->db->fetchAll($sql);
     }
 
     //add new company data
     public function addcompany_detail($user_id, $company_id, $company_name, $lokasi, $about)
     {
-        $sql = "INSERT INTO company_detail (user_id, company_id, company_name, lokasi, about) VALUES ($1, $2, $3, $4, $5)";
-        $params = [$user_id, $company_id, $company_name, $lokasi, $about];
+        $sql = "INSERT INTO company_detail (user_id, company_id, company_name, lokasi, about) VALUES (
+            :user_id, :company_id, :company_name, :lokasi, :about)
+        ";
+        $params = [
+            ':user_id' => $user_id, 
+            ':company_id' => $company_id, 
+            ':company_name' => $company_name, 
+            ':lokasi' => $lokasi, 
+            ':about' => $about
+        ];
         $result = $this->db->execute($sql, $params);
-        if ($result)
-            return true;
-        else
-            return false;
+        if($result) return true; 
+        return false;
     }
 
     //delete company data
     public function deletecompany_detail($id)
     {
-        $sql = "DELETE FROM company_detail WHERE id = $1";
-        $params = [$id];
+        $sql = "DELETE FROM company_detail WHERE id = :id";
+        $params = [':id' => $id]; 
         $result = $this->db->execute($sql, $params);
-        if ($result)
-            return true;
-        else
-            return false;
+        if($result) return true; 
+        return false;
     }
 
     //updating company data
-    public function updatecompany_detail($company_id, $user_id, $lokasi, $about)
+    public function updateCompanyDetail($company_id, $user_id, $lokasi, $about): bool
     {
-        $sql = "UPDATE company_detail SET user_id = $1, lokasi = $2, about = $3 WHERE company_id = $4";
-        $params = [$user_id, $lokasi, $about, $company_id];
+        $sql = "UPDATE company_detail SET user_id = :user_id, lokasi = :lokasi, about = :about WHERE company_id = :company_id";
+        $params = [
+            ':user_id' => $user_id,
+            ':lokasi' => $lokasi,
+            ':about' => $about,
+            ':company_id' => $company_id
+        ];
         $result = $this->db->execute($sql, $params);
-        if ($result)
-            return true;
-        else
-            return false;
+        if($result) return true; 
+        return false;
     }
 
     //get company data by id
     public function getCompanyById($id)
     {
-        $sql = "SELECT * FROM company_detail WHERE company_id = $1";
-        $params = [$id];
+        $sql = "SELECT * FROM company_detail WHERE company_id = :company_id";
+        $params = [':company_id' => $id];
         $result = $this->db->fetch($sql, $params);
-        if ($result)
-            return $result;
-        else
-            return false;
+        if ($result) return $result; 
+        return false;
     }
 
     //get company data by user_id
-    public function getCompanyByUserId($user_id)
+    public function getCompanyByUserId($user_id): array|false
     {
-        $sql = "SELECT * FROM company_detail WHERE user_id = $1";
-        $params = [$user_id];
+        $sql = "SELECT * FROM company_detail WHERE user_id = :user_id";
+        $params = [':user_id' => $user_id];
         $result = $this->db->fetchAll($sql, $params);
-        if ($result)
-            return $result;
-        else
-            return false;
+        if($result) return $result;
+        return false;
     }
 
     //get company data by lokasi
-    public function getCompanyByLokasi($lokasi)
+    public function getCompanyByLokasi($lokasi): array|false
     {
-        $sql = "SELECT * FROM company_detail WHERE lokasi = $1";
-        $params = [$lokasi];
+        $sql = "SELECT * FROM company_detail WHERE lokasi = :lokasi";
+        $params = [':lokasi' => $lokasi];
         $result = $this->db->fetchAll($sql, $params);
-        if ($result)
-            return $result;
-        else
-            return false;
+        if($result) return $result;
+        return false;
     }
 }

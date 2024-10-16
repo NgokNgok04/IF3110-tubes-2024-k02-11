@@ -1,72 +1,76 @@
 <?php
 
 namespace App\Models;
-use App\Core\Database;
-use Exception;
 
+
+
+//refactor: PDO stay safe. 
 class Users extends Model {
-
     public const Jobseeker = 'jobseeker';
     public const Company = 'company';
-    
-    //get all user data
-    public function getAllUsers(): array|false{
+
+    // Get all user data
+    public function getAllUsers(): array|false {
         $sql = "SELECT * FROM users";
         $result = $this->db->fetchAll($sql);
-        if($result) return $result;
-        else return false;
+        return $result ?: false;
     }
 
-    //check if user is valid
+    // Check if user is valid
     public function isUserValid($email, $password): array|bool {
-        $sql = "SELECT password FROM users WHERE email = $1 and password = $2";
-        $params = [$email, $password];
-        $result = $this->db->fetchAll($sql,$params);
-        if ($result) return $result;
-        else return false;
-    }
-
-    //add new user data
-    public function addUser($name, $email, $role,$password){
-        $sql = "INSERT INTO users ( nama, email, role, password) VALUES (?, ?, ?, ?)";
-        $params = [$name, $email, $role, $password];
-        $result = $this->db->execute($sql, $params);
-        if($result) return true;
-        else return false;
-    }
-
-    //delete user data
-    public function deleteUser($id){
-        $sql = "DELETE FROM users WHERE id = $1";
-        $params = [$id];
-        $result = $this->db->execute($sql, $params);
-        if($result) return true;
-        else return false;
-    }
-
-    //updating user data
-    public function updateUser($id, $name, $email, $password){
-        $sql = "UPDATE users SET nama = $1, email = $2, password = $3 WHERE id = $4";
-        $params = [$name, $email, $password, $id];
-        $result = $this->db->execute($sql, $params);
-        if($result) return true;
-        else return false;
-    }
-    
-    //get user data by id
-    public function getUserById($id){
-        $sql = "SELECT * FROM users WHERE id = $1";
-        $params = [$id];
+        $sql = "SELECT password FROM users WHERE email = :email AND password = :password";
+        $params = [':email' => $email, ':password' => $password];
         $result = $this->db->fetch($sql, $params);
-        if($result) return $result;
-        else return false;
+        return $result ?: false;
     }
 
-    public function getUserByEmail($email){
-        $sql = "SELECT * FROM users WHERE email = ?";
-        $params = [$email];
+    // Add new user data
+    public function addUser($name, $email, $role, $password): bool {
+        $sql = "INSERT INTO users (nama, email, role, password) VALUES (:name, :email, :role, :password)";
+        $params = [
+            ':name'     => $name,
+            ':email'    => $email,
+            ':role'     => $role,
+            ':password' => $password
+        ];
+        $result = $this->db->execute($sql, $params);
+        return (bool) $result;
+    }
+
+    // Delete user data
+    public function deleteUser($id): bool {
+        $sql = "DELETE FROM users WHERE id = :id";
+        $params = [':id' => $id];
+        $result = $this->db->execute($sql, $params);
+        return (bool) $result;
+    }
+
+    // Update user data
+    public function updateUser($id, $name, $email, $password): bool {
+        $sql = "UPDATE users SET nama = :name, email = :email, password = :password WHERE id = :id";
+        $params = [
+            ':name'     => $name,
+            ':email'    => $email,
+            ':password' => $password,
+            ':id'       => $id
+        ];
+        $result = $this->db->execute($sql, $params);
+        return (bool) $result;
+    }
+
+    // Get user data by ID
+    public function getUserById($id): array|false {
+        $sql = "SELECT * FROM users WHERE id = :id";
+        $params = [':id' => $id];
         $result = $this->db->fetch($sql, $params);
-        if($result) return $result;
-        else return false;
+        return $result ?: false;
+    }
+
+    // Get user data by email
+    public function getUserByEmail($email): array|false {
+        $sql = "SELECT * FROM users WHERE email = :email";
+        $params = [':email' => $email];
+        $result = $this->db->fetch($sql, $params);
+        return $result ?: false;
     }
 }
