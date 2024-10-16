@@ -13,6 +13,6 @@ class DebugView extends View{
     }
     public function render(){
         $users = $this->data[$this->key] ?? [];
-        require_once __DIR__ . '/../../Pages/User/DebugPage.php';
+        require_once PAGES_DIR . '/User/DebugPage.php';
     }
 }

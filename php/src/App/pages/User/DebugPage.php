@@ -15,6 +15,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Username</th>
+                    <th>Password</th>
                     <th>Email</th>
                     <th>Type</th>
                 </tr>
@@ -24,6 +25,7 @@
                     <tr>
                         <td><?php echo htmlspecialchars($user['user_id']); ?></td>
                         <td><?php echo htmlspecialchars($user['nama']); ?></td>
+                        <td><?php echo htmlspecialchars($user['password']); ?></td>
                         <td><?php echo htmlspecialchars($user['email']); ?></td>
                         <td><?php echo htmlspecialchars($user['role']); ?></td>
                     </tr>

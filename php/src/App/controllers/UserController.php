@@ -26,7 +26,8 @@ class UserController extends Controller implements ControllerInterface{
     }
 
     public function logoutPage(){
-        // TODO
+        $pageView = $this->view('User', 'LogoutView');
+        $pageView->render();
     }
 
     public function registerPage(){
@@ -35,6 +36,24 @@ class UserController extends Controller implements ControllerInterface{
         // TODO
     }
 
+
+    public function login(){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Retrieve submitted data
+            $username = $_POST['username'] ?? '';
+            $password = $_POST['password'] ?? '';
+
+            // Check if user exists in the database
+            $user = $this->model->getUserByUsername($username);
+            if ($user && ($password === $user[0]['password'])) { //checker
+
+                $_SESSION['user'] = $user;
+                echo "login sucessful";
+            } else {
+                echo "Invalid username or password";    
+            }
+        }
+    }
     
     public function register() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -43,11 +62,6 @@ class UserController extends Controller implements ControllerInterface{
             $password = $_POST['password'] ?? '';
             $type = $_POST['type'] ?? '';
             $email = $_POST['email'] ?? '';
-            
-            echo "Password: $password";
-            echo "Username: $username";
-            echo "Type: $type";
-            echo "Email: $email";
             
             // check in database if username already exists
             $user = $this->model->getUserByUsername($username);
@@ -58,6 +72,13 @@ class UserController extends Controller implements ControllerInterface{
                 $this->model->addUser($username, $email, $type, $password);
                 echo "User added";
             }
+        }
+    }
+
+    public function logout() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            unset($_SESSION['user']);
+            echo "Logout successful";
         }
     }
 
@@ -77,5 +98,4 @@ class UserController extends Controller implements ControllerInterface{
         $pageView = new DebugView('users', ['users' => $users]);
         $pageView->render();
     }
-    
 }

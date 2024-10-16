@@ -6,6 +6,6 @@ use App\Interfaces\ViewInterface;
 
 class HomeView implements ViewInterface{
     public function render(){
-        require_once __DIR__ . '/../../pages/HomePage.php';
+        require_once PAGES_DIR . '/HomePage.php';
     }
 }
