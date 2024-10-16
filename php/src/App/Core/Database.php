@@ -2,6 +2,9 @@
 
 namespace App\Core;
 
+use PDO;
+use PDOException;
+
 class Database {
     private $host = DB_HOST;
     private $database_name = DB_NAME;
@@ -11,14 +14,18 @@ class Database {
     private $connection;
     private static $instance = null;
 
-    public function __construct() {
-        // echo "connected to database";
-        // echo $this->host . "\n"; 
-        // echo $this->database_name . "\n"; 
-        // echo $this->username . "\n"; 
-        // echo $this->port . "\n";
-        // echo $this->password . "\n";
-        $this->connection = pg_connect("host=$this->host dbname=$this->database_name user=$this->username password=$this->password port=$this->port");
+    private function __construct() {
+        $dsn = "pgsql:host={$this->host};port={$this->port};dbname={$this->database_name}";
+
+        try {
+            $this->connection = new PDO($dsn, $this->username, $this->password, [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_PERSISTENT => true,
+            ]);
+        } catch (PDOException $e) {
+            throw new \Exception("Database connection failed: " . $e->getMessage());
+        }
     }
 
     public static function getInstance() {
@@ -28,60 +35,56 @@ class Database {
         return self::$instance;
     }
 
-    public function __destruct(){
-        // echo "closed database";
-        pg_close($this->connection);
+    public function __destruct() {
+        $this->connection = null; // Close the connection
     }
 
-    public function execute($query, $params = []){
-        $result = pg_prepare($this->connection, "", $query);
-        $result = pg_execute($this->connection, "", $params);
-        if(!$result){
-            throw new \Exception("Error executing query: " . pg_last_error($this->connection));
+    public function execute($query, $params = []) {
+        try {
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute($params);
+            return $stmt;
+        } catch (PDOException $e) {
+            throw new \Exception("Error executing query: " . $e->getMessage());
         }
-        return $result;
     }
 
-    public function fetchAll($query, $params = []){
-        $result = pg_prepare($this->connection, "", $query);
-        $result = pg_execute($this->connection, "", $params);
-        if(!$result) throw new \Exception("Error fetching all.");
-        else{
-            return pg_fetch_all($result);
+    public function fetchAll($query, $params = []) {
+        try {
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute($params);
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            throw new \Exception("Error fetching all rows: " . $e->getMessage());
         }
     }
 
     public function fetch($query, $params = []) {
-        $result = pg_prepare($this->connection, "", $query);
-        $result = pg_execute($this->connection, "", $params);
-        if (!$result) {
-            throw new \Exception("Error fetching.");
-        } else {
-            $data = [];
-            while ($row = pg_fetch_assoc($result)) {
-                $data[] = $row;
-            }
-            return $data;
+        try {
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute($params);
+            return $stmt->fetch();
+        } catch (PDOException $e) {
+            throw new \Exception("Error fetching row: " . $e->getMessage());
         }
     }
 
     public function rowCount($query, $params = []) {
-        $result = pg_query_params($this->connection, $query, $params);
-        if(!$result) throw new \Exception("Error counting rows.");
-        else{
-            return pg_num_rows($result);
+        try {
+            $stmt = $this->connection->prepare($query);
+            $stmt->execute($params);
+            return $stmt->rowCount();
+        } catch (PDOException $e) {
+            throw new \Exception("Error counting rows: " . $e->getMessage());
         }
     }
 
-
-    //show tables debugging
-    public function showTables(){
-        $query = "SELECT * FROM users";
-        $result = pg_query($this->connection, $query);
-        if (!$result) { 
-            throw new \Exception("Error executing query to show tables.");
+    public function showTables() {
+        try {
+            $stmt = $this->connection->query("SELECT tablename FROM pg_tables WHERE schemaname = 'public'");
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            throw new \Exception("Error retrieving table list: " . $e->getMessage());
         }
-        $tables = pg_fetch_all($result);
-        return $tables;
     }
 }

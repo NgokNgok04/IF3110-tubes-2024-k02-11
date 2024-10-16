@@ -18,12 +18,24 @@ class Users extends Model {
     }
 
     //add new user data
-    public function addUser($name, $email, $role,$password){
-        $sql = "INSERT INTO users (nama, email, role, password) VALUES ($1, $2, $3, $4)";
-        $params = [$name, $email, $role, $password];
-        $result = $this->db->execute($sql, $params);
-        if($result) return true;
-        else return false;
+    public function addUser($name, $email, $role, $password) {
+        $sql = "INSERT INTO users (nama, email, role, password) VALUES (:name, :email, :role, :password)";
+        
+        $params = [
+            ':name'     => $name,
+            ':email'    => $email,
+            ':role'     => $role,
+            ':password' => $password,
+        ];
+    
+        try {
+            $result = $this->db->execute($sql, $params);
+            return $result ? true : false;
+        } catch (Exception $e) {
+            // Log or display the error message
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
     }
 
     //delete user data

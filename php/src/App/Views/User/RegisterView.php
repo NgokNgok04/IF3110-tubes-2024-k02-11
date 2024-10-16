@@ -10,3 +10,4 @@ class RegisterView implements ViewInterface{
         require_once PAGES_DIR . '/User/RegisterPage.php';
     }
 }
+                // Hash the password for security
