@@ -2,11 +2,11 @@
 
 namespace App\Controllers;
 use App\Core\Controller;
-use App\Models\Users;
+use App\Models\UsersModel;
 
 class AuthController extends Controller
 {
-    private Users $model;
+    private UsersModel $model;
     public function __construct()
     {
         // TODO
