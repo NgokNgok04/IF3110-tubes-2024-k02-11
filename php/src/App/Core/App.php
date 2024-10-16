@@ -7,6 +7,7 @@ use App\Controllers\LowonganController;
 use App\Controllers\LamaranController;
 use App\Controllers\CompanyController;
 use App\Controllers\JobSeekerController;
+use App\Controllers\UserController;
 
 class App
 {
@@ -45,5 +46,9 @@ class App
         $this->router->get('/riwayat', JobSeekerController::class, 'riwayatPage', ['jobseeker']);
         
         $this->router->post('/lamaran/{id}', LamaranController::class, 'submit', ['jobseeker']);
+
+        //debugging 
+        $this->router->get('/debug', UserController::class, 'debug');
+        $this->router->post('/debugShow', UserController::class, 'showDebug');
     }
 }

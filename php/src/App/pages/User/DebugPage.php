@@ -6,10 +6,11 @@
     <title>Debug User</title>
 </head>
 <body>
-    <form action="/user/DebugUser" method="POST">
+    <form action="/debugShow" method="POST">
         <button type="submit">Get All User</button>
     </form>
-    <?php if (isset($users) && !empty($users)): ?>
+    <?php 
+    if (isset($users) && !empty($users)): ?>
         <table border="1">
             <thead>
                 <tr>
