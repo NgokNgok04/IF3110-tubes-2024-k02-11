@@ -61,4 +61,14 @@ class AttachmentModel extends Model{
         return false;     
     }
 
+    //might need to change the query
+    public function getAttachmentByLowonganID($id)
+    {
+        $sql = "SELECT * FROM attachment_lowongan WHERE lowongan_id = :lowongan_id";
+        $params = [':lowongan_id' => $id];
+        $result = $this->db->fetch($sql, $params);
+        if($result) return $result;
+        else return false;
+    }
+
 }

@@ -1,82 +1,85 @@
 <?php
+//not dummy anymore
+$lowonganList = $data['lowonganList'] ?? [];
+// Dummy data generation
+// for ($i = 1; $i <= 30; $i++) {
+//     $lowonganList[] = [
+//         'posisi' => 'Job Position ' . $i,
+//         'company_id' => 'Company ' . chr(64 + $i % 5), // A, B, C, D, E
+//         'deskripsi' => 'Description for job position ' . $i,
+//         'jenis_pekerjaan' => ($i % 2 == 0) ? 'Full-time' : 'Part-time',
+//         'jenis_lokasi' => ($i % 3 == 0) ? 'Remote' : 'On-site',
+//         'is_open' => ($i % 4 == 0) // Open every 4th job
+//     ];
+// }
 
-echo $_SESSION['role'];
+
+// Pagination 
+$itemsPerPage = 10;
+$totalItems = count($lowonganList);
+$totalPages = ceil($totalItems / $itemsPerPage);
+$currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+if ($currentPage < 1) {
+    $currentPage = 1;
+} elseif ($currentPage > $totalPages) {
+    $currentPage = $totalPages;
+}
+
+$offset = ($currentPage - 1) * $itemsPerPage;
+$currentItems = array_slice($lowonganList, $offset, $itemsPerPage);
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Job Seeker Home</title>
-  <link rel="stylesheet" href="styles.css"> <!-- Optional: Link ke CSS -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Seeker Home</title>
+    <link rel="stylesheet" href="../../../public/styles/home/homejobseeker.css">
 </head>
 <body>
-  <header>
-    <h1>Job Listings</h1>
-    <nav>
-      <form method="GET" action="/search">
-        <input type="text" name="query" placeholder="Cari lowongan..." />
-        <button type="submit">Cari</button>
-      </form>
-    </nav>
-  </header>
 
-  <main>
-    <section class="filters">
-      <h2>Filter dan Sortir</h2>
-      <form method="GET" action="/">
-        <label for="location">Lokasi:</label>
-        <select name="location" id="location">
-          <option value="">Semua</option>
-          <option value="Jakarta">Jakarta</option>
-          <option value="Bandung">Bandung</option>
-          <option value="Surabaya">Surabaya</option>
-        </select>
+    <main>
+        <h1>Welcome, <?php echo $_SESSION['user_name'] ?? 'Job Seeker'; ?></h1>
+        <div class="container">
+            <h2>Available Job</h2>
+            <?php if ($currentItems): ?>
+                <div class="job-listings">
+                    <?php foreach ($currentItems as $lowongan): ?>
+                        <div class="job-card">
+                            <h3><?php echo htmlspecialchars($lowongan['posisi']); ?></h3>
+                            <p><strong>Company:</strong> <?php echo htmlspecialchars($lowongan['company_id']); ?></p>
+                            <p><strong>Description: </strong><?php echo htmlspecialchars($lowongan['deskripsi']); ?></p>
+                            <p><strong>Job Type:</strong> <?php echo htmlspecialchars($lowongan['jenis_pekerjaan']); ?></p>
+                            <p><strong>Location:</strong> <?php echo htmlspecialchars($lowongan['jenis_lokasi']); ?></p>
+                            <p><strong>Open:</strong> <?php echo $lowongan['is_open'] ? 'Yes' : 'No'; ?></p>
+                            <a href="/detail-lowongan/<?php echo $lowongan['lowongan_id']; ?>"  method="GET" class="btn">Apply Now</a>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <p>No job available at the moment.</p>
+            <?php endif; ?>
 
-        <label for="type">Jenis Pekerjaan:</label>
-        <select name="type" id="type">
-          <option value="">Semua</option>
-          <option value="full-time">Full-Time</option>
-          <option value="part-time">Part-Time</option>
-          <option value="internship">Internship</option>
-        </select>
-
-        <label for="sort">Urutkan:</label>
-        <select name="sort" id="sort">
-          <option value="recent">Terbaru</option>
-          <option value="popular">Terpopuler</option>
-          <option value="salary">Gaji Tertinggi</option>
-        </select>
-
-        <button type="submit">Terapkan</button>
-      </form>
-    </section>
-
-    <section class="job-listings">
-      <h2>Lowongan Tersedia</h2>
-      <ul>
-        <li>
-          <a href="/lamaran/1">
-            <h3>Software Engineer</h3>
-          </a>
-        </li>
-        <li>
-          <a href="/lamaran/2">
-            <h3>UI/UX Designer</h3>
-          </a>
-        </li>
-      </ul>
-
-      <div class="pagination">
-        <a href="?page=1">&laquo; First</a>
-        <a href="?page=2">Previous</a>
-        <span>Page 3 of 10</span>
-        <a href="?page=4">Next</a>
-        <a href="?page=10">Last &raquo;</a>
-      </div>
-    </section>
-  </main>
+            <!-- Pagination -->
+            <div class="pagination">
+                <?php if ($currentPage > 1): ?>
+                    <a href="?page=<?php echo $currentPage - 1; ?>">&laquo; Previous</a>
+                <?php endif; ?>
+                
+                <?php for ($page = 1; $page <= $totalPages; $page++): ?>
+                    <a href="?page=<?php echo $page; ?>" <?php echo ($page == $currentPage) ? 'class="active"' : ''; ?>>
+                        <?php echo $page; ?>
+                    </a>
+                <?php endfor; ?>
+                <?php if ($currentPage < $totalPages): ?>
+                    <a href="?page=<?php echo $currentPage + 1; ?>">Next &raquo;</a>
+                <?php endif; ?>
+            </div>
+        </div>
+    </main>
 
 </body>
 </html>

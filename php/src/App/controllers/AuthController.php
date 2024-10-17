@@ -28,6 +28,7 @@ class AuthController extends Controller
     public function login() {
         if (isset($_POST['submit'])){
             $hashedPassword = hash('sha256',$_POST['password']);
+            // $password = $_POST['password'];
             $isUserValid = $this->model->getUserByEmail($_POST['email']);
             if ($isUserValid && $isUserValid['password'] == $hashedPassword){
                 $_SESSION['role'] = $isUserValid['role'];

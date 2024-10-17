@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Core;
+
+use App\Controllers\AttachmentController;
 use App\Controllers\AuthController;
 use App\Controllers\HomeController;
 use App\Controllers\LowonganController;
@@ -8,6 +10,7 @@ use App\Controllers\LamaranController;
 use App\Controllers\CompanyController;
 use App\Controllers\JobSeekerController;
 use App\Controllers\UserController;
+use App\Core\Database;
 
 class App
 {
@@ -26,6 +29,9 @@ class App
         $this->router->get('/register', AuthController::class, 'registerPage');
 
         $this->router->get('/', HomeController::class, 'index');
+
+
+
         $this->router->get('/detail-lowongan/{id}', LowonganController::class, 'detailLowonganPage', ['company', 'jobseeker']);
         
         $this->router->post('/login', AuthController::class, 'login');
@@ -52,6 +58,11 @@ class App
         $this->router->post('/debugShow', UserController::class, 'showDebug');
         $this->router->post('/delete-database', UserController::class, 'deleteDB');
         $this->router->post('/create-database', UserController::class, 'createDB');
-        
+        $this->router->post('/seeding', UserController::class, 'seeding');
+
+        $this->router->post('/debugShowLowongan', LowonganController::class, 'showDebug');
+        $this->router->post('/debugShowLamaran', LamaranController::class, 'showDebug');
+        $this->router->post('/debugShowCompanyDetail', CompanyController::class, 'showDebug');
+        $this->router->post('/debugShowAttachment', AttachmentController::class, 'showDebug');
     }
 }

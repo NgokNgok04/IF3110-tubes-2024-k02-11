@@ -43,7 +43,8 @@ CREATE TABLE IF NOT EXISTS lamaran (
     video_path TEXT,
     status status_enum,
     status_reason TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE OR REPLACE FUNCTION update_timestamp()

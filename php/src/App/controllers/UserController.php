@@ -17,15 +17,12 @@ class UserController extends Controller{
         $this->view('User', 'DebugPage'); 
     }
 
-    public function showDebug(){
-        
-        $users = $this->model->getAllUsers(); // Adjust this based on your model
+    //debugging SECTION
 
-        // var_dump($users);
-        // Pass users to the view
+    public function showDebug(){
+        $users = $this->model->getAllUsers(); 
         $this->view('User', 'DebugPage', ['users' => $users]);
         //TODO
-
     }
 
     public function deleteDB(){
@@ -37,6 +34,12 @@ class UserController extends Controller{
     public function createDB(){
         $db = Database::getInstance();
         $db->runScript(APP_DIR . '../db/init.sql');
+        $this->view('User', 'DebugPage');
+    }
+
+    public function seeding(){
+        $db = Database::getInstance();
+        $db->runScript(APP_DIR . '../db/seeding.sql');
         $this->view('User', 'DebugPage');
     }
 }

@@ -7,6 +7,12 @@ class LowonganModel extends Model{
     public function getAllLowongan(): array|false{
         $sql = "SELECT * FROM lowongan";
         $result = $this->db->fetchAll($sql);
+        if ($result) {
+            foreach ($result as &$row) {
+            $row['is_open'] = $row['is_open'] ? 'Open' : 'Closed';
+            }
+        }
+        // var_dump($result);
         if($result) return $result;
         else return false;
     }
@@ -55,6 +61,14 @@ class LowonganModel extends Model{
         return (bool) $this->db->execute($sql, $params);
     }
 
+    public function getLowonganByID($id){
+        $sql = "SELECT * FROM lowongan WHERE lowongan_id = :lowongan_id";
+        $params = [':lowongan_id' => $id];
+        $result = $this->db->fetch($sql, $params);
+        if($result) return $result;
+        else return false;
+    }
+
     public function getLowonganByCompanyId($company_id){
         $sql = "SELECT * FROM lowongan WHERE company_id = :company_id";
         $params = [':company_id' => $company_id];
@@ -93,4 +107,18 @@ class LowonganModel extends Model{
         else return false;
     }
 
+    // public function getDetailLowonganByIDJoin($lowongan_id, $join = [])
+    // {
+    //     $sql = "SELECT l.*, c.* FROM lowongan l  company_detail c ON l.company_id = c.company_id";
+    //     if (!empty($join)) {
+    //         foreach ($join as $table => $condition) {
+    //             $sql .= " JOIN $table ON $condition";
+    //         }
+    //     }
+    //     $sql .= " WHERE l.lowongan_id = :lowongan_id";
+    //     $params = [':lowongan_id' => $lowongan_id];
+    //     $result = $this->db->fetch($sql, $params);
+    //     if ($result) return $result;
+    //     else return false;
+    // }
 }

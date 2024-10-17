@@ -4,9 +4,16 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Interfaces\ControllerInterface;
+use App\Core\Database;
+use App\Models\LowonganModel;
 
 class HomeController extends Controller implements ControllerInterface
 {
+    private LowonganModel $modelLowongan;
+    public function __construct()
+    {
+        $this->modelLowongan = $this->model('LowonganModel');
+    }
     public function index()
     {
         if (isset($_SESSION['role']) && $_SESSION['role'] == 'company') {
@@ -19,11 +26,12 @@ class HomeController extends Controller implements ControllerInterface
 
     private function jobSeekerHome()
     {
-        $this->view('JobSeeker', 'HomeJobSeeker');
+        $lowonganList = $this->modelLowongan->getAllLowongan(); 
+        $this->view('JobSeeker', 'HomeJobSeeker', ['lowonganList' => $lowonganList]);
     }
 
-    private function companyHome()
-    {
-        $this->view('Company', 'HomeCompany');
+    public function companyHome(){
+        $jobs = $this->modelLowongan->getAllLowongan();
+        $this->view('Company', 'HomeCompany', ['jobs' => $jobs]);
     }
 }

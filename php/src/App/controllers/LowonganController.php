@@ -2,29 +2,60 @@
 
 namespace App\Controllers;
 use App\Core\Controller;
+use App\Models\CompanyDetailModel;
+use App\Models\LowonganModel;
+use App\Models\AttachmentModel;
+use App\Models\LamaranModel;
 
 class LowonganController extends Controller
 {
+    private LowonganModel $model;
+    private CompanyDetailModel $companyModel;
+    private AttachmentModel $attachmentModel;
+    private LamaranModel $lamaranModel;
+
+    public function __construct()
+    {
+        $this->model = $this->model('LowonganModel');
+        $this->companyModel = $this->model('CompanyDetailModel');
+        $this->attachmentModel = $this->model('AttachmentModel');
+        $this->lamaranModel = $this->model('LamaranModel');
+    }
+
     public function tambahLowonganPage()
     {
-        $view = $this->view('Company', 'TambahLowonganView');
-        $view->render();
+        $this->view('Company', 'TambahLowonganView');
     }
 
     public function editLowonganPage($id)
     {
-        $view = $this->view('Company', 'EditLowonganView');
-        $view->render();
+        $this->view('Company', 'EditLowonganView');
     }
 
 
     public function detailLowonganPage($id)
     {
         if (isset($_SESSION['role']) && $_SESSION['role'] = 'company') {
-            $view = $this->view('Company', 'DetailLowonganView');
+            $this->view('Company', 'DetailLowonganView');
         } else {
-            $view = $this->view('JobSeeker', 'DetailLowonganView');
+
+            $dataDetail= $this->model->getLowonganByID($id);
+            $dataCompany = $this->companyModel->getCompanyById($dataDetail['company_id']);
+            $dataAttachment = $this->attachmentModel->getAttachmentByLowonganId($id);
+            $dataLamaran = $this->lamaranModel->getLamaranByLowonganId($id);
+            // $company = $this->companyModel->getCompanyById($lowongan['company_id']);
+            $this->view('JobSeeker', 'DetailLowongan', [
+                'lowongan' => $dataDetail, 
+                'company' => $dataCompany,
+                'attachment' => $dataAttachment,
+                'lamaran' => $dataLamaran
+            ]);
         }
-        $view->render();
+    }
+
+    public function showDebug(){
+        $lowongans = $this->model->getAllLowongan(); 
+        $this->view('User', 'DebugPage', ['lowongans' => $lowongans]);
+        //TODO
     }
 }
