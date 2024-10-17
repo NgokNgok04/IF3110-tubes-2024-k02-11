@@ -26,7 +26,7 @@ class AuthController extends Controller
     }
 
     public function login() {
-        if ($_POST['submit']){
+        if (isset($_POST['submit'])){
             $hashedPassword = hash('sha256',$_POST['password']);
             $isUserValid = $this->model->getUserByEmail($_POST['email']);
             if ($isUserValid && $isUserValid['password'] == $hashedPassword){
@@ -43,14 +43,19 @@ class AuthController extends Controller
     }
 
     public function register() {
-        if ($_POST['submit']){
+        if (isset($_POST['submit'])){
+            // echo "masuk sini lalala";
             $isUserRegistered = $this->model->getUserByEmail($_POST['email']);
             if ($isUserRegistered) {
-                // modal wrong
-                echo "salah";
+                $_SESSION['register_error'] = 'Username already taken';
+                $_SESSION['register_data'] = $_POST;
+                // $this->registerPage();
+                header("Location: /register");
+                echo "alert('test wahyudi')";
+                // exit();
             } else {
                 $this->model->addUser($_POST['name'],$_POST['email'],$_POST['role'],hash('sha256',$_POST['password']));
-                header("Location: /");
+                header("Location: /",true,301);
             }
         }
     }

@@ -19,7 +19,7 @@
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
-  background-color: #ff944f;
+  background-color: #90acec;
   width: 500px;
   height: 500px;
   border-radius: 5px;
@@ -41,7 +41,6 @@
 .login-form label {
   font-family: var(--font-family-medium);
   font-size: 20px;
-  /* margin-top: 10px; */
 }
 
 .input-field {
