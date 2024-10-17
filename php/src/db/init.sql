@@ -11,14 +11,13 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS company_detail (
-    company_id SERIAL PRIMARY KEY,
+    company_id SERIAL PRIMARY KEY REFERENCES users(user_id) ON DELETE CASCADE,
     company_name VARCHAR(255) NOT NULL,
-    user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
     lokasi VARCHAR(255),
     about TEXT
 );
 
-CREATE TABLE IF NOT EXISTS lowongan (
+CREATE TABLE IF NOT EXISTS lowongan(
     lowongan_id SERIAL PRIMARY KEY,
     company_id INT REFERENCES company_detail(company_id) ON DELETE CASCADE,
     posisi VARCHAR(255),

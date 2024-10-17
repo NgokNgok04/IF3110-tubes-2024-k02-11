@@ -31,7 +31,9 @@ class AuthController extends Controller
             $isUserValid = $this->model->getUserByEmail($_POST['email']);
             if ($isUserValid && $isUserValid['password'] == $hashedPassword){
                 $_SESSION['role'] = $isUserValid['role'];
-                header("Location: /");
+                echo $isUserValid['role'];
+                // header("Location: /");
+                // echo $_SESSION['role'];
             } else {
                 echo $_POST['email'] . "<br>";
                 echo $_POST['password'] . "<br>";

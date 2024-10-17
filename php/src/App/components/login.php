@@ -9,4 +9,5 @@
         
         <input type="submit" id="submitBtn" class="login-submit" name="submit" value="Login"/>
     </form>
+    <p>Don't have an account? <a href="/register"><b>Register Here</b></a>.</p>
 </section>

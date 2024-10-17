@@ -9,6 +9,12 @@
     <form action="/debugShow" method="POST">
         <button type="submit">Get All User</button>
     </form>
+    <form action="/delete-database" method="POST">
+        <button type="submit">DELETE TABLE</button>
+    </form>
+    <form action="/create-database" method="POST">
+        <button type="submit">CREATE TABLE</button>
+    </form>
     <?php 
     if (isset($users) && !empty($users)): ?>
         <table border="1">

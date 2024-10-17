@@ -8,12 +8,8 @@
     <link rel="stylesheet" href="../../../public/styles/login.css">
 </head>
 <body>
-    <div>
-        <?php
-            include(__DIR__ . "/../../Components/register.php");
-        ?>
-
-        <p>Already have an account? <a href="/user/loginPage"><b>Login Here</b></a>.</p>
-    </div>
+    <?php
+        include(__DIR__ . "/../../Components/register.php");
+    ?>
 </body>
 </html>

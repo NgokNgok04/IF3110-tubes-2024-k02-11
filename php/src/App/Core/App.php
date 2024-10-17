@@ -50,5 +50,8 @@ class App
         //debugging 
         $this->router->get('/debug', UserController::class, 'debug');
         $this->router->post('/debugShow', UserController::class, 'showDebug');
+        $this->router->post('/delete-database', UserController::class, 'deleteDB');
+        $this->router->post('/create-database', UserController::class, 'createDB');
+        
     }
 }

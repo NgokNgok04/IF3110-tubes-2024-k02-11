@@ -21,7 +21,7 @@
   transform: translateX(-50%) translateY(-50%);
   background-color: #ff944f;
   width: 500px;
-  height: 400px;
+  height: 500px;
   border-radius: 5px;
   border-width: 2px;
   box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
@@ -29,7 +29,7 @@
 }
 
 .login-container h1 {
-  font-family: "MontserratSemiBold";
+  font-family: var(--font-family-semibold);
   text-align: center;
   font-size: 30px;
 }
@@ -39,38 +39,23 @@
 }
 
 .login-form label {
-  font-family: "MonserratMedium";
+  font-family: var(--font-family-medium);
   font-size: 20px;
   /* margin-top: 10px; */
 }
 
-.login-email {
+.input-field {
   width: 100%;
   margin-top: 10px;
   padding: 10px;
   border-radius: 5px;
-  font-family: "MonserratMedium", sans-serif;
-  outline: none;
-}
-.login-email:focus {
-  border-color: black;
-  font-family: "MonserratMedium", sans-serif;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-}
-
-.login-password {
-  margin-top: 10px;
-  width: 100%;
-  padding: 10px;
-  border-radius: 5px;
-  font-family: "MonserratMedium", sans-serif;
+  font-family: var(--font-family-medium);
   outline: none;
 }
 
-.login-password:focus {
-  border-color: black;
-  font-family: "MonserratMedium", sans-serif;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+.input-field:focus {
+  border-color: var(--input-focus-border-color);
+  box-shadow: 0 0 5px var(--input-focus-box-shadow);
 }
 
 .login-submit {

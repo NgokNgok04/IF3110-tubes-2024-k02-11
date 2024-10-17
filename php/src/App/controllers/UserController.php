@@ -3,6 +3,8 @@
 namespace App\Controllers;
 use App\Core\Controller; 
 use App\Models\UsersModel;
+use App\Core\Database;
+
 
 class UserController extends Controller{
     private UsersModel $model;
@@ -26,4 +28,15 @@ class UserController extends Controller{
 
     }
 
+    public function deleteDB(){
+        $db = Database::getInstance();
+        $db->runScript(APP_DIR . '../db/reset.sql');
+        $this->view('User', 'DebugPage');
+    }
+
+    public function createDB(){
+        $db = Database::getInstance();
+        $db->runScript(APP_DIR . '../db/init.sql');
+        $this->view('User', 'DebugPage');
+    }
 }

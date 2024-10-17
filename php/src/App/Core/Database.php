@@ -87,4 +87,13 @@ class Database {
             throw new \Exception("Error retrieving table list: " . $e->getMessage());
         }
     }
+
+    public function runScript($filepath){
+        try{
+            $script = file_get_contents($filepath);
+            $this->connection->exec($script);
+        } catch (PDOException $e) {
+            throw new \Exception("Error running script: " . $e->getMessage());
+        }
+    }
 }

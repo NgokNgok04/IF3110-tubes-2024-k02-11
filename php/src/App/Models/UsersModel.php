@@ -83,4 +83,5 @@ class UsersModel extends Model {
         $result = $this->db->fetch($sql, $params);
         return $result ?: false;
     }
+
 }

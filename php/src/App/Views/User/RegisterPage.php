@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,4 +16,4 @@
         <p>Already have an account? <a href="/user/loginPage"><b>Login Here</b></a>.</p>
     </div>
 </body>
-</html>
+</html> -->
