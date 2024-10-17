@@ -26,6 +26,26 @@ class Router
         $this->addRoute($route, $controller, $action, "POST", $roles);
     }
 
+    public function PUT($route, $controller, $action, $roles = [])
+    {
+        $this->addRoute($route, $controller, $action, "PUT", $roles);
+    }
+
+    public function patch($route, $controller, $action, $roles = [])
+    {
+        $this->addRoute($route, $controller, $action, "PATCH", $roles);
+    }
+
+    public function delete($route, $controller, $action, $roles = [])
+    {
+        $this->addRoute($route, $controller, $action, "DELETE", $roles);
+    }
+
+    public function options($route, $controller, $action, $roles = [])
+    {
+        $this->addRoute($route, $controller, $action, "OPTIONS", $roles);
+    }
+
     public function dispatch()
     {
         $uri = strtok($_SERVER['REQUEST_URI'], '?');
