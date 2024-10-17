@@ -39,11 +39,22 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 10px;
   justify-content: space-between;
   padding-bottom: 10px;
 }
 
+.auth-form-group {
+  display: flex;
+  flex-direction: row;
+  /* width: 100%; */
+  gap: 10px;
+  /* justify-content: space-between; */
+}
+
+.auth-form-subgroup {
+  width: 100%;
+}
 .auth-form label {
   font-family: "MonserratMedium", sans-serif;
   font-size: 20px;
@@ -51,7 +62,7 @@
 
 .auth-input {
   width: 100%;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
   padding: 10px;
   border-radius: 5px;
   font-family: "MonserratMedium", sans-serif;
@@ -79,11 +90,18 @@
   background-size: 20px;
   border: 0px;
   border-radius: 5px;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
   padding: 8px 12px;
-  width: 170px;
+  width: 100%;
   font-size: 16px;
   height: 40px;
+}
+
+.error-message {
+  display: block;
+  font-family: "MontserratMedium";
+  font-size: 12px;
+  color: red;
 }
 
 .auth-submit {
@@ -115,4 +133,8 @@
   font-family: "Montserrat-Medium", sans-serif;
   font-weight: 600;
   color: white;
+}
+
+.display-none {
+  display: none;
 }
