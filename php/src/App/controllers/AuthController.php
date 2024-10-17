@@ -16,14 +16,13 @@ class AuthController extends Controller
     }
     public function loginPage()
     {
-        $view = $this->view('Auth', 'LoginView');
-        $view->render();
+        $this->view('Auth', 'LoginPage');
+        // $view->render();
     }
 
     public function registerPage()
     {
-        $view = $this->view('Auth', 'RegisterView');
-        $view->render();
+        $this->view('Auth', 'RegisterPage');
     }
 
     public function login() {

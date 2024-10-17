@@ -8,7 +8,6 @@ class JobSeekerController extends Controller
 {
     public function riwayatPage()
     {
-        $view = $this->view('JobSeeker', 'RiwayatView');
-        $view->render();
+        $this->view('JobSeeker', 'Riwayat');
     }
 }
