@@ -24,7 +24,7 @@ class LowonganController extends Controller
 
     public function tambahLowonganPage()
     {
-        $this->view('Company', 'TambahLowonganView');
+        $this->view('Company', 'TambahLowongan');
     }
 
     public function editLowonganPage($id)
@@ -33,6 +33,7 @@ class LowonganController extends Controller
     }
 
 
+    //detail lowongan Page
     public function detailLowonganPage($id)
     {
         // echo $_SESSION['role'];
@@ -58,5 +59,41 @@ class LowonganController extends Controller
         $lowongans = $this->model->getAllLowongan(); 
         $this->view('User', 'DebugPage', ['lowongans' => $lowongans]);
         //TODO
+    }
+
+
+    public function storeLowongan()
+    {
+        $posisi = $_POST['title'];
+        $description = $_POST['description'];
+        $requirements = $_POST['requirements'];
+        $location = $_POST['location'];
+
+        if(!isset($_SESSION['company_id'])){
+            header('Location: /tambah-lowongan');
+        }
+        $company_id = $_SESSION['company_id'];
+        $is_open = True; 
+        $created_at = date('Y-m-d H:i:s');
+        $updated_at = date('Y-m-d H:i:s');
+
+        // echo $company_id;
+        // echo $posisi;
+        // echo $description;
+        // echo $requirements;
+        // echo $location;
+        // echo $is_open;
+        // echo $created_at;
+        // echo $updated_at;
+
+        $result = $this->model->addLowongan( $company_id, $posisi, $description, $requirements, $location, $is_open, $created_at, $updated_at);
+        if (!$result) {
+            header('Location: /tambah-lowongan');
+        } else {
+            header('Location: /');
+        }
+
+        // Redirect
+        header('Location: /');
     }
 }

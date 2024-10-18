@@ -1,46 +1,3 @@
-<?php
-// Get job listings from the controller
-$jobs = $data['jobs'];
-
-// Get unique statuses and locations for filters
-$statuses = array_unique(array_column($jobs, 'is_open'));
-$locations = array_unique(array_column($jobs, 'jenis_lokasi'));
-
-
-// var_dump($statuses);
-// Sorting
-$sort = $_GET['sort'] ?? 'lowongan_id';
-usort($jobs, function($a, $b) use ($sort) {
-    return $a[$sort] <=> $b[$sort];
-});
-
-// Filtering
-$statusFilter = $_GET['status'] ?? '';
-$locationFilter = $_GET['location'] ?? '';
-$searchTerm = $_GET['search'] ?? '';
-
-if (!empty($statusFilter) || !empty($locationFilter) || !empty($searchTerm)) {
-    $jobs = array_filter($jobs, function($job) use ($statusFilter, $locationFilter, $searchTerm) {
-        $matchesStatus = empty($statusFilter) || $job['is_open'] == $statusFilter;
-        $matchesLocation = empty($locationFilter) || $job['jenis_lokasi'] == $locationFilter;
-        $matchesSearch = empty($searchTerm) || stripos($job['posisi'], $searchTerm) !== false || stripos($job['deskripsi'], $searchTerm) !== false;
-        return $matchesStatus && $matchesLocation && $matchesSearch;
-    });
-}
-
-// Pagination
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$perPage = 5;
-$totalJobs = count($jobs);
-$totalPages = ceil($totalJobs / $perPage);
-$jobs = array_slice($jobs, ($page - 1) * $perPage, $perPage);
-
-// Handle job deletion and status update
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    ///TODO
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -85,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </form>
 
-        <a href="/[something]" class="btn">Add New Job</a>
+        <a href="/tambah-lowongan" class="btn">Add New Job</a>
 
         <table>
             <tr>
@@ -105,11 +62,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <td><?php echo htmlspecialchars($job['jenis_lokasi']); ?></td>
                 <td>
                     <div class="action-buttons">
-                        <a href="/[something]/<?php echo $job['lowongan_id']; ?>" class="btn action-btn">View Applicants</a>
-                        <a href="/[something]/<?php echo $job['lowongan_id']; ?>" class="btn action-btn">Edit</a>
-                        <form method="post">
+                        <a href="/detail-lowongan/<?php echo $job['lowongan_id']; ?>" class="btn action-btn">View Applicants</a>
+                        <a href="/detail-lowongan/edit/<?php echo $job['lowongan_id']; ?>" class="btn action-btn">Edit</a>
+                        <form action = "/detail-lowongan/delete/<?php echo $job['lowongan_id']; ?>" method="post">
                             <input type="hidden" name="delete" value="<?php echo $job['lowongan_id']; ?>">
-                            <button type="submit" class="btn btn-danger action-btn" onclick="return confirm('Are you sure you want to delete this job?')">Delete</button>
+                            <button  type="submit" class="btn btn-danger action-btn" onclick="return confirm('Are you sure you want to delete this job?')">Delete</button>
                         </form>
                         <form method="post">
                             <input type="hidden" name="update_status" value="<?php echo $job['lowongan_id']; ?>">

@@ -17,9 +17,8 @@ class LowonganModel extends Model{
         else return false;
     }
 
-    public function addLowongan($lowongan_id, $company_id, $posisi, $deskripsi, $jenis_pekerjaan, $jenis_lokasi, $is_open, $created_at, $updated_at){
-        $sql = "INSERT INTO lowongan (lowongan_id, company_id, posisi, deskripsi, jenis_pekerjaan, jenis_lokasi, is_open, created_at, updated_at) VALUES (
-            :lowongan_id,
+    public function addLowongan($company_id, $posisi, $deskripsi, $jenis_pekerjaan, $jenis_lokasi, $is_open, $created_at, $updated_at){
+        $sql = "INSERT INTO lowongan (company_id, posisi, deskripsi, jenis_pekerjaan, jenis_lokasi, is_open, created_at, updated_at) VALUES (
             :company_id, 
             :posisi, 
             :deskripsi, 
@@ -27,10 +26,9 @@ class LowonganModel extends Model{
             :jenis_lokasi, 
             :is_open, 
             :created_at, 
-            :updated_at, 
+            :updated_at
         )";
         $params = [
-            ':lowongan_id' => $lowongan_id, 
             ':company_id' => $company_id, 
             ':posisi' => $posisi, 
             ':deskripsi' => $deskripsi,
@@ -107,18 +105,12 @@ class LowonganModel extends Model{
         else return false;
     }
 
-    // public function getDetailLowonganByIDJoin($lowongan_id, $join = [])
-    // {
-    //     $sql = "SELECT l.*, c.* FROM lowongan l  company_detail c ON l.company_id = c.company_id";
-    //     if (!empty($join)) {
-    //         foreach ($join as $table => $condition) {
-    //             $sql .= " JOIN $table ON $condition";
-    //         }
-    //     }
-    //     $sql .= " WHERE l.lowongan_id = :lowongan_id";
-    //     $params = [':lowongan_id' => $lowongan_id];
-    //     $result = $this->db->fetch($sql, $params);
-    //     if ($result) return $result;
-    //     else return false;
-    // }
+    public function getLastLowonganID(): int|false {
+        $sql = "SELECT MAX(lowongan_id) as last_id FROM lowongan";
+        $result = $this->db->fetch($sql);
+        if ($result && isset($result['last_id'])) {
+            return (int) $result['last_id'];
+        }
+        return false;
+    }
 }

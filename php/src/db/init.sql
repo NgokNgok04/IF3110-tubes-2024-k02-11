@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS lowongan(
     company_id INT REFERENCES company_detail(company_id) ON DELETE CASCADE,
     posisi VARCHAR(255),
     deskripsi TEXT,
-    jenis_pekerjaan VARCHAR(255),
+    jenis_pekerjaan TEXT,
     jenis_lokasi lokasi_enum,
     is_open BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
