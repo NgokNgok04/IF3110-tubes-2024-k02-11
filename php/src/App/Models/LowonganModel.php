@@ -9,7 +9,7 @@ class LowonganModel extends Model{
         $result = $this->db->fetchAll($sql);
         if ($result) {
             foreach ($result as &$row) {
-            $row['is_open'] = $row['is_open'] ? 'Open' : 'Closed';
+                $row['is_open'] = $row['is_open'] ? 'Open' : 'Closed';
             }
         }
         // var_dump($result);
