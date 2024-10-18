@@ -24,6 +24,7 @@ services:
       - .env
     volumes:
       - data:/var/lib/postgresql/data
+      - ./php/db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
 volumes: 
   data:

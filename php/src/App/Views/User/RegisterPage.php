@@ -12,8 +12,6 @@
         <?php
             include(__DIR__ . "/../../Components/register.php");
         ?>
-
-        <p>Already have an account? <a href="/user/loginPage"><b>Login Here</b></a>.</p>
     </div>
 </body>
 </html> -->

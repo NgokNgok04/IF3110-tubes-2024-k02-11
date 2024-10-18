@@ -35,10 +35,11 @@ class LowonganController extends Controller
 
     public function detailLowonganPage($id)
     {
-        if (isset($_SESSION['role']) && $_SESSION['role'] = 'company') {
-            $this->view('Company', 'DetailLowonganView');
+        // echo $_SESSION['role'];
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'company') {
+            // echo "masuk sini";
+            $this->view('Company', 'DetailLowongan');
         } else {
-
             $dataDetail= $this->model->getLowonganByID($id);
             $dataCompany = $this->companyModel->getCompanyById($dataDetail['company_id']);
             $dataAttachment = $this->attachmentModel->getAttachmentByLowonganId($id);

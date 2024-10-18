@@ -36,6 +36,18 @@ class UsersModel extends Model {
         return (bool) $result;
     }
 
+    // add new user company
+    public function addCompanyUser($name, $email, $role, $password,$location,$about): bool {
+        $this->addUser($name, $email, $role, $password);
+        $sql = "INSERT INTO company_detail (location, about) VALUES (:location, :about)";
+        $params = [
+            ':location'     => $location,
+            ':about'    => $about,
+        ];
+        $result = $this->db->execute($sql, $params);
+        return (bool) $result;
+    }
+
     // Delete user data
     public function deleteUserByID($id): bool {
         $sql = "DELETE FROM users WHERE id = :id";
