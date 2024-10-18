@@ -4,6 +4,7 @@ namespace App\Core;
 
 use PDO;
 use PDOException;
+use Exception;
 
 class Database {
     private $host = DB_HOST;
@@ -24,7 +25,7 @@ class Database {
                 PDO::ATTR_PERSISTENT => true,
             ]);
         } catch (PDOException $e) {
-            throw new \Exception("Database connection failed: " . $e->getMessage());
+            throw new Exception("Database connection failed: " . $e->getMessage());
         }
     }
 
@@ -45,7 +46,7 @@ class Database {
             $stmt->execute($params);
             return $stmt;
         } catch (PDOException $e) {
-            throw new \Exception("Error executing query: " . $e->getMessage());
+            throw new Exception("Error executing query: " . $e->getMessage());
         }
     }
 
@@ -55,7 +56,7 @@ class Database {
             $stmt->execute($params);
             return $stmt->fetchAll();
         } catch (PDOException $e) {
-            throw new \Exception("Error fetching all rows: " . $e->getMessage());
+            throw new Exception("Error fetching all rows: " . $e->getMessage());
         }
     }
 
@@ -65,7 +66,7 @@ class Database {
             $stmt->execute($params);
             return $stmt->fetch();
         } catch (PDOException $e) {
-            throw new \Exception("Error fetching row: " . $e->getMessage());
+            throw new Exception("Error fetching row: " . $e->getMessage());
         }
     }
 
@@ -75,7 +76,7 @@ class Database {
             $stmt->execute($params);
             return $stmt->rowCount();
         } catch (PDOException $e) {
-            throw new \Exception("Error counting rows: " . $e->getMessage());
+            throw new Exception("Error counting rows: " . $e->getMessage());
         }
     }
 
@@ -84,7 +85,16 @@ class Database {
             $stmt = $this->connection->query("SELECT tablename FROM pg_tables WHERE schemaname = 'public'");
             return $stmt->fetchAll();
         } catch (PDOException $e) {
-            throw new \Exception("Error retrieving table list: " . $e->getMessage());
+            throw new Exception("Error retrieving table list: " . $e->getMessage());
+        }
+    }
+
+    public function runScript($filepath){
+        try{
+            $script = file_get_contents($filepath);
+            $this->connection->exec($script);
+        } catch (PDOException $e) {
+            throw new Exception("Error running script: " . $e->getMessage());
         }
     }
 }

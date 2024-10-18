@@ -8,6 +8,7 @@ use Exception;
 class LamaranModel extends Model{
     public function getAllLamaran(){
         $sql = "SELECT * FROM lamaran";
+        // var_dump($this->db->fetchAll($sql));
         return $this->db->fetchAll($sql);
     }
 
@@ -68,5 +69,15 @@ class LamaranModel extends Model{
         $result = $this->db->execute($sql, $params);
         if($result) return true; 
         return false;     
+    }
+
+
+    //might need to change 
+    public function getLamaranByLowonganID($id){
+        $sql = "SELECT * FROM lamaran WHERE lowongan_id = :lowongan_id";
+        $params = [':lowongan_id' => $id];
+        $result = $this->db->fetch($sql, $params);
+        if($result) return $result;
+        else return false;
     }
 }

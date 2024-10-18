@@ -26,47 +26,38 @@ class AuthController extends Controller
     }
 
     public function login() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+        if (isset($_POST['submit'])){
             $hashedPassword = hash('sha256',$_POST['password']);
+            // $password = $_POST['password'];
             $isUserValid = $this->model->getUserByEmail($_POST['email']);
             if ($isUserValid && $isUserValid['password'] == $hashedPassword){
-                $response['status'] = 'success';
-                $_SESSION['role'] = 'jobseeker';
+                $_SESSION['role'] = $isUserValid['role'];
+                echo $isUserValid['role'];
+                // header("Location: /");
+                // echo $_SESSION['role'];
             } else {
-                $response['status'] = 'error';
-                $response['data'] = 'Email or password wrong';
+                echo $_POST['email'] . "<br>";
+                echo $_POST['password'] . "<br>";
+                echo "salah woi";
             }
         }
-        header('Content-Type: application/json');
-        echo json_encode($response);
-        exit();
     }
 
     public function register() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+        if (isset($_POST['submit'])){
+            // echo "masuk sini lalala";
             $isUserRegistered = $this->model->getUserByEmail($_POST['email']);
-            $response = [];
-            if ($isUserRegistered || 
-                $_POST['name'] == '' ||
-                $_POST['email'] == '' ||
-                ($_POST['role'] != 'company' && $_POST['role'] != 'jobseeker') ||
-                $_POST['password'] == '' ||
-                ($_POST['role'] == 'company' && $_POST['location'] == '') ||
-                ($_POST['role'] == 'company' && $_POST['about'] == '')
-            ) {
-                $response['status'] = 'error';
-                $response['data'] = 'The email has been used';
+            if ($isUserRegistered) {
+                $_SESSION['register_error'] = 'Username already taken';
+                $_SESSION['register_data'] = $_POST;
+                // $this->registerPage();
+                header("Location: /register");
+                echo "alert('test wahyudi')";
+                // exit();
             } else {
-                if ($_POST['role'] == 'jobseeker'){
-                    $this->model->addUser($_POST['name'],$_POST['email'],$_POST['role'],hash('sha256',$_POST['password']));
-                } else if ($_POST['role'] == 'company'){
-                    $this->model->addCompanyUser($_POST['name'],$_POST['email'],$_POST['role'],hash('sha256',$_POST['password']),$_POST['location'],$_POST['about']);
-                }
-                $response['status'] = 'success';
+                $this->model->addUser($_POST['name'],$_POST['email'],$_POST['role'],hash('sha256',$_POST['password']));
+                header("Location: /",true,301);
             }
-            header('Content-Type: application/json');
-            echo json_encode($response);
-            exit();
         }
     }
 }

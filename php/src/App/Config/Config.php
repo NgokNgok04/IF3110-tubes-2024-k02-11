@@ -7,6 +7,7 @@ define('DB_PORT', value: $_ENV['POSTGRES_PORT']);
 define('APP_DIR', __DIR__ . '/../');
 
 define('BASE_URL', 'http://localhost:8000/');
+define('CSS', __DIR__ . '/../../public/styles');
 
 define('PAGES_DIR', __DIR__ . '/../Pages');
 //database

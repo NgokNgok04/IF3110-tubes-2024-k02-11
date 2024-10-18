@@ -7,13 +7,18 @@ class LowonganModel extends Model{
     public function getAllLowongan(): array|false{
         $sql = "SELECT * FROM lowongan";
         $result = $this->db->fetchAll($sql);
+        if ($result) {
+            foreach ($result as &$row) {
+                $row['is_open'] = $row['is_open'] ? 'Open' : 'Closed';
+            }
+        }
+        // var_dump($result);
         if($result) return $result;
         else return false;
     }
 
-    public function addLowongan($lowongan_id, $company_id, $posisi, $deskripsi, $jenis_pekerjaan, $jenis_lokasi, $is_open, $created_at, $updated_at){
-        $sql = "INSERT INTO lowongan (lowongan_id, company_id, posisi, deskripsi, jenis_pekerjaan, jenis_lokasi, is_open, created_at, updated_at) VALUES (
-            :lowongan_id,
+    public function addLowongan($company_id, $posisi, $deskripsi, $jenis_pekerjaan, $jenis_lokasi, $is_open, $created_at, $updated_at){
+        $sql = "INSERT INTO lowongan (company_id, posisi, deskripsi, jenis_pekerjaan, jenis_lokasi, is_open, created_at, updated_at) VALUES (
             :company_id, 
             :posisi, 
             :deskripsi, 
@@ -21,10 +26,9 @@ class LowonganModel extends Model{
             :jenis_lokasi, 
             :is_open, 
             :created_at, 
-            :updated_at, 
+            :updated_at
         )";
         $params = [
-            ':lowongan_id' => $lowongan_id, 
             ':company_id' => $company_id, 
             ':posisi' => $posisi, 
             ':deskripsi' => $deskripsi,
@@ -53,6 +57,14 @@ class LowonganModel extends Model{
         $sql = "UPDATE lowongan SET $field = :value WHERE id = :id";
         $params = [':value' => $value, ':id' => $id];
         return (bool) $this->db->execute($sql, $params);
+    }
+
+    public function getLowonganByID($id){
+        $sql = "SELECT * FROM lowongan WHERE lowongan_id = :lowongan_id";
+        $params = [':lowongan_id' => $id];
+        $result = $this->db->fetch($sql, $params);
+        if($result) return $result;
+        else return false;
     }
 
     public function getLowonganByCompanyId($company_id){
@@ -93,4 +105,12 @@ class LowonganModel extends Model{
         else return false;
     }
 
+    public function getLastLowonganID(): int|false {
+        $sql = "SELECT MAX(lowongan_id) as last_id FROM lowongan";
+        $result = $this->db->fetch($sql);
+        if ($result && isset($result['last_id'])) {
+            return (int) $result['last_id'];
+        }
+        return false;
+    }
 }
