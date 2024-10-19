@@ -10,7 +10,7 @@
     <div class="container">
         <h1><?php echo $data['company_name']; ?></h1>
         <h2><?php echo $data['posisi']; ?></h2>
-        <form action="/tambah-lamaran/<?php echo $data['lowongan_id']; ?>" method="POST" enctype="multipart/form-data">
+        <form action="/detail-lamaran/lamaran/<?php echo $data['lowongan_id']; ?>/add" method="POST" enctype="multipart/form-data">
             <label for="cv">Upload CV:</label>
             <input type="file" id="cv" name="cv" accept=".pdf,.doc,.docx" required>
 

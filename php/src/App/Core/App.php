@@ -52,8 +52,7 @@ class App
         // Routes for 'jobseeker' role
         $this->router->get('/detail-lowongan/lamaran/{id}', LamaranController::class, 'lamaranPage', ['jobseeker']);
         $this->router->get('/riwayat', JobSeekerController::class, 'riwayatPage', ['jobseeker']);
-        $this->router->post('/lamaran/{id}', LamaranController::class, 'submit', ['jobseeker']);
-        $this->router->post('/tambah-lamaran/{id}', LamaranController::class, 'store', ['jobseeker']);
+        $this->router->post('/detail-lamaran/lamaran/{id}/add', LamaranController::class, 'store', ['jobseeker']);
 
         //debugging 
         $this->router->get('/debug', UserController::class, 'debug');

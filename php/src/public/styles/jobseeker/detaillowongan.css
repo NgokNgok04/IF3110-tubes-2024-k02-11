@@ -1,0 +1,116 @@
+body {
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', 'Fira Sans', Ubuntu, Oxygen, 'Oxygen Sans', Cantarell, 'Droid Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Lucida Grande', Helvetica, Arial, sans-serif;
+    background-color: #f3f2ef;
+    color: rgba(0, 0, 0, 0.9);
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 768px;
+    margin: 24px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+section {
+    padding: 36px;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    margin: 0;
+}
+
+h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.9);
+    margin-bottom: 4px;
+}
+
+h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.9);
+    margin-bottom: 16px;
+}
+
+p {
+    margin-bottom: 16px;
+}
+
+.company-name {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #005E93;
+}
+
+.company-location {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.company-about {
+    font-size: 14px;
+}
+
+.job-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #005E93;
+}
+
+.job-description {
+    font-size: 15px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 24px;
+    background-color: #0a66c2;
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 24px;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #004182;
+}
+
+.attachment {
+    display: inline-block;
+    margin-right: 16px;
+    color: #0a66c2;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.attachment:hover {
+    text-decoration: underline;
+}
+
+.application-not-applied,
+.application-applied {
+    background-color: #f3f2ef;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 16px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        margin: 0;
+        border-radius: 0;
+    }
+}
