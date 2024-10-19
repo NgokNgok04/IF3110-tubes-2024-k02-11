@@ -70,6 +70,7 @@
                     <th>company_id</th>
                     <th>posisi</th>
                     <th>deskripsi</th>
+                    <th>jenis_pekerjaan</th>
                     <th>jenis_lokasi</th>
                     <th>is_open</th>
                 </tr>
@@ -81,6 +82,7 @@
                         <td><?php echo htmlspecialchars($lowongan['company_id']); ?></td>
                         <td><?php echo htmlspecialchars($lowongan['posisi']); ?></td>
                         <td><?php echo htmlspecialchars($lowongan['deskripsi']); ?></td>
+                        <td><?php echo htmlspecialchars($lowongan['jenis_pekerjaan'])?></td>
                         <td><?php echo htmlspecialchars($lowongan['jenis_lokasi']); ?></td>
                         <td><?php echo htmlspecialchars($lowongan['is_open']); ?></td>
                     </tr>
@@ -105,7 +107,6 @@
                     <th>video_path</th>
                     <th>status</th>
                     <th>status_reason</th>
-                    <th>is_open</th>
                     <th>created_at</th>
                     <th>updated_at</th>
                 </tr>
@@ -120,7 +121,6 @@
                         <td><?php echo htmlspecialchars($lamaran['video_path'] ?? "-"); ?></td>
                         <td><?php echo htmlspecialchars($lamaran['status'] ?? "-"); ?></td>
                         <td><?php echo htmlspecialchars($lamaran['status_reason'] ?? "-"); ?></td>
-                        <td><?php echo htmlspecialchars($lamaran['is_open'] ? 'Yes' : 'No'); ?></td>
                         <td><?php echo htmlspecialchars($lamaran['created_at'] ?? "-"); ?></td>
                         <td><?php echo htmlspecialchars($lamaran['updated_at'] ?? "-"); ?></td>
                     </tr>
@@ -128,7 +128,7 @@
             </tbody>
         </table> 
     <?php else: ?>
-        <p>No lamarans found.</p>
+        <p>No Application Found.</p>
     <?php endif; ?>
 
 

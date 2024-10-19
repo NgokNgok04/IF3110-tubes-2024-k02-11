@@ -12,12 +12,11 @@ class LamaranModel extends Model{
         return $this->db->fetchAll($sql);
     }
 
-    public function addLamaran($lamaran_id, $user_id, $lowongan_id, $cv_path, $video_path, $status, $status_reason, $created_at){
-        $sql = "INSERT INTO lamaran (lamaran_id, user_id, lowongan_id, cv_path, video_path, status, status_reason, created_at) VALUES (
-            :lamaran_id, :user_id, :lowongan_id, :cv_path, :video_path, :status, :status_reason, :created_at)
+    public function addLamaran($user_id, $lowongan_id, $cv_path, $video_path, $status, $status_reason, $created_at){
+        $sql = "INSERT INTO lamaran (user_id, lowongan_id, cv_path, video_path, status, status_reason, created_at) VALUES (
+            :user_id, :lowongan_id, :cv_path, :video_path, :status, :status_reason, :created_at)
         ";
         $params = [
-            ':lamaran_id' => $lamaran_id, 
             ':user_id' => $user_id, 
             ':lowongan_id' => $lowongan_id, 
             ':cv_path' => $cv_path, 
@@ -75,6 +74,20 @@ class LamaranModel extends Model{
     //might need to change 
     public function getLamaranByLowonganID($id){
         $sql = "SELECT * FROM lamaran WHERE lowongan_id = :lowongan_id";
+        $params = [':lowongan_id' => $id];
+        $result = $this->db->fetch($sql, $params);
+        if($result) return $result;
+        else return false;
+    }
+
+    public function getLamaranPage($id){
+        $sql = "SELECT * 
+        FROM lowongan AS lo 
+        JOIN company_detail AS cd 
+            ON cd.company_id = lo.company_id
+        WHERE lo.lowongan_id = :lowongan_id
+        ";
+
         $params = [':lowongan_id' => $id];
         $result = $this->db->fetch($sql, $params);
         if($result) return $result;

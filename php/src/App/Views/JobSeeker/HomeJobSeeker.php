@@ -1,9 +1,3 @@
-<?php
-$lowonganList = $data['lowonganList'] ?? [];
-$currentPage = $data['currentPage'] ?? 1;
-$totalPages = $data['totalPages'] ?? 1;
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,9 +20,50 @@ $totalPages = $data['totalPages'] ?? 1;
     Home JobSeeker
 
     <main>
-        <h1>Welcome, <?php echo $_SESSION['user_name'] ?? 'Job Seeker'; ?></h1>
         <div class="container">
-            <h2>Available Job</h2>
+            <h1>Welcome, <?php echo $_SESSION['role'] ?? 'Job Seeker'; ?></h1>
+            <h2>Available Jobs</h2>
+
+        <form action="" method="get">
+            <div class="search-bar">
+                <input type="text" name="search" placeholder="Search jobs..." value="<?php echo htmlspecialchars($searchTerm); ?>">
+                <button type="submit">Search</button>
+            </div>
+
+            <div class="filters-sort">
+                <div class="filters">
+                    <select name="location">
+                        <option value="">All Locations</option>
+                        <?php foreach ($locations as $location): ?>
+                            <option value="<?php echo htmlspecialchars($location); ?>" <?php echo $location === $locationFilter ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($location); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <select name="status">
+                        <option value="">All Statuses</option>
+                        <?php foreach ($statuses as $status): ?>
+                            <option value="<?php echo htmlspecialchars($status); ?>" <?php echo $status == $statusFilter ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($status === 'Open' ? 'Open' : 'Closed'); ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <button type="submit">Apply Filters</button>
+                </div>
+
+
+                <div class="sort">
+                    <label for="sort-by">Sort by:</label>
+                    <select id="sort-by" name="sort">
+                        <option value="posisi" <?php echo $sort === 'posisi' ? 'selected' : ''; ?>>Relevance</option>
+                        <option value="lowongan_id" <?php echo $sort === 'lowongan_id' ? 'selected' : ''; ?>>Date</option>
+                        <option value="company_id" <?php echo $sort === 'company_id' ? 'selected' : ''; ?>>Company</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+
+
             <?php if ($lowonganList): ?>
                 <div class="job-listings">
                     <?php foreach ($lowonganList as $lowongan): ?>
@@ -38,32 +73,31 @@ $totalPages = $data['totalPages'] ?? 1;
                             <p><strong>Description: </strong><?php echo htmlspecialchars($lowongan['deskripsi']); ?></p>
                             <p><strong>Job Type:</strong> <?php echo htmlspecialchars($lowongan['jenis_pekerjaan']); ?></p>
                             <p><strong>Location:</strong> <?php echo htmlspecialchars($lowongan['jenis_lokasi']); ?></p>
-                            <p><strong>Open:</strong> <?php echo $lowongan['is_open'] ? 'Yes' : 'No'; ?></p>
-                            <a href="/detail-lowongan/<?php echo $lowongan['lowongan_id']; ?>" method="GET" class="btn">Apply Now</a>
+                            <p><strong>Status:</strong> <?php echo $lowongan['is_open'] === 'Open' ? 'Open' : 'Closed'; ?></p>
+                            <a href="/detail-lowongan/<?php echo $lowongan['lowongan_id']; ?>" class="btn">View Details</a>
                         </div>
                     <?php endforeach; ?>
                 </div>
             <?php else: ?>
-                <p>No job available at the moment.</p>
+                <p>No jobs available at the moment.</p>
             <?php endif; ?>
 
-            <!-- Pagination Page -->
             <div class="pagination">
                 <?php if ($currentPage > 1): ?>
-                    <a href="?page=<?php echo $currentPage - 1; ?>">&laquo; Previous</a>
+                    <a href="?page=<?php echo $currentPage - 1; ?>&sort=<?php echo $sort; ?>&search=<?php echo urlencode($searchTerm); ?>&location=<?php echo urlencode($locationFilter); ?>">&laquo; Previous</a>
                 <?php endif; ?>
-                
+
                 <?php for ($page = 1; $page <= $totalPages; $page++): ?>
-                    <a href="?page=<?php echo $page; ?>" <?php echo ($page == $currentPage) ? 'class="active"' : ''; ?>>
+                    <a href="?page=<?php echo $page; ?>&sort=<?php echo $sort; ?>&search=<?php echo urlencode($searchTerm); ?>&location=<?php echo urlencode($locationFilter); ?>" <?php echo $page == $currentPage ? 'class="active"' : ''; ?>>
                         <?php echo $page; ?>
                     </a>
                 <?php endfor; ?>
+
                 <?php if ($currentPage < $totalPages): ?>
-                    <a href="?page=<?php echo $currentPage + 1; ?>">Next &raquo;</a>
+                    <a href="?page=<?php echo $currentPage + 1; ?>&sort=<?php echo $sort; ?>&search=<?php echo urlencode($searchTerm); ?>&location=<?php echo urlencode($locationFilter); ?>">Next &raquo;</a>
                 <?php endif; ?>
             </div>
         </div>
     </main>
-
 </body>
 </html>

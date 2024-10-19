@@ -5,7 +5,7 @@ use App\Core\App;
 require_once __DIR__ . '/autoload.php';
 
 session_start();
-// $_SESSION['role'] = '';
+// $_SESSION['role'] = 'company';
 // $_SESSION['company_id'] = 11;
 // $_SESSION['role'] = 'jobseeker';
 $App = new App();

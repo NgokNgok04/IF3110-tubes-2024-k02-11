@@ -37,6 +37,7 @@ class App
         
         $this->router->post('/login', AuthController::class, 'login');
         $this->router->post('/register', AuthController::class, 'register');
+        $this->router->post('/logout', AuthController::class, 'logout');
 
         // Routes for 'company' role
         $this->router->get('/tambah-lowongan', LowonganController::class, 'tambahLowonganPage', ['company']);
@@ -50,10 +51,9 @@ class App
         $this->router->post('/edit-lowongan/{id}', LowonganController::class, 'update', ['company']);
         
         // Routes for 'jobseeker' role
-        $this->router->get('/lamaran/{id}', LamaranController::class, 'lamaranPage', ['jobseeker']);
+        $this->router->get('/detail-lowongan/lamaran/{id}', LamaranController::class, 'lamaranPage', ['jobseeker']);
         $this->router->get('/riwayat', JobSeekerController::class, 'riwayatPage', ['jobseeker']);
-        
-        $this->router->post('/lamaran/{id}', LamaranController::class, 'submit', ['jobseeker']);
+        $this->router->post('/detail-lamaran/lamaran/{id}/add', LamaranController::class, 'store', ['jobseeker']);
 
         //debugging 
         $this->router->get('/debug', UserController::class, 'debug');

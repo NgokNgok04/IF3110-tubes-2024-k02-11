@@ -5,6 +5,8 @@ define('DB_PORT', value: $_ENV['POSTGRES_PORT']);
 
 //directory
 define('APP_DIR', __DIR__ . '/../');
+define('VIDEO_DIR', __DIR__ . '/../../store/video');
+define('CV_DIR', __DIR__ . '/../../../store/applications');
 
 define('BASE_URL', 'http://localhost:8000/');
 define('CSS', __DIR__ . '/../../public/styles');
