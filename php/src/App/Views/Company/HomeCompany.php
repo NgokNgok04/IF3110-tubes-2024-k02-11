@@ -5,8 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>List Job</title>
     <link rel="stylesheet" href="../../../public/styles/home/homecompany.css">
+    <link rel="stylesheet" href="../../../public/styles/global.css">
+    <link rel="stylesheet" href="../../../public/styles/navbar.css">
+    <script src="https://kit.fontawesome.com/3816d0d83d.js" crossorigin="anonymous"></script>
 </head>
 <body>
+    <?php 
+        include(__DIR__ . "/../../Components/navbar.php"); 
+        generateNavbar('Company')?>
     <div class="container">
         <h1>Job List</h1>
         <form action="" method="get">

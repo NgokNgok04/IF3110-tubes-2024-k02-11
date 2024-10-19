@@ -37,6 +37,7 @@ class App
         
         $this->router->post('/login', AuthController::class, 'login');
         $this->router->post('/register', AuthController::class, 'register');
+        $this->router->post('/logout', AuthController::class, 'logout');
 
         // Routes for 'company' role
         $this->router->get('/tambah-lowongan', LowonganController::class, 'tambahLowonganPage', ['company']);

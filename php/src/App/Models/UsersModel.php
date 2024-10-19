@@ -37,11 +37,18 @@ class UsersModel extends Model {
     }
 
     // add new user company
-    public function addCompanyUser($name, $email, $role, $password,$location,$about): bool {
+    public function addCompanyUser($name, $email,$role, $password,$location,$about): bool {
         $this->addUser($name, $email, $role, $password);
-        $sql = "INSERT INTO company_detail (location, about) VALUES (:location, :about)";
+        $sql_user_id = "SELECT user_id FROM users WHERE email = :email";
+        $params_user_id = [
+            ':email' => $email,
+        ];
+        $user_id = $this->db->fetch($sql_user_id,$params_user_id);
+        $sql = "INSERT INTO company_detail (company_id, company_name, lokasi, about) VALUES (:company_id,:company_name,:lokasi, :about)";
         $params = [
-            ':location'     => $location,
+            ':company_id'    => $user_id['user_id'],
+            ':company_name'    => $name,
+            ':lokasi'     => $location,
             ':about'    => $about,
         ];
         $result = $this->db->execute($sql, $params);
