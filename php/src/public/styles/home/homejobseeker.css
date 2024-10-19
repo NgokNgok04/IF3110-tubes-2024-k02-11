@@ -1,95 +1,162 @@
-/* homejobseeker.css */
-
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 40px;
+    font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', 'Fira Sans', Ubuntu, Oxygen, 'Oxygen Sans', Cantarell, 'Droid Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Lucida Grande', Helvetica, Arial, sans-serif;
     background-color: #f3f2ef;
+    margin: 0;
+    padding: 0;
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1128px;
     margin: 0 auto;
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    padding: 24px;
 }
 
 h1 {
-    color: #0a66c2;
-    margin-bottom: 30px;
-    font-size: 2.5em;
+    color: #000000E6;
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 24px;
+}
+
+h2 {
+    color: #000000E6;
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 16px;
+}
+
+.search-bar {
+    display: flex;
+    margin-bottom: 24px;
+}
+
+.search-bar input {
+    flex-grow: 1;
+    padding: 8px 12px;
+    border: 1px solid #00000099;
+    border-radius: 4px 0 0 4px;
+    font-size: 14px;
+}
+
+.search-bar button {
+    background-color: #0a66c2;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.filters-sort {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.filters, .sort {
+    display: flex;
+    align-items: center;
+}
+
+.filters label, .sort label {
+    margin-right: 8px;
+    font-size: 14px;
+    color: #00000099;
+}
+
+.filters select, .sort select {
+    padding: 6px 8px;
+    border: 1px solid #00000099;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-right: 16px;
+}
+
+.filters > button{
+    background-color: #0a66c2;
+    color: white;
+    border: #004182;
+    padding: 6px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.filters > button:hover{
+    background-color: #004182;
 }
 
 .job-listings {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
 }
 
 .job-card {
-    flex: 1 1 calc(33.333% - 20px);
-    margin-bottom: 20px;
-    padding: 15px; 
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f7f7f7; 
-    transition: box-shadow 0.3s, transform 0.3s;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.3s;
 }
 
 .job-card:hover {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    transform: translateY(-5px);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
 .job-card h3 {
-    color: #0a66c2;
+    color: #000000E6;
+    font-size: 18px;
+    margin-top: 0;
     margin-bottom: 8px;
 }
 
 .job-card p {
-    margin: 4px 0; 
+    color: #00000099;
+    font-size: 14px;
+    margin: 4px 0;
 }
 
 .btn {
     display: inline-block;
-    padding: 8px 16px; 
     background-color: #0a66c2;
     color: white;
     text-decoration: none;
-    border-radius: 5px;
+    padding: 6px 16px;
+    border-radius: 16px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 12px;
     transition: background-color 0.3s;
-    margin: 5px; 
-    border: none;
-    cursor: pointer;
 }
 
 .btn:hover {
-    background-color: #084e96;
+    background-color: #004182;
 }
 
 .pagination {
-    margin-top: 40px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
 }
 
 .pagination a {
-    margin: 0 10px;
-    padding: 5px 10px;
-    background-color: #0a66c2;
-    color: white;
+    color: #0a66c2;
+    padding: 8px 12px;
     text-decoration: none;
-    border-radius: 3px;
+    transition: background-color 0.3s;
+    border: 1px solid #0a66c2;
+    margin: 0 4px;
 }
 
-@media (max-width: 768px) {
-    .job-listings {
-        flex-direction: column;
-    }
+.pagination a:hover {
+    background-color: #0a66c2;
+    color: white;
+}
 
-    .job-card {
-        flex: 1 1 100%;
-    }
+.pagination .active {
+    background-color: #0a66c2;
+    color: white;
 }

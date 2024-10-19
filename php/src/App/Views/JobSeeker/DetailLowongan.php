@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="job-detail.css">
-    <title>Job Listing</title>
+    <title>LinkedPurr</title>
 </head>
 <body>
     <div class="container">
@@ -16,19 +16,25 @@
         <hr>
         <div class="job-detail">
             <h2 class="job-title"><?php echo htmlspecialchars($lowongan['posisi']); ?></h2>
-            <p class="job-description"><?php echo htmlspecialchars($lowongan['deskripsi']); ?></p>
+            <p class="job-description"><strong>Job Description:</strong> <?php echo htmlspecialchars($lowongan['deskripsi']); ?></p>
             <p><strong>Job Type:</strong> <?php echo htmlspecialchars($lowongan['jenis_pekerjaan']); ?></p>
             <p><strong>Location:</strong> <?php echo htmlspecialchars($lowongan['jenis_lokasi']); ?></p>
+            <p><strong>Status:</strong> <?php echo $lowongan['is_open'] ? 'Open' : 'Closed'; ?></p>
         </div>
         <hr>
         <div class="application-status">
             <h3>Your Application</h3>
-            <!-- ntar masih random hahahahaha -->
-            <?php if (!isset($lamaran['lamaran_id']) || !$lamaran['lamaran_id']): ?>
+            <?php
+            ?>
+            <?php if (
+                !isset($lamaran['lowongan_id']) && ($lowongan['is_open'] === True)
+            ): ?>
                 <div class="application-not-applied">
-                    <p>You have not applied for this position yet. <a href="application-page.html" class="btn">Apply Now</a></p>
+                    <p>You have not applied for this position yet. <a href="/detail-lowongan/lamaran/<?php echo $lowongan['lowongan_id'];?>" class="btn">Apply</a></p>
                 </div>
-            <?php else: ?>
+            <?php elseif(
+                isset($lamaran['lowongan_id'])
+            ): ?>
                 <div class="application-applied">
                     <p>Status: <strong> <?php echo htmlspecialchars($lamaran['status']); ?></strong></p>
                     <a href="<?php echo htmlspecialchars($lamaran['cv_path']); ?>" class="attachment">Download CV</a>

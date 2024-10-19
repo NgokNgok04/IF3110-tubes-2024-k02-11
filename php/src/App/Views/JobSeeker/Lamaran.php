@@ -1,33 +1,24 @@
-<?php
-    echo $_SESSION['role'];
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lamaran Kerja</title>
+    <link rel="stylesheet" href="../../../public/styles/jobseeker/lamaran.css">
 </head>
 <body>
-    <h1>Form Pengiriman Lamaran Kerja</h1>
-    <form action="submit_lamaran.php" method="POST" enctype="multipart/form-data">
-        <label for="nama">Nama Lengkap:</label><br>
-        <input type="text" id="nama" name="nama" required><br><br>
+    <div class="container">
+        <h1><?php echo $data['company_name']; ?></h1>
+        <h2><?php echo $data['posisi']; ?></h2>
+        <form action="/tambah-lamaran/<?php echo $data['lowongan_id']; ?>" method="POST" enctype="multipart/form-data">
+            <label for="cv">Upload CV:</label>
+            <input type="file" id="cv" name="cv" accept=".pdf,.doc,.docx" required>
 
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" required><br><br>
-
-        <label for="posisi">Posisi yang Dilamar:</label><br>
-        <input type="text" id="posisi" name="posisi" required><br><br>
-
-        <label for="cv">Unggah CV:</label><br>
-        <input type="file" id="cv" name="cv" accept=".pdf,.doc,.docx" required><br><br>
-
-        <label for="surat_lamaran">Unggah Surat Lamaran:</label><br>
-        <input type="file" id="surat_lamaran" name="surat_lamaran" accept=".pdf,.doc,.docx" required><br><br>
-
-        <button type="submit">Kirim Lamaran</button>
-    </form>
+            <label for="video">Upload Video:</label>
+            <input type="file" id="video" name="video" accept=".mkv,.mp4" required>
+            
+            <button type="submit">Submit Application</button>
+        </form>
+    </div>
 </body>
 </html>
