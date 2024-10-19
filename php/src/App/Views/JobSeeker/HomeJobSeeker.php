@@ -17,14 +17,12 @@
         include(__DIR__ . '/../../Components/navbar.php');
         generateNavbar('JobSeeker');
     ?>
-    Home JobSeeker
-
     <main>
         <div class="container">
             <h1>Welcome, <?php echo $_SESSION['role'] ?? 'Job Seeker'; ?></h1>
             <h2>Available Jobs</h2>
 
-        <form action="" method="get">
+        <form action="" method="get" id="filters-form">
             <div class="search-bar">
                 <input type="text" name="search" placeholder="Search jobs..." value="<?php echo htmlspecialchars($searchTerm); ?>">
                 <button type="submit">Search</button>
@@ -32,7 +30,7 @@
 
             <div class="filters-sort">
                 <div class="filters">
-                    <select name="location">
+                    <select name="location" onchange="submitFiltersForm()">
                         <option value="">All Locations</option>
                         <?php foreach ($locations as $location): ?>
                             <option value="<?php echo htmlspecialchars($location); ?>" <?php echo $location === $locationFilter ? 'selected' : ''; ?>>
@@ -40,7 +38,7 @@
                             </option>
                         <?php endforeach; ?>
                     </select>
-                    <select name="status">
+                    <select name="status" onchange="submitFiltersForm()">
                         <option value="">All Statuses</option>
                         <?php foreach ($statuses as $status): ?>
                             <option value="<?php echo htmlspecialchars($status); ?>" <?php echo $status == $statusFilter ? 'selected' : ''; ?>>
@@ -48,13 +46,12 @@
                             </option>
                         <?php endforeach; ?>
                     </select>
-                    <button type="submit">Apply Filters</button>
                 </div>
 
 
                 <div class="sort">
                     <label for="sort-by">Sort by:</label>
-                    <select id="sort-by" name="sort">
+                    <select id="sort-by" name="sort" onchange="submitFiltersForm()">
                         <option value="posisi" <?php echo $sort === 'posisi' ? 'selected' : ''; ?>>Relevance</option>
                         <option value="lowongan_id" <?php echo $sort === 'lowongan_id' ? 'selected' : ''; ?>>Date</option>
                         <option value="company_id" <?php echo $sort === 'company_id' ? 'selected' : ''; ?>>Company</option>
@@ -100,4 +97,9 @@
         </div>
     </main>
 </body>
+<script> 
+    function submitFiltersForm() {
+        document.getElementById('filters-form').submit();
+    }
+</script>
 </html>
