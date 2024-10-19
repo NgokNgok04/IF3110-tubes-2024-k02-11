@@ -132,11 +132,13 @@ document.addEventListener("DOMContentLoaded", function () {
       xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           const response = JSON.parse(xhr.responseText);
+
           if (response.status === "success") {
             errorEmailUsed.classList.add("display-none");
             window.location.href = "http://localhost:8000/login";
           } else {
             if (response.data === "The email has been used") {
+              console.log("wayolo");
               console.error(response.data);
               errorEmailUsed.classList.remove("display-none");
             }
