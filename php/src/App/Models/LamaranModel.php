@@ -12,6 +12,14 @@ class LamaranModel extends Model{
         return $this->db->fetchAll($sql);
     }
 
+    public function getLamaranByUserID($id){
+        $sql = "SELECT * FROM lamaran WHERE user_id = :user_id";
+        $params = [':user_id' => $id];
+        $result = $this->db->fetch($sql, $params);
+        if($result) return $result;
+        else return false;
+    }
+
     public function addLamaran($user_id, $lowongan_id, $cv_path, $video_path, $status, $status_reason, $created_at){
         $sql = "INSERT INTO lamaran (user_id, lowongan_id, cv_path, video_path, status, status_reason, created_at) VALUES (
             :user_id, :lowongan_id, :cv_path, :video_path, :status, :status_reason, :created_at)
@@ -81,7 +89,8 @@ class LamaranModel extends Model{
     }
 
     public function getLamaranPage($id){
-        $sql = "SELECT * 
+        $sql = 
+        "SELECT * 
         FROM lowongan AS lo 
         JOIN company_detail AS cd 
             ON cd.company_id = lo.company_id
@@ -93,4 +102,23 @@ class LamaranModel extends Model{
         if($result) return $result;
         else return false;
     }
+
+    public function getRiwayatPage($id){
+        $sql = 
+        "SELECT * 
+        FROM lamaran AS l 
+        JOIN lowongan AS lo 
+            ON l.lowongan_id = lo.lowongan_id 
+        JOIN company_detail AS cd
+            ON lo.company_id = cd.company_id
+        JOIN users AS u
+            ON l.user_id = u.user_id
+        WHERE l.user_id = :user_id
+        ";
+        $params = [':user_id' => $id];
+        $result = $this->db->fetchAll($sql, $params);
+        if($result) return $result;
+        else return false;
+    }
+
 }

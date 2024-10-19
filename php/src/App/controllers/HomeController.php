@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Interfaces\ControllerInterface;
-use App\Core\Database;
 use App\Models\LowonganModel;
 
 class HomeController extends Controller implements ControllerInterface
@@ -39,7 +38,7 @@ class HomeController extends Controller implements ControllerInterface
     
         // echo $locationFilter;
         // Apply Filtering
-        if (!empty($locationFilter) || !empty($searchTerm || !empty($statusFilter))) {
+        if (!empty($locationFilter) || !empty($searchTerm) || !empty($statusFilter)) {
             $lowonganList = array_filter($lowonganList, function ($lowongan) use ($locationFilter, $statusFilter, $searchTerm) {
                 $matchesLocation = empty($locationFilter) || $lowongan['jenis_lokasi'] === $locationFilter;
                 $matchesStatus = empty($statusFilter) || (string)$lowongan['is_open'] == (string)$statusFilter;
