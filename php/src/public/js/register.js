@@ -119,15 +119,16 @@ document.addEventListener("DOMContentLoaded", function () {
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
       // Prepare data to send
+      console.log("jwaodjajdowa");
       const formDataParam = new URLSearchParams();
       formDataParam.append("role", formObject["role"]);
       formDataParam.append("name", formObject["name"]);
       formDataParam.append("email", formObject["email"]);
       formDataParam.append("password", formObject["password"]);
-      if (formObject["role"] === "company") {
-        formDataParam.append("location", formObject["location"]);
-        formDataParam.append("about", formObject["about"]);
-      }
+      formDataParam.append("location", formObject["location"]);
+      formDataParam.append("about", formObject["about"]);
+      console.log(formObject);
+      console.log(formDataParam.toString());
 
       xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -138,7 +139,6 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = "http://localhost:8000/login";
           } else {
             if (response.data === "The email has been used") {
-              console.log("wayolo");
               console.error(response.data);
               errorEmailUsed.classList.remove("display-none");
             }
