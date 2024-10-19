@@ -17,13 +17,32 @@ function generateNavbar($type){
                     Register
                 </a>
             <?php elseif ($type == 'JobSeeker'): ?>
-                <button href="/register" class="navbar-menu">
+                <button id='nav-home-1' class="navbar-menu">
                     <i class="fa-solid fa-house"></i>
                     <p>Home</p>
                 </button>
-                <button href="/register" class="navbar-menu">
+                <button id="nav-lowongan" href="/register" class="navbar-menu">
                     <i class="fa-solid fa-briefcase"></i>
-                    <p>Lowongan</p>
+                    <p>Riwayat</p>
+                </button>
+                
+                <div class="navbar-logout">
+                    <button class="navbar-menu">
+                        <i class="fa-solid fa-circle-user"></i>
+                        <p>Saya</p>
+                    </button>
+                    <div class="dropdown-content">
+                        <button id="nav-logout-1">Logout</button>
+                    </div>
+                </div>
+            <?php elseif ($type == 'Company'): ?>
+                <button id='nav-home-2' class="navbar-menu">
+                    <i class="fa-solid fa-house"></i>
+                    <p>Home</p>
+                </button>
+                <button id="nav-com-profile" class="navbar-menu">
+                    <i class="fa-solid fa-building"></i>
+                    <p>Profile</p>
                 </button>
                 
                 <div class="navbar-logout">
@@ -32,7 +51,10 @@ function generateNavbar($type){
                         <p>Saya</p>
                     </button>
                     <div class="dropdown-content">
-                        <a bref='logout'>Logout</a>
+                        <button id="nav-logout-2">
+                            <i class="fa-solid fa-power-off"></i>
+                            <p>Logout</p>
+                        </button>
                     </div>
                 </div>
 

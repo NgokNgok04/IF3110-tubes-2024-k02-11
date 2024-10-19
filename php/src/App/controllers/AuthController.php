@@ -32,6 +32,7 @@ class AuthController extends Controller
             if ($isUserValid && $isUserValid['password'] == $hashedPassword){
                 $response['status'] = 'success';
                 $_SESSION['role'] = $isUserValid['role'];
+                $_SESSION['id'] = $isUserValid['user_id'];
             } else {
                 $response['status'] = 'error';
                 $response['data'] = 'Email or password wrong';
@@ -63,5 +64,16 @@ class AuthController extends Controller
             echo json_encode($response);
             exit();
         }
+    }
+
+    public function logout() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+            unset($_SESSION['role']);
+            unset($_SESSION['id']);
+            session_destroy();
+        }
+            header('Content-Type: application/json');
+            echo json_encode((['status' => 'success']));
+        exit();
     }
 }

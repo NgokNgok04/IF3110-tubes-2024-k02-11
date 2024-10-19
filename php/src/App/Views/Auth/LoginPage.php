@@ -8,7 +8,6 @@
         <link rel="stylesheet" href="../../../public/styles/navbar.css">
         <link rel="stylesheet" href="../../../public/styles/login.css">
         <script src="https://kit.fontawesome.com/3816d0d83d.js" crossorigin="anonymous"></script>
-        <link>
         
     </head>
     <body>
