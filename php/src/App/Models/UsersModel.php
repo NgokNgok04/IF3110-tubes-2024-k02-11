@@ -92,7 +92,19 @@ class UsersModel extends Model {
         $sql = "SELECT * FROM users WHERE user_id = :id";
         $params = [':id' => $id];
         $result = $this->db->fetch($sql, $params);
+        if ($result['role'] === 'company'){
+            $company = $this->getCompanyLocAndDesc($result['user_id']);
+            $result['lokasi'] = $company['lokasi'];
+            $result['about'] = $company['about'];
+        }
         return $result ?: false;
+    }
+
+    public function getCompanyLocAndDesc($id){
+        $sql = 'SELECT lokasi, about FROM company_detail WHERE company_id = :id';
+        $params = [':id' => $id];
+        $result = $this->db->fetch($sql,$params);
+        return $result;
     }
 
     // Get user data by email

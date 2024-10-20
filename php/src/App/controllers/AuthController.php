@@ -33,6 +33,7 @@ class AuthController extends Controller
                 $response['status'] = 'success';
                 $_SESSION['role'] = $isUserValid['role'];
                 $_SESSION['id'] = $isUserValid['user_id'];
+                $_SESSION['name'] = $isUserValid['nama'];
             } else {
                 $response['status'] = 'error';
                 $response['data'] = 'Email or password wrong';

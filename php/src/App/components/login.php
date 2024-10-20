@@ -23,7 +23,6 @@
             <p class="register-login">Dont have account? &nbsp;<a href="/register">Register</a></p>
         </div>
     </form>
-    <p>Don't have an account? <a href="/register"><b>Register Here</b></a>.</p>
 </section>
 
 <script src="../../public/js/login.js" defer></script>

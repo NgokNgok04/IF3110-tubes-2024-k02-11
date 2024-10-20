@@ -5,13 +5,16 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Interfaces\ControllerInterface;
 use App\Models\LowonganModel;
+use App\Models\UsersModel;
 
 class HomeController extends Controller implements ControllerInterface
 {
     private LowonganModel $modelLowongan;
+    private UsersModel $modelUsers;
     public function __construct()
     {
         $this->modelLowongan = $this->model('LowonganModel');
+        $this->modelUsers = $this->model('UsersModel');
     }
     public function index()
     {
@@ -54,6 +57,10 @@ class HomeController extends Controller implements ControllerInterface
             return $a[$sort] <=> $b[$sort];
         });
     
+        $company = [];
+        foreach($lowonganList as $lowongan){
+            $company[] = $this->modelUsers->getUserById($lowongan['company_id']);
+        }
         // Pagination
         $itemsPerPage = 12;
         $totalItems = count($lowonganList);
@@ -71,6 +78,7 @@ class HomeController extends Controller implements ControllerInterface
     
         // Render the view with the filtered, sorted, and paginated data
         $this->view('JobSeeker', 'HomeJobSeeker', [
+            'companyData' => $company,
             'lowonganList' => $currentItems,
             'statuses' => $statuses,
             'locations' => $locations,

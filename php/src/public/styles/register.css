@@ -139,6 +139,12 @@
   display: none;
 }
 
-/* @media only screen and m{
-  
-} */
+@media only screen and (max-width: 520px) {
+  .auth-container {
+    width: 95%;
+    min-width: 360px;
+  }
+  .auth-form-subgroup label {
+    font-size: 18px;
+  }
+}

@@ -1,3 +1,10 @@
+<?php
+$lowonganList = $data['lowonganList'] ?? [];
+$currentPage = $data['currentPage'] ?? 1;
+$totalPages = $data['totalPages'] ?? 1;
+$company = $data['companyData'] ?? [];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,86 +22,113 @@
 <body>
     <?php 
         include(__DIR__ . '/../../Components/navbar.php');
-        generateNavbar('JobSeeker');
+        if ($_SESSION['role'] = 'JobSeeker') {
+            generateNavbar('JobSeeker');
+        } else {
+            generateNavbar('Not Login');
+        }
     ?>
     <main>
-        <div class="container">
-            <h1>Welcome, <?php echo $_SESSION['role'] ?? 'Job Seeker'; ?></h1>
-            <h2>Available Jobs</h2>
-
-        <form action="" method="get" id="filters-form">
-            <div class="search-bar">
-                <input type="text" name="search" placeholder="Search jobs..." value="<?php echo htmlspecialchars($searchTerm); ?>">
-                <button type="submit">Search</button>
-            </div>
-
-            <div class="filters-sort">
-                <div class="filters">
-                    <select name="location" onchange="submitFiltersForm()">
-                        <option value="">All Locations</option>
-                        <?php foreach ($locations as $location): ?>
-                            <option value="<?php echo htmlspecialchars($location); ?>" <?php echo $location === $locationFilter ? 'selected' : ''; ?>>
-                                <?php echo htmlspecialchars($location); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                    <select name="status" onchange="submitFiltersForm()">
-                        <option value="">All Statuses</option>
-                        <?php foreach ($statuses as $status): ?>
-                            <option value="<?php echo htmlspecialchars($status); ?>" <?php echo $status == $statusFilter ? 'selected' : ''; ?>>
-                                <?php echo htmlspecialchars($status === 'Open' ? 'Open' : 'Closed'); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
+        <section class="profile-section">
+            <div class="profile-bg-white">
+                <div class="profile-image">
+                        <img src="../../../public/icons/profil.png" class="profile-icon">
                 </div>
-
-
-                <div class="sort">
-                    <label for="sort-by">Sort by:</label>
-                    <select id="sort-by" name="sort" onchange="submitFiltersForm()">
-                        <option value="posisi" <?php echo $sort === 'posisi' ? 'selected' : ''; ?>>Relevance</option>
-                        <option value="lowongan_id" <?php echo $sort === 'lowongan_id' ? 'selected' : ''; ?>>Date</option>
-                        <option value="company_id" <?php echo $sort === 'company_id' ? 'selected' : ''; ?>>Company</option>
-                    </select>
-                </div>
+                <h1 class="profile-name"><?php echo $_SESSION['name'] ?></h1>
             </div>
-        </form>
-
-
+        </section>
+        <section class="list-vacancy">
             <?php if ($lowonganList): ?>
-                <div class="job-listings">
-                    <?php foreach ($lowonganList as $lowongan): ?>
-                        <div class="job-card">
-                            <h3><?php echo htmlspecialchars($lowongan['posisi']); ?></h3>
-                            <p><strong>Company:</strong> <?php echo htmlspecialchars($lowongan['company_id']); ?></p>
-                            <p><strong>Description: </strong><?php echo htmlspecialchars($lowongan['deskripsi']); ?></p>
-                            <p><strong>Job Type:</strong> <?php echo htmlspecialchars($lowongan['jenis_pekerjaan']); ?></p>
-                            <p><strong>Location:</strong> <?php echo htmlspecialchars($lowongan['jenis_lokasi']); ?></p>
-                            <p><strong>Status:</strong> <?php echo $lowongan['is_open'] === 'Open' ? 'Open' : 'Closed'; ?></p>
-                            <a href="/detail-lowongan/<?php echo $lowongan['lowongan_id']; ?>" class="btn">View Details</a>
+                <?php foreach ($lowonganList as $index => $lowongan): ?>
+                    <button id="job-card" class="job-card">
+                        <h1 class="job-title" id="job-title-<?php echo $index;?>">
+                            <?php echo htmlspecialchars($lowongan['posisi']); ?>
+                        </h1> 
+                        <h1 class="job-company" id="job-company-<?php echo $index;?>"><?php echo htmlspecialchars($company[$index]['nama']); ?></h1>
+                        <div class="job-loc-type">
+                            <h1 class="job-location" id="job-location-<?php echo $index;?>"><?php echo htmlspecialchars($company[$index]['lokasi']); ?></h1>
+                            <h1 class="job-connector"> - </h1>
+                            <h1 class="job-type" id="job-type-<?php echo $index;?>"><?php echo htmlspecialchars($lowongan['jenis_pekerjaan']); ?></h1>
                         </div>
-                    <?php endforeach; ?>
-                </div>
+                        <h1 class="display-none" id="job-desc-<?php echo $index;?>"><?php echo htmlspecialchars($lowongan['deskripsi']); ?></h1>
+                        <h1 class="display-none" id="job-status-<?php echo $index;?>"><?php echo htmlspecialchars($lowongan['jenis_lokasi']); ?></h1>
+                        <h1 class="display-none" id="job-companyid-<?php echo $index;?>"><?php echo htmlspecialchars($lowongan['lowongan_id']); ?></h1>
+                    </button>
+                    <div id="myModal" class="modal display-none">
+                        <div class="modal-content display-none" id="modalContent">
+                            <button class="close" id="close-modal">
+                                <img src="../../../public/icons/close.png" class="back-logo">
+                            </button>
+                            <h1 id="modal-title" class="modal-title"></h1>
+                            <div class="modal-geo">
+                                <h1 id="modal-company" class="modal-company"></h1>
+                                <h1 id="modal-connector" class="modal-connector"> - </h1>
+                                <h1 id="modal-location" class="modal-location"></h1>
+                            </div>
+                            <div class="modal-job">
+                                <i class="modal-logo fa-solid fa-briefcase"></i>
+                                <h1 id="modal-status" class="modal-status"></h1>
+                                <h1 id="modal-type" class="modal-type"></h1>
+                            </div>
+                            <h1 class="desc">Description</h1>
+                            <h1 id="modal-desc" class="modal-desc"></h1>
+                            <button class="button-apply" id="button-apply"> Melamar </button>
+
+                        </div>
+                    </div>
+                <?php endforeach; ?>
             <?php else: ?>
-                <p>No jobs available at the moment.</p>
+                <p>No vacancy available right now!</p>
             <?php endif; ?>
 
             <div class="pagination">
                 <?php if ($currentPage > 1): ?>
-                    <a href="?page=<?php echo $currentPage - 1; ?>&sort=<?php echo $sort; ?>&search=<?php echo urlencode($searchTerm); ?>&location=<?php echo urlencode($locationFilter); ?>">&laquo; Previous</a>
+                    <a class="pagination-prev" href="?page=<?php echo $currentPage - 1; ?>&sort=<?php echo $sort; ?>&search=<?php echo urlencode($searchTerm); ?>&location=<?php echo urlencode($locationFilter); ?>">&laquo; Previous</a>
                 <?php endif; ?>
 
                 <?php for ($page = 1; $page <= $totalPages; $page++): ?>
-                    <a href="?page=<?php echo $page; ?>&sort=<?php echo $sort; ?>&search=<?php echo urlencode($searchTerm); ?>&location=<?php echo urlencode($locationFilter); ?>" <?php echo $page == $currentPage ? 'class="active"' : ''; ?>>
+                    <a class="pagination-page" href="?page=<?php echo $page; ?>&sort=<?php echo $sort; ?>&search=<?php echo urlencode($searchTerm); ?>&location=<?php echo urlencode($locationFilter); ?>" <?php echo $page == $currentPage ? 'class="active"' : ''; ?>>
                         <?php echo $page; ?>
                     </a>
                 <?php endfor; ?>
 
                 <?php if ($currentPage < $totalPages): ?>
-                    <a href="?page=<?php echo $currentPage + 1; ?>&sort=<?php echo $sort; ?>&search=<?php echo urlencode($searchTerm); ?>&location=<?php echo urlencode($locationFilter); ?>">Next &raquo;</a>
+                    <a class="pagination-next" href="?page=<?php echo $currentPage + 1; ?>&sort=<?php echo $sort; ?>&search=<?php echo urlencode($searchTerm); ?>&location=<?php echo urlencode($locationFilter); ?>">Next &raquo;</a>
                 <?php endif; ?>
             </div>
-        </div>
+        </section>
+        <form class="search-section" action="" method="get" id="filters-form">
+            <div class="search-bar">
+                <input class="search" type="text" name="search" placeholder="Search jobs..." value="<?php echo htmlspecialchars($searchTerm); ?>">
+                <button type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+            <div class="filters-sort">
+                <select name="location" onchange="submitFiltersForm()">
+                    <option value="">Locations</option>
+                    <?php foreach ($locations as $location): ?>
+                        <option value="<?php echo htmlspecialchars($location); ?>" <?php echo $location === $locationFilter ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($location); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <select name="status" onchange="submitFiltersForm()">
+                    <option value="">Statuses</option>
+                    <?php foreach ($statuses as $status): ?>
+                        <option value="<?php echo htmlspecialchars($status); ?>" <?php echo $status == $statusFilter ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($status === 'Open' ? 'Open' : 'Closed'); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <select id="sort-by" name="sort" onchange="submitFiltersForm()">
+                    <option value="posisi" <?php echo $sort === 'posisi' ? 'selected' : ''; ?>>Relevance</option>
+                    <option value="lowongan_id" <?php echo $sort === 'lowongan_id' ? 'selected' : ''; ?>>Date</option>
+                    <option value="company_id" <?php echo $sort === 'company_id' ? 'selected' : ''; ?>>Company</option>
+                </select>
+            </div>
+        </form>
+        <div id="modalOverlay" class="modal-overlay display-none"></div>
     </main>
 </body>
 <script> 
@@ -103,3 +137,4 @@
     }
 </script>
 </html>
+<script src="../../../public/js/HomeJobseeker.js"></script>
