@@ -32,7 +32,10 @@ function generateNavbar($type){
                         <p>Saya</p>
                     </button>
                     <div class="dropdown-content">
-                        <button id="nav-logout-1">Logout</button>
+                    <button id="nav-logout-1">
+                            <i class="fa-solid fa-power-off"></i>
+                            <p>Logout</p>
+                        </button>
                     </div>
                 </div>
             <?php elseif ($type == 'Company'): ?>

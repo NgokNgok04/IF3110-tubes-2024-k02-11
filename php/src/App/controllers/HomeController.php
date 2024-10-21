@@ -57,10 +57,12 @@ class HomeController extends Controller implements ControllerInterface
             return $a[$sort] <=> $b[$sort];
         });
     
-        $company = [];
-        foreach($lowonganList as $lowongan){
-            $company[] = $this->modelUsers->getUserById($lowongan['company_id']);
+        foreach($lowonganList as &$lowongan){
+            $lowongan['nama'] = $this->modelUsers->getUserById(($lowongan['company_id']))['nama'];
+            $lowongan['lokasi'] = $this->modelUsers->getUserById(($lowongan['company_id']))['lokasi'];
+            $lowongan['about'] = $this->modelUsers->getUserById(($lowongan['company_id']))['about'];
         }
+
         // Pagination
         $itemsPerPage = 12;
         $totalItems = count($lowonganList);
@@ -75,10 +77,9 @@ class HomeController extends Controller implements ControllerInterface
     
         $offset = ($currentPage - 1) * $itemsPerPage;
         $currentItems = array_slice($lowonganList, $offset, $itemsPerPage);
-    
+        
         // Render the view with the filtered, sorted, and paginated data
         $this->view('JobSeeker', 'HomeJobSeeker', [
-            'companyData' => $company,
             'lowonganList' => $currentItems,
             'statuses' => $statuses,
             'locations' => $locations,

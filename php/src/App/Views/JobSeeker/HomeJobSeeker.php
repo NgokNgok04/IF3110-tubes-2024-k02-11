@@ -2,10 +2,7 @@
 $lowonganList = $data['lowonganList'] ?? [];
 $currentPage = $data['currentPage'] ?? 1;
 $totalPages = $data['totalPages'] ?? 1;
-$company = $data['companyData'] ?? [];
-// var_dump($_SESSION);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,9 +42,9 @@ $company = $data['companyData'] ?? [];
                         <h1 class="job-title" id="job-title-<?php echo $index;?>">
                             <?php echo htmlspecialchars($lowongan['posisi']); ?>
                         </h1> 
-                        <h1 class="job-company" id="job-company-<?php echo $index;?>"><?php echo htmlspecialchars($company[$index]['nama']); ?></h1>
+                        <h1 class="job-company" id="job-company-<?php echo $index;?>"><?php echo htmlspecialchars($lowongan['nama']); ?></h1>
                         <div class="job-loc-type">
-                            <h1 class="job-location" id="job-location-<?php echo $index;?>"><?php echo htmlspecialchars($company[$index]['lokasi']); ?></h1>
+                            <h1 class="job-location" id="job-location-<?php echo $index;?>"><?php echo htmlspecialchars($lowongan['lokasi']); ?></h1>
                             <h1 class="job-connector"> - </h1>
                             <h1 class="job-type" id="job-type-<?php echo $index;?>"><?php echo htmlspecialchars($lowongan['jenis_pekerjaan']); ?></h1>
                         </div>
