@@ -20,8 +20,9 @@ class JobSeekerController extends Controller
     public function riwayatPage()
     {
 
-        $user_id = $_SESSION['user_id'];
+        $user_id = $_SESSION['id'];
         $data= $this->model->getRiwayatPage($user_id);
+        if(!$data) $data = []; //validasi jika data kosong
         $user_data = $this->userModel->getUserById($user_id);
 
         $statuses = ['rejected', 'accepted', 'waiting'];

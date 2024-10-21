@@ -22,7 +22,7 @@ $company = $data['companyData'] ?? [];
 <body>
     <?php 
         include(__DIR__ . '/../../Components/navbar.php');
-        if ($_SESSION['role'] = 'JobSeeker') {
+        if(isset($_SESSION['role']) && $_SESSION['role'] == 'jobseeker') {
             generateNavbar('JobSeeker');
         } else {
             generateNavbar('Not Login');
@@ -34,7 +34,7 @@ $company = $data['companyData'] ?? [];
                 <div class="profile-image">
                         <img src="../../../public/icons/profil.png" class="profile-icon">
                 </div>
-                <h1 class="profile-name"><?php echo $_SESSION['name'] ?></h1>
+                <h1 class="profile-name"><?php echo isset($_SESSION['name']) ? $_SESSION['name'] : 'guess'  ?></h1>
             </div>
         </section>
         <section class="list-vacancy">

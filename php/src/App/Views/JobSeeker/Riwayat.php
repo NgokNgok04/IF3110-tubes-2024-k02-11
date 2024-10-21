@@ -1,6 +1,8 @@
 <?php
 $lamaranList = $data;
 $user = $user_data;
+// var_dump($user);
+// echo $user['user_id'];
 ?>
 
 <!DOCTYPE html>
