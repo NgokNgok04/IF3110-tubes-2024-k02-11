@@ -7,6 +7,7 @@ $totalPages = $data['totalPages'] ?? 1;
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="description" content="Find your dream job with our job seeker platform">
     <meta name="viewport" content="width=, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../../../public/styles/global.css">
@@ -30,7 +31,7 @@ $totalPages = $data['totalPages'] ?? 1;
         <section class="profile-section">
             <div class="profile-bg-white">
                 <div class="profile-image">
-                        <img src="../../../public/icons/profil.png" class="profile-icon">
+                        <img src="../../../public/icons/profil.png" class="profile-icon" alt="profile-picture">
                 </div>
                 <h1 class="profile-name"><?php echo isset($_SESSION['name']) ? $_SESSION['name'] : 'guess'  ?></h1>
             </div>
@@ -103,18 +104,21 @@ $totalPages = $data['totalPages'] ?? 1;
                 <input class="search" type="text" name="search" placeholder="Search jobs..." value="<?php echo htmlspecialchars($searchTerm); ?>">
                 <button type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
+                    <span class="sr-only">Search</span>
                 </button>
             </div>
             <div class="filters-sort">
-                <select name="location" onchange="submitFiltersForm()">
-                    <option value="">Locations</option>
+                <!-- <label for="location-select">Locations</label> -->
+                <select name="location" id="location-select" onchange="submitFiltersForm()">
+                    <option value="">All Locations</option>
                     <?php foreach ($locations as $location): ?>
                         <option value="<?php echo htmlspecialchars($location); ?>" <?php echo $location === $locationFilter ? 'selected' : ''; ?>>
                             <?php echo htmlspecialchars($location); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
-                <select name="status" onchange="submitFiltersForm()">
+                <!-- <label for="status-select">Status</label> -->
+                <select name="status" id="status-select" onchange="submitFiltersForm()">
                     <option value="">Statuses</option>
                     <?php foreach ($statuses as $status): ?>
                         <option value="<?php echo htmlspecialchars($status); ?>" <?php echo $status == $statusFilter ? 'selected' : ''; ?>>
@@ -122,6 +126,7 @@ $totalPages = $data['totalPages'] ?? 1;
                         </option>
                     <?php endforeach; ?>
                 </select>
+                <!-- <label for="sort-by">Sort By</label> -->
                 <select id="sort-by" name="sort" onchange="submitFiltersForm()">
                     <option value="posisi" <?php echo $sort === 'posisi' ? 'selected' : ''; ?>>Relevance</option>
                     <option value="created_at" <?php echo $sort === 'created_at' ? 'selected' : ''; ?>>Date</option>

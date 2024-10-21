@@ -8,6 +8,7 @@ $data = $data['lowongan'] ?? [];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Detail page of Job for JobSeekers.">
     <link rel="stylesheet" href="../../../public/styles/jobseeker/detaillowongan.css">
     <title>Detail-Lowongan</title>
 </head>

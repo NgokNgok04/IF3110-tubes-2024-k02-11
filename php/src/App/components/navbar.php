@@ -4,7 +4,7 @@ function generateNavbar($type){
     <navbar>
         <button id="logo">
             <h1 class="logo-text">Link</h1>
-            <img src="../../public/images/LIP-Logo.png">
+            <img src="../../public/images/LIP-Logo.png" alt="Logo">
             <h1 class="logo-text">Purry</h1>
         </button>
 

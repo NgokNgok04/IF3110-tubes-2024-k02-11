@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Lamaran Kerja - Apply for a job at <?php echo $data['company_name']; ?> for the position of <?php echo $data['posisi']; ?>.">
     <title>Lamaran Kerja</title>
     <link rel="stylesheet" href="../../../public/styles/jobseeker/lamaran.css">
 </head>

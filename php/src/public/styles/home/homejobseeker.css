@@ -106,7 +106,7 @@ main {
 }
 
 .job-location {
-  color: #909090;
+  color: black;
   font-family: "SSP-Regular";
   font-size: 15px;
   margin-top: -4px;
@@ -114,12 +114,12 @@ main {
 }
 
 .job-connector {
-  color: #909090;
+  color: black;
   margin-top: -4px;
 }
 
 .job-type {
-  color: #909090;
+  color: black;
   margin-left: 10px;
   font-family: "SSP-Regular";
   font-size: 15px;
