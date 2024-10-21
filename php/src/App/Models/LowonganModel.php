@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-class LowonganModel extends Model{
-    
-    public function getAllLowongan(): array|false{
+class LowonganModel extends Model
+{
+
+    public function getAllLowongan(): array|false
+    {
         $sql = "SELECT * FROM lowongan";
         $result = $this->db->fetchAll($sql);
         if ($result) {
@@ -13,11 +15,14 @@ class LowonganModel extends Model{
             }
         }
         // var_dump($result);
-        if($result) return $result;
-        else return false;
+        if ($result)
+            return $result;
+        else
+            return false;
     }
 
-    public function addLowongan($company_id, $posisi, $deskripsi, $jenis_pekerjaan, $jenis_lokasi, $is_open, $created_at, $updated_at){
+    public function addLowongan($company_id, $posisi, $deskripsi, $jenis_pekerjaan, $jenis_lokasi, $is_open, $created_at, $updated_at)
+    {
         $sql = "INSERT INTO lowongan (company_id, posisi, deskripsi, jenis_pekerjaan, jenis_lokasi, is_open, created_at, updated_at) VALUES (
             :company_id, 
             :posisi, 
@@ -29,27 +34,37 @@ class LowonganModel extends Model{
             :updated_at
         )";
         $params = [
-            ':company_id' => $company_id, 
-            ':posisi' => $posisi, 
+            ':company_id' => $company_id,
+            ':posisi' => $posisi,
             ':deskripsi' => $deskripsi,
             ':jenis_pekerjaan' => $jenis_pekerjaan,
             ':jenis_lokasi' => $jenis_lokasi,
             ':is_open' => $is_open,
             ':created_at' => $created_at,
-            ':updated_at' => $updated_at  
+            ':updated_at' => $updated_at
         ];
         return (bool) $this->db->execute($sql, $params);
     }
 
-    public function deleteLowonganByID($id){
-        $sql = "DELETE FROM lowongan WHERE id = :id";
+    public function deleteLowonganByID($id)
+    {
+        $sql = "DELETE FROM lowongan WHERE lowongan_id = :id";
         $params = [':id' => $id];
         return (bool) $this->db->execute($sql, $params);
 
     }
 
+    public function toogleIsOpen($id)
+    {
+        $sql = "UPDATE lowongan SET is_open = NOT is_open
+                WHERE lowongan_id = :id ";
+        $params = [':id' => $id];
+        return (bool) $this->db->execute($sql, $params);
+    }
+
     //update lowongan data by id and choose the field
-    public function updateLowonganField($id, $field, $value){
+    public function updateLowonganField($id, $field, $value)
+    {
         $allowedFields = ['lowongan_id', 'company_id', 'posisi', 'deskripsi', 'jenis_pekerjaan', 'jenis_lokasi', 'is_open', 'created_at', 'updated_at'];
         if (!in_array($field, $allowedFields)) {
             throw new \InvalidArgumentException("Invalid field name");
@@ -59,53 +74,95 @@ class LowonganModel extends Model{
         return (bool) $this->db->execute($sql, $params);
     }
 
-    public function getLowonganByID($id){
+    public function updateLowongan($id, $posisi, $deskripsi, $jenis_pekerjaan, $jenis_lokasi, $is_open)
+    {
+        $sql = "UPDATE lowongan 
+            SET posisi = :posisi, 
+                deskripsi = :deskripsi, 
+                jenis_pekerjaan = :jenis_pekerjaan, 
+                jenis_lokasi = :jenis_lokasi, 
+                is_open = :is_open 
+            WHERE lowongan_id = :id";
+
+        $params = [
+            ':posisi' => $posisi,
+            ':deskripsi' => $deskripsi,
+            ':jenis_pekerjaan' => $jenis_pekerjaan,
+            ':jenis_lokasi' => $jenis_lokasi,
+            ':is_open' => $is_open,
+            ':id' => $id
+        ];
+
+        return (bool) $this->db->execute($sql, $params);
+    }
+
+
+    public function getLowonganByID($id)
+    {
         $sql = "SELECT * FROM lowongan WHERE lowongan_id = :lowongan_id";
         $params = [':lowongan_id' => $id];
         $result = $this->db->fetch($sql, $params);
-        if($result) return $result;
-        else return false;
+        if ($result)
+            return $result;
+        else
+            return false;
     }
 
-    public function getLowonganByCompanyId($company_id){
+    public function getLowonganByCompanyId($company_id)
+    {
         $sql = "SELECT * FROM lowongan WHERE company_id = :company_id";
         $params = [':company_id' => $company_id];
         $result = $this->db->fetchAll($sql, $params);
-        if($result) return $result;
-        else return false;
+        if ($result)
+            return $result;
+        else
+            return false;
     }
 
-    public function getLowonganByPosisi($posisi){
+    public function getLowonganByPosisi($posisi)
+    {
         $sql = "SELECT * FROM lowongan WHERE posisi = :posisi";
         $params = [':posisi' => $posisi];
         $result = $this->db->fetchAll($sql, $params);
-        if($result) return $result;
-        else return false;
+        if ($result)
+            return $result;
+        else
+            return false;
     }
-    public function getLowonganByJenisPekerjaan($jenis_pekerjaan){
+    public function getLowonganByJenisPekerjaan($jenis_pekerjaan)
+    {
         $sql = "SELECT * FROM lowongan WHERE jenis_pekerjaan = :jenis_pekerjaan";
         $params = [':jenis_pekerjaan' => $jenis_pekerjaan];
         $result = $this->db->fetchAll($sql, $params);
-        if($result) return $result;
-        else return false;
+        if ($result)
+            return $result;
+        else
+            return false;
     }
-    public function getLowonganByJenisLokasi($jenis_lokasi){
+    public function getLowonganByJenisLokasi($jenis_lokasi)
+    {
         $sql = "SELECT * FROM lowongan WHERE jenis_lokasi = :jenis_lokasi";
         $params = [':jenis_lokasi' => $jenis_lokasi];
         $result = $this->db->fetchAll($sql, $params);
-        if($result) return $result;
-        else return false;
+        if ($result)
+            return $result;
+        else
+            return false;
     }
 
-    public function getLowonganByIsOpen($is_open){
+    public function getLowonganByIsOpen($is_open)
+    {
         $sql = "SELECT * FROM lowongan WHERE is_open = :is_open";
         $params = [':is_open' => $is_open];
         $result = $this->db->fetchAll($sql, $params);
-        if($result) return $result;
-        else return false;
+        if ($result)
+            return $result;
+        else
+            return false;
     }
 
-    public function getLastLowonganID(): int|false {
+    public function getLastLowonganID(): int|false
+    {
         $sql = "SELECT MAX(lowongan_id) as last_id FROM lowongan";
         $result = $this->db->fetch($sql);
         if ($result && isset($result['last_id'])) {
@@ -114,3 +171,4 @@ class LowonganModel extends Model{
         return false;
     }
 }
+

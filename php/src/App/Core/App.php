@@ -33,26 +33,30 @@ class App
 
 
         $this->router->get('/detail-lowongan/{id}', LowonganController::class, 'detailLowonganPage', ['company', 'jobseeker']);
-        $this->router->post('/detail-lowongan/delete/{id}', LowonganController::class, 'delete', ['company']);
-        
+        $this->router->delete('/detail-lowongan/{id}', LowonganController::class, 'deleteLowongan', ['company']);
+        $this->router->put('/detail-lowongan/{id}', LowonganController::class, 'toogleLowongan', ['company']);
+
         $this->router->post('/login', AuthController::class, 'login');
         $this->router->post('/register', AuthController::class, 'register');
 
         // Routes for 'company' role
         $this->router->get('/tambah-lowongan', LowonganController::class, 'tambahLowonganPage', ['company']);
         $this->router->post('/tambah-lowongan/add', LowonganController::class, 'storeLowongan', ['company']);
-        $this-> router->get('/detail-lamaran/{id}', LamaranController::class, 'detailLamaranPage', ['company']);
+        $this->router->get('/detail-lamaran/{id}', LamaranController::class, 'detailLamaranPage', ['company']);
         $this->router->get('/edit-lowongan/{id}', LowonganController::class, 'editLowonganPage', ['company']);
         $this->router->get('/profil', CompanyController::class, 'profilePage', ['company']);
-        
 
+        $this->router->put('/detail-lamaran/{id}', LamaranController::class, 'updateStatus', ['company']);
         $this->router->post('/tambah-lowongan', LowonganController::class, 'store', ['company']);
-        $this->router->post('/edit-lowongan/{id}', LowonganController::class, 'update', ['company']);
-        
+        $this->router->post('/detail-lowongan/{id}', LowonganController::class, 'delete', ['company']);
+
+        $this->router->put('/edit-lowongan/{id}', LowonganController::class, 'updateLowongan', ['company']);
+        $this->router->post('/edit-lowongan/{id}', LowonganController::class, 'updateLowongan', ['company']);
+
         // Routes for 'jobseeker' role
         $this->router->get('/lamaran/{id}', LamaranController::class, 'lamaranPage', ['jobseeker']);
         $this->router->get('/riwayat', JobSeekerController::class, 'riwayatPage', ['jobseeker']);
-        
+
         $this->router->post('/lamaran/{id}', LamaranController::class, 'submit', ['jobseeker']);
 
         //debugging 

@@ -82,7 +82,7 @@ class UsersModel extends Model {
 
     // Get user data by ID
     public function getUserById($id): array|false {
-        $sql = "SELECT * FROM users WHERE id = :id";
+        $sql = "SELECT * FROM users WHERE user_id = :id";
         $params = [':id' => $id];
         $result = $this->db->fetch($sql, $params);
         return $result ?: false;
