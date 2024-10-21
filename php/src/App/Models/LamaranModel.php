@@ -25,15 +25,26 @@ class LamaranModel extends Model
         return false;
     }
 
+    public function getLamaranByUserID($id)
+    {
+        $sql = "SELECT * FROM lamaran WHERE user_id = :user_id";
+        $params = [':user_id' => $id];
+        $result = $this->db->fetch($sql, $params);
+        if ($result)
+            return $result;
+        else
+            return false;
+    }
+
     public function addLamaran($lamaran_id, $user_id, $lowongan_id, $cv_path, $video_path, $status, $status_reason, $created_at)
     {
         $sql = "INSERT INTO lamaran (lamaran_id, user_id, lowongan_id, cv_path, video_path, status, status_reason, created_at) VALUES (
             :lamaran_id, :user_id, :lowongan_id, :cv_path, :video_path, :status, :status_reason, :created_at)
         ";
         $params = [
-            ':user_id' => $user_id, 
-            ':lowongan_id' => $lowongan_id, 
-            ':cv_path' => $cv_path, 
+            ':user_id' => $user_id,
+            ':lowongan_id' => $lowongan_id,
+            ':cv_path' => $cv_path,
             ':video_path' => $video_path,
             ':status' => $status,
             ':status_reason' => $status_reason,
@@ -132,9 +143,10 @@ class LamaranModel extends Model
             return false;
     }
 
-    public function getLamaranPage($id){
-        $sql = 
-        "SELECT * 
+    public function getLamaranPage($id)
+    {
+        $sql =
+            "SELECT * 
         FROM lowongan AS lo 
         JOIN company_detail AS cd 
             ON cd.company_id = lo.company_id
@@ -143,13 +155,16 @@ class LamaranModel extends Model
 
         $params = [':lowongan_id' => $id];
         $result = $this->db->fetch($sql, $params);
-        if($result) return $result;
-        else return false;
+        if ($result)
+            return $result;
+        else
+            return false;
     }
 
-    public function getRiwayatPage($id){
-        $sql = 
-        "SELECT * 
+    public function getRiwayatPage($id)
+    {
+        $sql =
+            "SELECT * 
         FROM lamaran AS l 
         JOIN lowongan AS lo 
             ON l.lowongan_id = lo.lowongan_id 
@@ -161,8 +176,10 @@ class LamaranModel extends Model
         ";
         $params = [':user_id' => $id];
         $result = $this->db->fetchAll($sql, $params);
-        if($result) return $result;
-        else return false;
+        if ($result)
+            return $result;
+        else
+            return false;
     }
 
 }
