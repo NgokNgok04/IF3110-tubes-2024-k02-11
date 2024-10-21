@@ -3,6 +3,7 @@ $lowonganList = $data['lowonganList'] ?? [];
 $currentPage = $data['currentPage'] ?? 1;
 $totalPages = $data['totalPages'] ?? 1;
 $company = $data['companyData'] ?? [];
+// var_dump($_SESSION);
 ?>
 
 <!DOCTYPE html>
@@ -123,7 +124,7 @@ $company = $data['companyData'] ?? [];
                 </select>
                 <select id="sort-by" name="sort" onchange="submitFiltersForm()">
                     <option value="posisi" <?php echo $sort === 'posisi' ? 'selected' : ''; ?>>Relevance</option>
-                    <option value="lowongan_id" <?php echo $sort === 'lowongan_id' ? 'selected' : ''; ?>>Date</option>
+                    <option value="created_at" <?php echo $sort === 'created_at' ? 'selected' : ''; ?>>Date</option>
                     <option value="company_id" <?php echo $sort === 'company_id' ? 'selected' : ''; ?>>Company</option>
                 </select>
             </div>

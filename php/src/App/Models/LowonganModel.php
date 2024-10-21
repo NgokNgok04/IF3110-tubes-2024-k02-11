@@ -113,4 +113,44 @@ class LowonganModel extends Model{
         }
         return false;
     }
+
+    public function getDetailLowonganByIDWithoutLamaran($id){
+        $sql = 
+        "SELECT * 
+        FROM lowongan 
+        JOIN company_detail 
+            ON lowongan.company_id = company_detail.company_id
+        WHERE 
+            lowongan.lowongan_id = :lowongan_id";
+        $params = [
+            ':lowongan_id' => $id, 
+        ];
+        $result = $this->db->fetch($sql, $params);
+        // var_dump($result);
+        if($result) return $result;
+        else return false;
+    }
+
+    public function getDetailLowonganByID($id, $user_id){
+        $sql = 
+        "SELECT * 
+        FROM lowongan 
+        JOIN company_detail 
+            ON lowongan.company_id = company_detail.company_id
+        JOIN lamaran
+            ON lowongan.lowongan_id = lamaran.lowongan_id
+        WHERE 
+            lowongan.lowongan_id = :lowongan_id
+            AND 
+            lamaran.user_id = :user_id";
+
+        $params = [
+            ':lowongan_id' => $id,
+            ':user_id' => $user_id
+        ];
+        $result = $this->db->fetch($sql, $params);
+        // var_dump($result);
+        if($result) return $result;
+        else return false;
+    }
 }

@@ -41,17 +41,11 @@ class LowonganController extends Controller
             // echo "masuk sini";
             $this->view('Company', 'DetailLowongan');
         } else {
-            $dataDetail= $this->model->getLowonganByID($id);
-            $dataCompany = $this->companyModel->getCompanyById($dataDetail['company_id']);
-            $dataAttachment = $this->attachmentModel->getAttachmentByLowonganId($id);
-            $dataLamaran = $this->lamaranModel->getLamaranByLowonganId($id);
-            // $company = $this->companyModel->getCompanyById($lowongan['company_id']);
-            $this->view('JobSeeker', 'DetailLowongan', [
-                'lowongan' => $dataDetail, 
-                'company' => $dataCompany,
-                'attachment' => $dataAttachment,
-                'lamaran' => $dataLamaran
-            ]);
+            $detailLowongan = $this->model->getDetailLowonganByID($id, $_SESSION['id']);
+            if(!$detailLowongan){
+                $detailLowongan = $this->model->getDetailLowonganByIDWithoutLamaran($id);
+            }
+            $this->view('JobSeeker', 'DetailLowongan', ['lowongan' => $detailLowongan]);
         }
     }
 

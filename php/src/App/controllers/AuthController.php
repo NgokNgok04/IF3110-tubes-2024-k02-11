@@ -27,9 +27,9 @@ class AuthController extends Controller
 
     public function login() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-            $hashedPassword = hash('sha256',$_POST['password']);
+            // $hashedPassword = hash('sha256',$_POST['password']);
             $isUserValid = $this->model->getUserByEmail($_POST['email']);
-            if ($isUserValid && $isUserValid['password'] == $hashedPassword){
+            if ($isUserValid && $isUserValid['password'] == $_POST['password']){
                 $response['status'] = 'success';
                 $_SESSION['role'] = $isUserValid['role'];
                 $_SESSION['id'] = $isUserValid['user_id'];
@@ -55,9 +55,11 @@ class AuthController extends Controller
                 $response['data'] = 'The email has been used';
             } else {
                 if ($_POST['role'] == 'company'){
-                    $this->model->addCompanyUser($_POST['name'],$_POST['email'],$_POST['role'],hash('sha256',$_POST['password']),$_POST['location'],$_POST['about']);
+                    // $this->model->addCompanyUser($_POST['name'],$_POST['email'],$_POST['role'],hash('sha256',$_POST['password']),$_POST['location'],$_POST['about']);
+                    $this->model->addCompanyUser($_POST['name'],$_POST['email'],$_POST['role'],$_POST['password'],$_POST['location'],$_POST['about']);
                 } else if ($_POST['role'] == 'jobseeker'){
-                    $this->model->addUser($_POST['name'],$_POST['email'],$_POST['role'],hash('sha256',$_POST['password']));
+                    $this->model->addUser($_POST['name'],$_POST['email'],$_POST['role'],$_POST['password']);
+                    // $this->model->addUser($_POST['name'],$_POST['email'],$_POST['role'],hash('sha256',$_POST['password']));
                 }
                 $response['status'] = 'success';
             }

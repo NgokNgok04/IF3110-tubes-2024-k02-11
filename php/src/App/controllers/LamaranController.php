@@ -37,7 +37,7 @@ class LamaranController extends Controller
     {
         // $user_id, $lowongan_id, $cv_path, $video_path, $status, $status_reason, $created_at
         $lowongan_id = $id;
-        $user_id = $_SESSION['user_id'];
+        $user_id = $_SESSION['id'];
         $cv_path = '/var/www/upload/' . $_FILES['cv']['full_path'];
         $video_path = '/var/www/upload/' . $_FILES['video']['full_path'];
         $status = 'waiting';
