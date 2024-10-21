@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Lowongan</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    
+
     <!-- Quill.js CSS -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
@@ -43,7 +43,7 @@
             margin-bottom: 20px;
         }
 
-        #requirement-container{
+        #requirement-container {
             height: 200px;
             margin-bottom: 20px;
         }
@@ -97,7 +97,7 @@
     </div>
 
     <!-- Quill.js JS -->
-    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
     <script>
         // Initialize Quill editor
         const quill = new Quill('#description-container', {
