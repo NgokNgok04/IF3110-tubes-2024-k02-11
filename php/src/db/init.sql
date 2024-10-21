@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS company_detail (
 CREATE TABLE IF NOT EXISTS lowongan(
     lowongan_id SERIAL PRIMARY KEY,
     company_id INT REFERENCES company_detail(company_id) ON DELETE CASCADE,
-    posisi VARCHAR(255),
+    posisi VARCHAR(255) NOT NULL,
     deskripsi TEXT,
     jenis_pekerjaan TEXT,
     jenis_lokasi lokasi_enum,
