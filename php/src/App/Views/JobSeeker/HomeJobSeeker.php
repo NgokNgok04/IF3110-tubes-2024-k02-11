@@ -88,10 +88,13 @@ $company = $data['companyData'] ?? [];
                 <?php endif; ?>
 
                 <?php for ($page = 1; $page <= $totalPages; $page++): ?>
-                    <a class="pagination-page" href="?page=<?php echo $page; ?>&sort=<?php echo $sort; ?>&search=<?php echo urlencode($searchTerm); ?>&location=<?php echo urlencode($locationFilter); ?>" <?php echo $page == $currentPage ? 'class="active"' : ''; ?>>
+                    <a class="pagination-page <?php echo ($page == ($_GET['page'] ?? 1)) ? 'active' : ''; ?>" 
+                    href="?page=<?php echo $page; ?>&sort=<?php echo $sort; ?>&search=<?php echo urlencode($searchTerm); ?>&location=<?php echo urlencode($locationFilter); ?>">
                         <?php echo $page; ?>
                     </a>
                 <?php endfor; ?>
+
+
 
                 <?php if ($currentPage < $totalPages): ?>
                     <a class="pagination-next" href="?page=<?php echo $currentPage + 1; ?>&sort=<?php echo $sort; ?>&search=<?php echo urlencode($searchTerm); ?>&location=<?php echo urlencode($locationFilter); ?>">Next &raquo;</a>
@@ -132,10 +135,5 @@ $company = $data['companyData'] ?? [];
         <div id="modalOverlay" class="modal-overlay display-none"></div>
     </main>
 </body>
-<script> 
-    function submitFiltersForm() {
-        document.getElementById('filters-form').submit();
-    }
-</script>
+<script src = "/../../../public/js/HomeJobseeker.js"></script>
 </html>
-<script src="../../../public/js/HomeJobseeker.js"></script>

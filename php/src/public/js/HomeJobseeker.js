@@ -54,3 +54,9 @@ document.addEventListener("DOMContentLoaded", function () {
 {
   /* <a href="/detail-lowongan/<?php echo $lowongan['lowongan_id']; ?>" method="GET" class="btn">Apply Now</a> */
 }
+
+
+//no need apply button again 
+function submitFiltersForm() {
+  document.getElementById('filters-form').submit();
+}
