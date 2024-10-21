@@ -74,8 +74,8 @@ class AuthController extends Controller
             unset($_SESSION['role']);
             unset($_SESSION['id']);
             session_destroy();
-            echo $_SESSION['role']; 
-            echo $_SESSION['id'];
+            // echo $_SESSION['role']; 
+            // echo $_SESSION['id'];
         }
             header('Content-Type: application/json');
             echo json_encode((['status' => 'success']));

@@ -10,7 +10,7 @@ use App\Controllers\LamaranController;
 use App\Controllers\CompanyController;
 use App\Controllers\JobSeekerController;
 use App\Controllers\UserController;
-use App\Core\Database;
+// use App\Core\Database;
 
 class App
 {
@@ -66,5 +66,7 @@ class App
         $this->router->post('/debugShowLamaran', LamaranController::class, 'showDebug');
         $this->router->post('/debugShowCompanyDetail', CompanyController::class, 'showDebug');
         $this->router->post('/debugShowAttachment', AttachmentController::class, 'showDebug');
+
+        //file 
     }
 }

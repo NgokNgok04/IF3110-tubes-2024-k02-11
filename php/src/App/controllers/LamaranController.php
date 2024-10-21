@@ -2,10 +2,7 @@
 
 namespace App\Controllers;
 use App\Core\Controller;
-use App\Models\CompanyDetailModel;
 use App\Models\LamaranModel;
-use App\Models\LowonganModel;
-use App\Models\UsersModel;
 
 class LamaranController extends Controller
 {
@@ -38,8 +35,8 @@ class LamaranController extends Controller
         // $user_id, $lowongan_id, $cv_path, $video_path, $status, $status_reason, $created_at
         $lowongan_id = $id;
         $user_id = $_SESSION['id'];
-        $cv_path = '/var/www/upload/' . $_FILES['cv']['full_path'];
-        $video_path = '/var/www/upload/' . $_FILES['video']['full_path'];
+        $cv_path = '/public/uploads/' . $_FILES['cv']['full_path'];
+        $video_path = '/public/uploads/' . $_FILES['video']['full_path'];
         $status = 'waiting';
         $created_at = date('Y-m-d H:i:s');
         $this->upload_cv();
@@ -49,8 +46,8 @@ class LamaranController extends Controller
     }
 
     public function upload_cv(){
-        $target_dir = realpath( "/var/www/upload/");
-        $target_file = $target_dir . "/" .basename($_FILES["cv"]["name"]);
+        $target_dir =  FILE_DIR;
+        $target_file = $target_dir . "" .basename($_FILES["cv"]["name"]);
         $uploadOK = 1; 
         $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
@@ -78,7 +75,7 @@ class LamaranController extends Controller
             // echo $_FILES["cv"]["name"];
             // var_dump($_FILES["cv"]);
             if(move_uploaded_file($_FILES["cv"]["tmp_name"], $target_file)){
-                echo "The file ". htmlspecialchars(basename($_FILES["cv"]["name"])). " has been uploaded.";
+                // echo "The file ". htmlspecialchars(basename($_FILES["cv"]["name"])). " has been uploaded.";
             } else {
                 echo "Sorry, there was an error uploading your file.";
             }
@@ -86,8 +83,8 @@ class LamaranController extends Controller
     }
 
     public function upload_video() {
-        $target_dir = realpath("/var/www/upload/");
-        $target_file = $target_dir . "/" . basename($_FILES["video"]["name"]);
+        $target_dir = FILE_DIR;
+        $target_file = $target_dir . "" . basename($_FILES["video"]["name"]);
         $uploadOK = 1; 
         $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
     
@@ -117,7 +114,7 @@ class LamaranController extends Controller
         } else {
             // Move the uploaded file to the target directory
             if (move_uploaded_file($_FILES["video"]["tmp_name"], $target_file)) {
-                echo "The video " . htmlspecialchars(basename($_FILES["video"]["name"])) . " has been uploaded.";
+                // echo "The video " . htmlspecialchars(basename($_FILES["video"]["name"])) . " has been uploaded.";
             } else {
                 echo "Sorry, there was an error uploading your file.";
             }

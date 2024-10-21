@@ -37,9 +37,34 @@ $data = $data['lowongan'] ?? [];
             <?php elseif(isset($data['lamaran_id'])): ?>
                 <h3>Your Application</h3>
                 <div class="application-applied">
-                    <p>Status: <strong> <?php echo htmlspecialchars($data['status']); ?></strong></p>
-                    <a href="<?php echo htmlspecialchars($data['cv_path']); ?>" class="attachment">Download CV</a>
-                    <a href="<?php echo htmlspecialchars($data['video_path']); ?>" class="attachment">Watch Introduction Video</a>
+                    <?php 
+                    // echo "CV Path: " . $data['cv_path'];
+                    // if(file_exists($data['cv_path'])){
+                    //     echo "File exists";
+                    // } else {
+                    //     echo "File does not exist";
+                    // }
+                    ?>
+                    <p>Status: <strong><?php echo htmlspecialchars($data['status']); ?></strong></p>
+
+                    <div class="cv-container">
+                        <p><strong>CV:</strong></p>
+                        <iframe src="<?php echo htmlspecialchars($data['cv_path']); ?>" 
+                                width="100%" height="500px" style="border: 1px solid #ccc;">
+                            Your browser does not support iframes. 
+                            <a href="<?php echo htmlspecialchars($data['cv_path']); ?>">Download CV</a>
+                        </iframe>
+                    </div>
+
+                    <div class="video-container">
+                        <p><strong>Introduction Video:</strong></p>
+                        <video controls width="100%" height="400px">
+                            <source src="<?php echo htmlspecialchars($data['video_path']); ?>" type="video/mp4">
+                            Your browser does not support the video tag. 
+                            <a href="<?php echo htmlspecialchars($data['video_path']); ?>">Watch Introduction Video</a>
+                        </video>
+                    </div>
+
                     <p>Reason: <strong><?php echo htmlspecialchars($data['status_reason'] ?? "-"); ?></strong></p>
                 </div>
             <?php endif; ?>
