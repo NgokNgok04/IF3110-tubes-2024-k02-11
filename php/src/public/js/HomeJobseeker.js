@@ -4,35 +4,34 @@ function debounceSearch() {
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(function() {
         const searchInput = document.getElementById('searchInput').value;
-
         // Gather all checked locations
         const locations = [...document.querySelectorAll('input[name="locations[]"]:checked')].map(checkbox => checkbox.value);
-
         // Gather all checked statuses
         const statuses = [...document.querySelectorAll('input[name="statuses[]"]:checked')].map(checkbox => checkbox.value);
-
         const sort = document.getElementById('sort-by').value;
         const page = currPage; // Pass the current page to AJAX
-
-        // Prepare URL with encoded parameters
         const locationQuery = locations.length > 0 ? `&locations[]=${locations.join('&locations[]=')}` : '';
         const statusQuery = statuses.length > 0 ? `&statuses[]=${statuses.join('&statuses[]=')}` : '';
-
         const url = `/?search=${encodeURIComponent(searchInput)}${locationQuery}${statusQuery}&sort=${encodeURIComponent(sort)}&page=${encodeURIComponent(page)}`;
+        window.history.pushState({ search: searchInput, locations, statuses, sort, page }, '', url);
 
         // AJAX to server
         const xhr = new XMLHttpRequest();
         xhr.open('GET', url, true);
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); 
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); // This ensures it's an AJAX request
         xhr.onreadystatechange = function() {
             if (xhr.readyState === 4 && xhr.status === 200) {
+                // Prevent resetting cursor position
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(xhr.responseText, 'text/html');
                 const newList = doc.querySelector('.list-vacancy');
 
                 if (newList) {
-                    document.querySelector('.list-vacancy').innerHTML = newList.innerHTML;
-                    attachJobCardListeners();
+                    const existingList = document.querySelector('.list-vacancy');
+                    if (existingList) {
+                        existingList.innerHTML = newList.innerHTML; 
+                    }
+                    attachJobCardListeners(); 
                 }
             }
         };
@@ -41,7 +40,20 @@ function debounceSearch() {
 }
 
 
+// Prevent form submission on Enter key (not best practice, but it works)
+document.getElementById('filters-form').addEventListener('submit', function(event) {
+    event.preventDefault(); 
+});
 
+// document.getElementById('searchInput').addEventListener('keyup', debounceSearch);
+// document.querySelectorAll('input[name="locations[]"]').forEach(checkbox => {
+//     checkbox.addEventListener('change', debounceSearch);
+// });
+// document.querySelectorAll('input[name="statuses[]"]').forEach(checkbox => {
+//     checkbox.addEventListener('change', debounceSearch);
+// });
+
+// document.getElementById('sort-by').addEventListener('change', debounceSearch);
 
 function attachJobCardListeners() {
   document.querySelectorAll(".job-card").forEach((button, index) => {
