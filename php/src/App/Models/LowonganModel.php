@@ -240,4 +240,15 @@ class LowonganModel extends Model
         else
             return false;
     }
+
+    public function getSearchQuery($query)
+    {
+        $sql = "SELECT * FROM lowongan WHERE posisi LIKE :query OR deskripsi LIKE :query";
+        $params = [':query' => "%$query%"];
+        $result = $this->db->fetchAll($sql, $params);
+        // echo "DISINI";
+        // var_dump($result);
+        if ($result) return $result;
+        else return false;
+    }
 }

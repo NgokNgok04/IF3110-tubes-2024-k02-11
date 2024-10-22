@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Core\Database;
 use App\Interfaces\ControllerInterface;
 use App\Models\LowonganModel;
 use App\Models\UsersModel;
@@ -28,8 +29,17 @@ class HomeController extends Controller implements ControllerInterface
 
     public function jobSeekerHome()
     {
-        $lowonganList = $this->modelLowongan->getAllLowongan();
-        
+        if(isset($_GET['search'])){
+            $search = $_GET['search'];
+            $lowonganList = $this->modelLowongan->getSearchQuery($search);
+        } else {
+            $lowonganList = $this->modelLowongan->getAllLowongan();
+        }
+        if($lowonganList == false){
+            $lowonganList = $this->modelLowongan->getAllLowongan();
+        }
+
+        // $lowonganList = $this->modelLowongan->getAllLowongan();
         $statuses = array_unique(array_column($lowonganList, 'is_open'));
         $locations = array_unique(array_column($lowonganList, 'jenis_lokasi'));
 
@@ -39,8 +49,6 @@ class HomeController extends Controller implements ControllerInterface
         $searchTerm = $_GET['search'] ?? '';
         $sort = $_GET['sort'] ?? 'posisi'; // Default sort by 'posisi'
     
-        // echo $locationFilter;
-        // Apply Filtering
         if (!empty($locationFilter) || !empty($searchTerm) || !empty($statusFilter)) {
             $lowonganList = array_filter($lowonganList, function ($lowongan) use ($locationFilter, $statusFilter, $searchTerm) {
                 $matchesLocation = empty($locationFilter) || $lowongan['jenis_lokasi'] === $locationFilter;
