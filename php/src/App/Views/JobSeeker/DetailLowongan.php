@@ -1,7 +1,9 @@
 <?php
 $date = $data['date'] ?? [];
 $data = $data['lowongan'] ?? [];    
-$dateTime = new DateTime($date['created_at']);
+if($date){
+    $dateTime = new DateTime($date['created_at']);
+}
 // var_dump($data);
 
 // Initialize status message variable
