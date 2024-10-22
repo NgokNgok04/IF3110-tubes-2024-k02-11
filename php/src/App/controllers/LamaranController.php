@@ -71,43 +71,43 @@ class LamaranController extends Controller
         $cv_path = '/public/uploads/' . $_FILES['cv']['full_path'];
         $video_path = '/public/uploads/' . $_FILES['video']['full_path'];
         $status = 'waiting';
-        $created_at = date('Y-m-d H:i:s');
         $this->upload_cv();
         $this->upload_video();
-        $this->model->addLamaran($user_id, $lowongan_id,$cv_path, $video_path, $status, "", $created_at);
-        header('Location: /');   
+        $this->model->addLamaran($user_id, $lowongan_id, $cv_path, $video_path, $status, "");
+        header('Location: /');
     }
 
-    public function upload_cv(){
-        $target_dir =  FILE_DIR;
-        $target_file = $target_dir . "" .basename($_FILES["cv"]["name"]);
-        $uploadOK = 1; 
+    public function upload_cv()
+    {
+        $target_dir = FILE_DIR;
+        $target_file = $target_dir . "" . basename($_FILES["cv"]["name"]);
+        $uploadOK = 1;
         $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-        if(file_exists($target_file)){
+        if (file_exists($target_file)) {
             echo "Sorry, file already exists.";
             $uploadOK = 0;
         }
 
         //allow pdf
-        if($fileType != "pdf"){
+        if ($fileType != "pdf") {
             echo "Sorry, only PDF files are allowed.";
             $uploadOK = 0;
         }
 
         //size 
-        if($_FILES["cv"]["size"] > 500000){
+        if ($_FILES["cv"]["size"] > 500000) {
             echo "Sorry, your file is too large.";
             $uploadOK = 0;
         }
 
-        if($uploadOK == 0){
+        if ($uploadOK == 0) {
             echo "Sorry, your file was not uploaded.";
         } else {
             // echo $target_file;
             // echo $_FILES["cv"]["name"];
             // var_dump($_FILES["cv"]);
-            if(move_uploaded_file($_FILES["cv"]["tmp_name"], $target_file)){
+            if (move_uploaded_file($_FILES["cv"]["tmp_name"], $target_file)) {
                 // echo "The file ". htmlspecialchars(basename($_FILES["cv"]["name"])). " has been uploaded.";
             } else {
                 echo "Sorry, there was an error uploading your file.";
@@ -115,21 +115,22 @@ class LamaranController extends Controller
         }
     }
 
-    public function upload_video() {
+    public function upload_video()
+    {
         $target_dir = FILE_DIR;
         $target_file = $target_dir . "" . basename($_FILES["video"]["name"]);
-        $uploadOK = 1; 
+        $uploadOK = 1;
         $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-    
+
         // Allowed video formats (e.g., mp4, avi, mkv)
         $allowedTypes = ['mp4', 'avi', 'mkv', 'mov', 'webm'];
-    
+
         // Check if the file already exists
         if (file_exists($target_file)) {
             echo "Sorry, file already exists.";
             $uploadOK = 0;
         }
-    
+
         // Check if the file type is allowed
         if (!in_array($fileType, $allowedTypes)) {
             echo "Sorry, only video files (MP4, AVI, MKV, MOV, WEBM) are allowed.";
@@ -141,7 +142,7 @@ class LamaranController extends Controller
             echo "Sorry, your file is too large.";
             $uploadOK = 0;
         }
-    
+
         if ($uploadOK == 0) {
             echo "Sorry, your file was not uploaded.";
         } else {
@@ -153,7 +154,7 @@ class LamaranController extends Controller
             }
         }
     }
-    
+
 
 
     // debugging

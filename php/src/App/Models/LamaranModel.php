@@ -36,10 +36,10 @@ class LamaranModel extends Model
             return false;
     }
 
-    public function addLamaran($lamaran_id, $user_id, $lowongan_id, $cv_path, $video_path, $status, $status_reason, $created_at)
+    public function addLamaran($user_id, $lowongan_id, $cv_path, $video_path, $status, $status_reason)
     {
-        $sql = "INSERT INTO lamaran (lamaran_id, user_id, lowongan_id, cv_path, video_path, status, status_reason, created_at) VALUES (
-            :lamaran_id, :user_id, :lowongan_id, :cv_path, :video_path, :status, :status_reason, :created_at)
+        $sql = "INSERT INTO lamaran  (user_id, lowongan_id, cv_path, video_path, status, status_reason) VALUES (
+            :user_id, :lowongan_id, :cv_path, :video_path, :status, :status_reason)
         ";
         $params = [
             ':user_id' => $user_id,
@@ -48,7 +48,6 @@ class LamaranModel extends Model
             ':video_path' => $video_path,
             ':status' => $status,
             ':status_reason' => $status_reason,
-            ':created_at' => $created_at
         ];
         $result = $this->db->execute($sql, $params);
         if ($result)

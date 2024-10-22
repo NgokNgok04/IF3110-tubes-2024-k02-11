@@ -17,7 +17,7 @@
 
     <section>
         <h2>Job Details</h2>
-        <p><strong>Description:</strong> <?= htmlspecialchars($lowongan['deskripsi']) ?></p>
+        <p><strong>Description:</strong> <?= $lowongan['deskripsi'] ?></p>
         <p><strong>Job Type:</strong> <?= htmlspecialchars($lowongan['jenis_pekerjaan']) ?></p>
         <p><strong>Location:</strong> <?= htmlspecialchars($lowongan['jenis_lokasi']) ?></p>
         <p><strong>Status:</strong> <?= $lowongan['is_open'] ? 'Open' : 'Closed' ?></p>
