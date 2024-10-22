@@ -115,7 +115,7 @@
                 </div>
                 <div class="modal-available">
                     <i class="fa-solid fa-tags"></i>
-                    <select id="modal-select">
+                    <select id="modal-select" onchange="this.form.submit()">
                         <option value="Open">Open</option>
                         <option value="Closed" >Close</option>
                     </select>
@@ -137,6 +137,7 @@
     <?php 
         include(__DIR__ . "/../../Components/navbar.php"); 
         generateNavbar('Company')?>
+    
 </body>
 </html>
 
