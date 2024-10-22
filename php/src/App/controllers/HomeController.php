@@ -95,7 +95,7 @@ class HomeController extends Controller implements ControllerInterface
     public function companyHome()
     {
         $jobs = $this->modelLowongan->getAllLowongan();
-
+        $companyData = $this->modelUsers->getUserById($_SESSION['id']);
         // Get unique statuses and locations for filters
         $statuses = array_unique(array_column($jobs, 'is_open'));
         $locations = array_unique(array_column($jobs, 'jenis_lokasi'));
@@ -126,8 +126,8 @@ class HomeController extends Controller implements ControllerInterface
         $totalJobs = count($jobs);
         $totalPages = ceil($totalJobs / $perPage);
         $jobs = array_slice($jobs, ($page - 1) * $perPage, $perPage);
-
         $this->view('Company', 'HomeCompany', [
+            'companyData' => $companyData,
             'jobs' => $jobs,
             'statuses' => $statuses,
             'locations' => $locations,

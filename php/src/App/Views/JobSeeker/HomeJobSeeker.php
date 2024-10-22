@@ -31,7 +31,7 @@ $totalPages = $data['totalPages'] ?? 1;
         <section class="profile-section">
             <div class="profile-bg-white">
                 <div class="profile-image">
-                        <img src="../../../public/icons/profil.png" class="profile-icon" alt="profile-picture">
+                    <img src="../../../public/icons/profil.png" class="profile-icon" alt="profile-picture">
                 </div>
                 <h1 class="profile-name"><?php echo isset($_SESSION['name']) ? $_SESSION['name'] : 'guess'  ?></h1>
             </div>
@@ -92,8 +92,6 @@ $totalPages = $data['totalPages'] ?? 1;
                     </a>
                 <?php endfor; ?>
 
-
-
                 <?php if ($currentPage < $totalPages): ?>
                     <a class="pagination-next" href="?page=<?php echo $currentPage + 1; ?>&sort=<?php echo $sort; ?>&search=<?php echo urlencode($searchTerm); ?>&location=<?php echo urlencode($locationFilter); ?>">Next &raquo;</a>
                 <?php endif; ?>
@@ -108,7 +106,6 @@ $totalPages = $data['totalPages'] ?? 1;
                 </button>
             </div>
             <div class="filters-sort">
-                <!-- <label for="location-select">Locations</label> -->
                 <select name="location" id="location-select" onchange="submitFiltersForm()">
                     <option value="">All Locations</option>
                     <?php foreach ($locations as $location): ?>
@@ -117,7 +114,6 @@ $totalPages = $data['totalPages'] ?? 1;
                         </option>
                     <?php endforeach; ?>
                 </select>
-                <!-- <label for="status-select">Status</label> -->
                 <select name="status" id="status-select" onchange="submitFiltersForm()">
                     <option value="">Statuses</option>
                     <?php foreach ($statuses as $status): ?>
