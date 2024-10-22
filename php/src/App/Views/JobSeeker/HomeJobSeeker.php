@@ -104,28 +104,40 @@ $totalPages = $data['totalPages'] ?? 1;
             <div class="search-bar">
                 <input class="search" id="searchInput" type="text" name="search" placeholder="Search jobs..." value="<?php echo htmlspecialchars($searchTerm); ?>" onkeyup="debounceSearch()">
             </div>
-            <div class="filters-sort">
-                <select name="location" id="location-select" onchange="debounceSearch()">
-                    <option value="">All Locations</option>
-                    <?php foreach ($locations as $location): ?>
-                        <option value="<?php echo htmlspecialchars($location); ?>" <?php echo $location === $locationFilter ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($location); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <select name="status" id="status-select" onchange="debounceSearch()">
-                    <option value="">Statuses</option>
-                    <?php foreach ($statuses as $status): ?>
-                        <option value="<?php echo $status === 'Open' ? 'True' : 'False'; ?>" <?php echo $status === $statusFilter ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($status); ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+            <div id="location-checkboxes">
+                <h4>Locations</h4>
+                <label>
+                    <input type="checkbox" name="locations[]" value="on-site" onchange="debounceSearch()">
+                    on-site
+                </label><br>
+                <label>
+                    <input type="checkbox" name="locations[]" value="hybrid" onchange="debounceSearch()">
+                    hybrid
+                </label><br>
+                <label>
+                    <input type="checkbox" name="locations[]" value="remote" onchange="debounceSearch()">
+                    remote
+                </label><br>
+            </div>
+            <div id="status-checkboxes">
+                <h4>Statuses</h4>
+                <label>
+                    <input type="checkbox" name="statuses[]" value="1" onchange="debounceSearch()">
+                    Open
+                </label><br>
+                <label>
+                    <input type="checkbox" name="statuses[]" value="0" onchange="debounceSearch()">
+                    Closed
+                </label><br>
+            </div>
+            <div>
+                <label for="sort-by">Sort By:</label>
                 <select id="sort-by" name="sort" onchange="debounceSearch()">
                     <option value="posisi" <?php echo $sort === 'posisi' ? 'selected' : ''; ?>>Position</option>
                     <option value="created_at" <?php echo $sort === 'created_at' ? 'selected' : ''; ?>>Date</option>
                     <option value="company_id" <?php echo $sort === 'company_id' ? 'selected' : ''; ?>>Company</option>
                 </select>
+            </div>
             </div>
         </form>
         <div id="modalOverlay" class="modal-overlay display-none"></div>

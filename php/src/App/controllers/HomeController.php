@@ -31,10 +31,10 @@ class HomeController extends Controller implements ControllerInterface
     {
         // Initialize variables
         $search = $_GET['search'] ?? '';
-        $locationFilter = $_GET['location'] ?? '';
-        $statusFilter = $_GET['status'] ?? '';
+        $locationFilter = $_GET['locations'] ?? '';
+        $statusFilter = $_GET['statuses'] ?? '';
         $sort = $_GET['sort'] ?? 'posisi'; // Default sort by 'posisi'
-        // echo $sort;
+
         $currentPage = (int)($_GET['page'] ?? 1);
         
         if (!empty($search) || !empty($locationFilter) || !empty($statusFilter) || !empty($sort)) {

@@ -236,23 +236,36 @@ class LowonganModel extends Model
             return false;
     }
 
-    public function getSearchQuery($query, $location = '', $status = '', $sort = 'posisi')
+    public function getSearchQuery($query, $locations = [], $statuses = [], $sort = 'posisi')
     {
-        // Base SQL query with placeholders for search, location, and status
+        // Base SQL query 
         $sql = "SELECT * FROM lowongan WHERE (posisi LIKE :query OR deskripsi LIKE :query)";
         
         // Prepare parameters for query
         $params = [':query' => "%$query%"];
+        
         // Apply location filter if provided
-        if (!empty($location)) {
-            $sql .= " AND jenis_lokasi = :location";
-            $params[':location'] = $location;
+        if (!empty($locations)) {
+            // Create named placeholders for locations
+            $locationPlaceholders = [];
+            foreach ($locations as $index => $location) {
+                $locationPlaceholders[] = ":location_$index"; // Named placeholder
+                $params[":location_$index"] = $location; // Set value in params
+            }
+            $sql .= " AND jenis_lokasi IN (" . implode(',', $locationPlaceholders) . ")";
         }
+        
         // Apply status filter if provided (0 or 1 for is_open)
-        if (!empty($status)) {
-            $sql .= " AND is_open = :status";
-            $params[':status'] = $status;
+        if (!empty($statuses)) {
+            // Create named placeholders for statuses
+            $statusPlaceholders = [];
+            foreach ($statuses as $index => $status) {
+                $statusPlaceholders[] = ":status_$index"; // Named placeholder
+                $params[":status_$index"] = $status; // Set value in params
+            }
+            $sql .= " AND is_open IN (" . implode(',', $statusPlaceholders) . ")";
         }
+        
         // Sort by the specified field
         $allowedSortFields = ['posisi', 'created_at', 'company_id'];
         if (in_array($sort, $allowedSortFields)) {
@@ -260,8 +273,11 @@ class LowonganModel extends Model
         } else {
             $sql .= " ORDER BY posisi"; // Default sorting
         }
+        
         // Execute query
         $result = $this->db->fetchAll($sql, $params);
-        return $result ? : false;
+        return $result ?: false;
     }
+    
+    
 }
