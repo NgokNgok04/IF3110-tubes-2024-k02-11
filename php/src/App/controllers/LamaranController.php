@@ -68,8 +68,8 @@ class LamaranController extends Controller
         $user_id = $_SESSION['id'];
 
         // Define the new file paths
-        $cv_path = '/public/uploads/' . pathinfo($_FILES['cv']['name'], PATHINFO_FILENAME) . '-' . $user_id . '-' . $lowongan_id. '.pdf';
-        $video_path = '/public/uploads/' . pathinfo($_FILES['video']['name'], PATHINFO_FILENAME) . '-' . $user_id . '-' . $lowongan_id .'.' . pathinfo($_FILES['video']['name'], PATHINFO_EXTENSION);
+        $cv_path = '/public/uploads/' . pathinfo($_FILES['cv']['name'], PATHINFO_FILENAME) . '-' . $user_id . '-' . $lowongan_id . '.pdf';
+        $video_path = '/public/uploads/' . pathinfo($_FILES['video']['name'], PATHINFO_FILENAME) . '-' . $user_id . '-' . $lowongan_id . '.' . pathinfo($_FILES['video']['name'], PATHINFO_EXTENSION);
         $status = 'waiting';
 
         // Add to database
@@ -80,7 +80,7 @@ class LamaranController extends Controller
             $video_uploaded = $this->uploadFile($lowongan_id, $_FILES['video'], ['mp4', 'avi', 'mkv', 'mov', 'webm'], 100 * 1024 * 1024);
 
             if ($cv_uploaded && $video_uploaded) {
-                header('Location: /'); 
+                header('Location: /');
             } else {
                 echo "Failed to upload one or more files.";
             }
@@ -91,10 +91,10 @@ class LamaranController extends Controller
 
 
 
-    public function uploadFile($lowongan_id, $file, $allowedTypes, $maxSize,)
+    public function uploadFile($lowongan_id, $file, $allowedTypes, $maxSize, )
     {
         $target_dir = FILE_DIR;
-        
+
         // Generate a new filename: original_name-user_id.extension
         $filename = pathinfo($file["name"], PATHINFO_FILENAME) . '-' . $_SESSION['id'] . '-' . $lowongan_id;
         $extension = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
@@ -104,19 +104,19 @@ class LamaranController extends Controller
         $uploadOK = 1;
 
         // Check if the file already exists
-        if(file_exists($target_file)) {
+        if (file_exists($target_file)) {
             echo "Sorry, file already exists.";
             $uploadOK = 0;
         }
 
         // Validate file type
-        if(!in_array($extension, $allowedTypes)) {
+        if (!in_array($extension, $allowedTypes)) {
             echo "Sorry, only " . implode(", ", $allowedTypes) . " files are allowed.";
             $uploadOK = 0;
         }
 
         // Validate file size
-        if($file["size"] > $maxSize) {
+        if ($file["size"] > $maxSize) {
             echo "Sorry, your file is too large.";
             $uploadOK = 0;
         }
@@ -132,7 +132,7 @@ class LamaranController extends Controller
         return false;
     }
 
-    
+
 
 
     // debugging

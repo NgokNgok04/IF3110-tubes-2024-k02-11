@@ -35,8 +35,9 @@ class LamaranModel extends Model
             return false;
     }
 
-    public function addLamaran($user_id, $lowongan_id, $cv_path, $video_path, $status, $status_reason){
-        $sql = "INSERT INTO lamaran (user_id, lowongan_id, cv_path, video_path, status, status_reason) VALUES (
+    public function addLamaran($user_id, $lowongan_id, $cv_path, $video_path, $status, $status_reason)
+    {
+        $sql = "INSERT INTO lamaran  (user_id, lowongan_id, cv_path, video_path, status, status_reason) VALUES (
             :user_id, :lowongan_id, :cv_path, :video_path, :status, :status_reason)
         ";
         $params = [
