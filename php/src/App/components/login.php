@@ -1,4 +1,8 @@
 
+<?php 
+    include(__DIR__ . '/error-toast.php');
+    generateErrorToast();
+?>
 <section class="auth-container">
     <h1>Login</h1>
     <form id="loginForm" method="POST" action="/login" class="auth-form" autocomplete="off">
