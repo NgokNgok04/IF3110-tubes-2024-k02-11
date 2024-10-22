@@ -1,0 +1,50 @@
+@font-face {
+  font-family: "MontserratSemiBold";
+  src: url("../../fonts/Montserrat-SemiBold.ttf") format("truetype");
+  font-weight: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "MontserratMedium";
+  src: url("../../fonts/Montserrat-Medium.ttf") format("truetype");
+  font-weight: normal;
+  font-weight: normal;
+}
+
+.error-toast {
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  left: 50%;
+  width: 380px;
+  transform: translateX(-50%);
+  margin-top: -100px;
+  padding: 10px 10px;
+  gap: 20px;
+  border-radius: 5px;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
+  background-color: #e14d45;
+  transition: right 0.5s ease-out;
+  /* opacity: 1; */
+  transition: margin-top 0.5s ease-out;
+}
+
+.error-toast img {
+  display: flex;
+  width: 30px;
+  align-items: center;
+}
+.error-message-toast {
+  display: flex;
+  align-items: center;
+  font-family: "MonserratSemiBold", sans-serif;
+  color: white;
+  font-size: 15px;
+}
+
+.hide {
+  margin-top: -100px;
+  display: none;
+  transition: margin-top 0.5s ease-out;
+}

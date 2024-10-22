@@ -23,7 +23,7 @@ main {
   flex-direction: row;
   gap: 20px;
   height: 100%;
-  margin-top: 20px;
+  margin-top: 70px;
   margin-left: 100px;
   margin-right: 100px;
 }
@@ -359,27 +359,7 @@ main {
 @media only screen and (max-width: 1000px) {
   main {
     margin: 20px 10px;
-  }
-
-  .filters-sort {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    margin-top: 5px;
-    gap: 5px;
-  }
-
-  .filters-sort select {
-    font-family: "SSP-Regular", sans-serif;
-    padding: 5px 10px;
-    background-color: #88aaee;
-    border: 1px solid black;
-    border-radius: 8px;
-  }
-}
-
-@media only screen and (max-width: 900px) {
-  main {
-    margin: 20px 10px;
+    margin-top: 70px;
     display: flex;
     flex-direction: column;
   }
@@ -406,5 +386,20 @@ main {
   .search-section {
     margin-top: 100px;
     order: 1;
+  }
+
+  .filters-sort {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-top: 5px;
+    gap: 5px;
+  }
+
+  .filters-sort select {
+    font-family: "SSP-Regular", sans-serif;
+    padding: 5px 10px;
+    background-color: #88aaee;
+    border: 1px solid black;
+    border-radius: 8px;
   }
 }

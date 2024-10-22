@@ -23,7 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const formObject = {};
     formData.forEach((value, key) => {
       formObject[key] = value;
-      console.log(formObject[key]);
     });
 
     if (formObject["email"].trim() == "") {
@@ -57,7 +56,18 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = "http://localhost:8000/";
           } else {
             if (response.data === "Email or password wrong") {
-              console.error(response.data);
+              const errorToast = document.getElementById("error-toast");
+              const errorMessage = document.getElementById(
+                "error-message-content"
+              );
+              if (errorToast) {
+                errorMessage.innerText = response.data;
+                errorToast.style.marginTop = "70px"; // Ensure it slides in properly
+                errorToast.classList.remove("hide"); // Ensure it's visible
+                setTimeout(() => {
+                  errorToast.classList.add("hide");
+                }, 5000);
+              }
             }
           }
         }
