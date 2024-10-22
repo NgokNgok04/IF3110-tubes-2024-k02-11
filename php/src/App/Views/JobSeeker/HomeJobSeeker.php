@@ -128,7 +128,7 @@ $totalPages = $data['totalPages'] ?? 1;
                 </select>
                 <!-- <label for="sort-by">Sort By</label> -->
                 <select id="sort-by" name="sort" onchange="submitFiltersForm()">
-                    <option value="posisi" <?php echo $sort === 'posisi' ? 'selected' : ''; ?>>Relevance</option>
+                    <option value="posisi" <?php echo $sort === 'posisi' ? 'selected' : ''; ?>>Position</option>
                     <option value="created_at" <?php echo $sort === 'created_at' ? 'selected' : ''; ?>>Date</option>
                     <option value="company_id" <?php echo $sort === 'company_id' ? 'selected' : ''; ?>>Company</option>
                 </select>

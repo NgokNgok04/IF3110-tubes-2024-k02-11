@@ -36,4 +36,24 @@
         </form>
     </div>
 </body>
+<script>
+    document.getElementById('applicationForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Prevent the default form submission
+        
+        const formData = new FormData(this);
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', this.action, true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                // Redirect to detail page with success message
+                window.location.href = '/detail-lowongan/<?php echo $data['lowongan_id']; ?>?status=success';
+            } else {
+                // Redirect to detail page with failure message
+                window.location.href = '/detail-lowongan/<?php echo $data['lowongan_id']; ?>?status=failed';
+            }
+        };
+        xhr.send(formData);
+        });
+</script>
+
 </html>

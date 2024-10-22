@@ -27,6 +27,7 @@ navbar {
   background-color: white;
   border-bottom: 1px solid #dfdeda;
   padding: 0px 100px;
+  z-index: 1000;
 }
 navbar button {
   display: flex;

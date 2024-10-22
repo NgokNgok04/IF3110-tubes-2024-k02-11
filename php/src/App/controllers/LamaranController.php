@@ -78,14 +78,14 @@ class LamaranController extends Controller
         if ($result) {
             $cv_uploaded = $this->uploadFile($lowongan_id, $_FILES['cv'], ['pdf'], 100 * 1024 * 1024);
             $video_uploaded = $this->uploadFile($lowongan_id, $_FILES['video'], ['mp4', 'avi', 'mkv', 'mov', 'webm'], 100 * 1024 * 1024);
-
             if ($cv_uploaded && $video_uploaded) {
-                header('Location: /'); 
+                header("Location: /detail-lowongan/$lowongan_id?status=success"); 
             } else {
-                echo "Failed to upload one or more files.";
+                header("Location: /detail-lowongan/$lowongan_id?status=failed");
+                // echo "Failed to upload one or more files.";
             }
         } else {
-            echo "Failed to submit lamaran.";
+            header("Location: /detail-lowongan/$lowongan_id?status=failed");
         }
     }
 
@@ -100,24 +100,21 @@ class LamaranController extends Controller
         $extension = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
         $new_file_name = $filename . '.' . $extension;
         $target_file = $target_dir . $new_file_name;
-
         $uploadOK = 1;
 
         // Check if the file already exists
         if(file_exists($target_file)) {
-            echo "Sorry, file already exists.";
             $uploadOK = 0;
         }
 
         // Validate file type
         if(!in_array($extension, $allowedTypes)) {
-            echo "Sorry, only " . implode(", ", $allowedTypes) . " files are allowed.";
             $uploadOK = 0;
         }
 
         // Validate file size
         if($file["size"] > $maxSize) {
-            echo "Sorry, your file is too large.";
+            header("Location: /detail-lowongan/$lowongan_id?status=too-large");
             $uploadOK = 0;
         }
 
@@ -126,20 +123,15 @@ class LamaranController extends Controller
             if (move_uploaded_file($file["tmp_name"], $target_file)) {
                 return true;
             } else {
-                echo "Sorry, there was an error uploading " . htmlspecialchars($new_file_name) . ".";
+                header("Location: /detail-lowongan/$lowongan_id?status=failed");
             }
         }
         return false;
     }
-
-    
-
-
     // debugging
     public function showDebug()
     {
         $lamarans = $this->model->getAllLamaran();
         $this->view('User', 'DebugPage', ['lamarans' => $lamarans]);
     }
-
 }
