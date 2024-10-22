@@ -37,14 +37,6 @@ $data = $data['lowongan'] ?? [];
             <?php elseif(isset($data['lamaran_id'])): ?>
                 <h3>Your Application</h3>
                 <div class="application-applied">
-                    <?php 
-                    // echo "CV Path: " . $data['cv_path'];
-                    // if(file_exists($data['cv_path'])){
-                    //     echo "File exists";
-                    // } else {
-                    //     echo "File does not exist";
-                    // }
-                    ?>
                     <p>Status: <strong><?php echo htmlspecialchars($data['status']); ?></strong></p>
 
                     <div class="cv-container">
