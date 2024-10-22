@@ -2,6 +2,7 @@
 $lowonganList = $data['lowonganList'] ?? [];
 $currentPage = $data['currentPage'] ?? 1;
 $totalPages = $data['totalPages'] ?? 1;
+// var_dump($lowonganList);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -104,8 +105,7 @@ $totalPages = $data['totalPages'] ?? 1;
                 <input class="search" id="searchInput" type="text" name="search" placeholder="Search jobs..." value="<?php echo htmlspecialchars($searchTerm); ?>" onkeyup="debounceSearch()">
             </div>
             <div class="filters-sort">
-                <!-- <label for="location-select">Locations</label> -->
-                <select name="location" id="location-select" onchange="submitFiltersForm()">
+                <select name="location" id="location-select" onchange="debounceSearch()">
                     <option value="">All Locations</option>
                     <?php foreach ($locations as $location): ?>
                         <option value="<?php echo htmlspecialchars($location); ?>" <?php echo $location === $locationFilter ? 'selected' : ''; ?>>
@@ -113,17 +113,15 @@ $totalPages = $data['totalPages'] ?? 1;
                         </option>
                     <?php endforeach; ?>
                 </select>
-                <!-- <label for="status-select">Status</label> -->
-                <select name="status" id="status-select" onchange="submitFiltersForm()">
+                <select name="status" id="status-select" onchange="debounceSearch()">
                     <option value="">Statuses</option>
                     <?php foreach ($statuses as $status): ?>
-                        <option value="<?php echo htmlspecialchars($status); ?>" <?php echo $status == $statusFilter ? 'selected' : ''; ?>>
-                            <?php echo htmlspecialchars($status === 'Open' ? 'Open' : 'Closed'); ?>
+                        <option value="<?php echo $status === 'Open' ? 'True' : 'False'; ?>" <?php echo $status === $statusFilter ? 'selected' : ''; ?>>
+                            <?php echo htmlspecialchars($status); ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
-                <!-- <label for="sort-by">Sort By</label> -->
-                <select id="sort-by" name="sort" onchange="submitFiltersForm()">
+                <select id="sort-by" name="sort" onchange="debounceSearch()">
                     <option value="posisi" <?php echo $sort === 'posisi' ? 'selected' : ''; ?>>Position</option>
                     <option value="created_at" <?php echo $sort === 'created_at' ? 'selected' : ''; ?>>Date</option>
                     <option value="company_id" <?php echo $sort === 'company_id' ? 'selected' : ''; ?>>Company</option>
@@ -133,37 +131,8 @@ $totalPages = $data['totalPages'] ?? 1;
         <div id="modalOverlay" class="modal-overlay display-none"></div>
     </main>
 </body>
-<script src = "/../../../public/js/HomeJobseeker.js"></script>
 <script>
-let debounceTimer;
-function debounceSearch() {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(function() {
-        const searchInput = document.getElementById('searchInput').value;
-        const location = document.getElementById('location-select').value;
-        const status = document.getElementById('status-select').value;
-        const sort = document.getElementById('sort-by').value;
-
-        // AJAX to server
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', `/?search=${encodeURIComponent(searchInput)}&location=${encodeURIComponent(location)}&status=${encodeURIComponent(status)}&sort=${encodeURIComponent(sort)}`, true);
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); // This ensures it's an AJAX request
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                // Replace only the job vacancy list to avoid resetting the input cursor position
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(xhr.responseText, 'text/html');
-                const newList = doc.querySelector('.list-vacancy');
-                
-                if (newList) {
-                    document.querySelector('.list-vacancy').innerHTML = newList.innerHTML;
-                }
-            }
-        };
-
-        xhr.send();
-    }, 300); 
-}
-
+    const currPage = <?php echo json_encode($currentPage); ?>; // Pass the current page to AJAX
 </script>
+<script src = "/../../../public/js/HomeJobseeker.js"></script>
 </html>

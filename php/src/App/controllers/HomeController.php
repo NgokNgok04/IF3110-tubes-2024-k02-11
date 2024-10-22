@@ -29,54 +29,43 @@ class HomeController extends Controller implements ControllerInterface
 
     public function jobSeekerHome()
     {
-        if(isset($_GET['search'])){
-            $search = $_GET['search'];
-            $lowonganList = $this->modelLowongan->getSearchQuery($search);
+        // Initialize variables
+        $search = $_GET['search'] ?? '';
+        $locationFilter = $_GET['location'] ?? '';
+        $statusFilter = $_GET['status'] ?? '';
+        $sort = $_GET['sort'] ?? 'posisi'; // Default sort by 'posisi'
+        // echo $sort;
+        $currentPage = (int)($_GET['page'] ?? 1);
+        
+        if (!empty($search) || !empty($locationFilter) || !empty($statusFilter) || !empty($sort)) {
+            $lowonganList = $this->modelLowongan->getSearchQuery($search, $locationFilter, $statusFilter, $sort);
         } else {
             $lowonganList = $this->modelLowongan->getAllLowongan();
         }
-        if($lowonganList == false){
-            $lowonganList = $this->modelLowongan->getAllLowongan();
+        if ($lowonganList === false) {
+            $lowonganList = [];
         }
-
-        // $lowonganList = $this->modelLowongan->getAllLowongan();
-        $statuses = array_unique(array_column($lowonganList, 'is_open'));
-        $locations = array_unique(array_column($lowonganList, 'jenis_lokasi'));
-
-        // Filters
-        $locationFilter = $_GET['location'] ?? '';
-        $statusFilter = $_GET['status'] ?? '';
-        $searchTerm = $_GET['search'] ?? '';
-        $sort = $_GET['sort'] ?? 'posisi'; // Default sort by 'posisi'
-    
-        if (!empty($locationFilter) || !empty($searchTerm) || !empty($statusFilter)) {
-            $lowonganList = array_filter($lowonganList, function ($lowongan) use ($locationFilter, $statusFilter, $searchTerm) {
-                $matchesLocation = empty($locationFilter) || $lowongan['jenis_lokasi'] === $locationFilter;
-                $matchesStatus = empty($statusFilter) || (string)$lowongan['is_open'] == (string)$statusFilter;
-                $matchesSearch = empty($searchTerm) || 
-                    stripos($lowongan['posisi'], $searchTerm) !== false || 
-                    stripos($lowongan['deskripsi'], $searchTerm) !== false;
-                return $matchesLocation && $matchesSearch && $matchesStatus;
-            });
-        }
-    
-        // Apply Sorting
-        usort($lowonganList, function ($a, $b) use ($sort) {
-            return $a[$sort] <=> $b[$sort];
-        });
-    
+        
         foreach($lowonganList as &$lowongan){
             $lowongan['nama'] = $this->modelUsers->getUserById(($lowongan['company_id']))['nama'];
             $lowongan['lokasi'] = $this->modelUsers->getUserById(($lowongan['company_id']))['lokasi'];
             $lowongan['about'] = $this->modelUsers->getUserById(($lowongan['company_id']))['about'];
         }
-
-        // Pagination
+        // Prepare unique statuses and locations
+        $statuses = array_unique(array_column($lowonganList, 'is_open'));
+        // Map the numeric statuses to descriptive strings
+        $statuses = array_map(function($status) {
+            return $status == 1 ? 'Open' : 'Closed';
+        }, $statuses);
+        // var_dump($statuses);
+        $locations = array_unique(array_column($lowonganList, 'jenis_lokasi'));
+    
+        // Pagination setup
         $itemsPerPage = 12;
         $totalItems = count($lowonganList);
         $totalPages = ceil($totalItems / $itemsPerPage);
-        $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-    
+        
+        // Validate and adjust current page
         if ($currentPage < 1) {
             $currentPage = 1;
         } elseif ($currentPage > $totalPages) {
@@ -87,18 +76,36 @@ class HomeController extends Controller implements ControllerInterface
         $currentItems = array_slice($lowonganList, $offset, $itemsPerPage);
         
         // Render the view with the filtered, sorted, and paginated data
-        $this->view('JobSeeker', 'HomeJobSeeker', [
-            'lowonganList' => $currentItems,
-            'statuses' => $statuses,
-            'locations' => $locations,
-            'currentPage' => $currentPage,
-            'totalPages' => $totalPages,
-            'locationFilter' => $locationFilter,
-            'statusFilter' => $statusFilter,
-            'searchTerm' => $searchTerm,
-            'sort' => $sort
-        ]);
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+            // AJAX request
+            $this->view('JobSeeker', 'HomeJobSeeker', [
+                'lowonganList' => $currentItems,
+                'statuses' => $statuses,
+                'locations' => $locations,
+                'currentPage' => $currentPage,
+                'totalPages' => $totalPages,
+                'locationFilter' => $locationFilter,
+                'statusFilter' => $statusFilter,
+                'searchTerm' => $search,
+                'sort' => $sort
+            ]);
+        } else {
+            // Regular request
+            $this->view('JobSeeker', 'HomeJobSeeker', [
+                'lowonganList' => $currentItems,
+                'statuses' => $statuses,
+                'locations' => $locations,
+                'currentPage' => $currentPage,
+                'totalPages' => $totalPages,
+                'locationFilter' => $locationFilter,
+                'statusFilter' => $statusFilter,
+                'searchTerm' => $search,
+                'sort' => $sort
+            ]);
+        }
     }
+    
+    
 
     public function companyHome()
     {

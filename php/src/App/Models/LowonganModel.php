@@ -9,11 +9,6 @@ class LowonganModel extends Model
     {
         $sql = "SELECT * FROM lowongan";
         $result = $this->db->fetchAll($sql);
-        if ($result) {
-            foreach ($result as &$row) {
-                $row['is_open'] = $row['is_open'] ? 'Open' : 'Closed';
-            }
-        }
         // var_dump($result);
         if ($result)
             return $result;
@@ -241,14 +236,32 @@ class LowonganModel extends Model
             return false;
     }
 
-    public function getSearchQuery($query)
+    public function getSearchQuery($query, $location = '', $status = '', $sort = 'posisi')
     {
-        $sql = "SELECT * FROM lowongan WHERE posisi LIKE :query OR deskripsi LIKE :query";
+        // Base SQL query with placeholders for search, location, and status
+        $sql = "SELECT * FROM lowongan WHERE (posisi LIKE :query OR deskripsi LIKE :query)";
+        
+        // Prepare parameters for query
         $params = [':query' => "%$query%"];
+        // Apply location filter if provided
+        if (!empty($location)) {
+            $sql .= " AND jenis_lokasi = :location";
+            $params[':location'] = $location;
+        }
+        // Apply status filter if provided (0 or 1 for is_open)
+        if (!empty($status)) {
+            $sql .= " AND is_open = :status";
+            $params[':status'] = $status;
+        }
+        // Sort by the specified field
+        $allowedSortFields = ['posisi', 'created_at', 'company_id'];
+        if (in_array($sort, $allowedSortFields)) {
+            $sql .= " ORDER BY $sort";  
+        } else {
+            $sql .= " ORDER BY posisi"; // Default sorting
+        }
+        // Execute query
         $result = $this->db->fetchAll($sql, $params);
-        // echo "DISINI";
-        // var_dump($result);
-        if ($result) return $result;
-        else return false;
+        return $result ? : false;
     }
 }
