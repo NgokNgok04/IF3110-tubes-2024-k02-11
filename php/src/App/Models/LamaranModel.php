@@ -123,6 +123,7 @@ class LamaranModel extends Model
             return false;
     }
 
+
     public function getLamaranStatusAndNamaBYLowonganID($id)
     {
         $sql = "SELECT lamaran.lamaran_id, lamaran.status, users.nama 

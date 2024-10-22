@@ -49,10 +49,11 @@ class LowonganController extends Controller
             ]);
         } else {
             $detailLowongan = $this->model->getDetailLowonganByID($id, $_SESSION['id']);
+            $date = $this->model->getLamaranDateUserInLowongan($id, $_SESSION['id']);
             if(!$detailLowongan){
                 $detailLowongan = $this->model->getDetailLowonganByIDWithoutLamaran($id);
             }
-            $this->view('JobSeeker', 'DetailLowongan', ['lowongan' => $detailLowongan]);
+            $this->view('JobSeeker', 'DetailLowongan', ['lowongan' => $detailLowongan, 'date' => $date]);
         }
     }
 

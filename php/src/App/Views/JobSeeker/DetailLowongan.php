@@ -1,5 +1,8 @@
 <?php
-$data = $data['lowongan'] ?? [];
+$date = $data['date'] ?? [];
+$data = $data['lowongan'] ?? [];    
+$dateTime = new DateTime($date['created_at']);
+// var_dump($data);
 
 // Initialize status message variable
 $statusMessage = '';
@@ -65,6 +68,7 @@ if (isset($_GET['status'])) {
             <?php elseif(isset($data['lamaran_id'])): ?>
                 <h3>Your Application</h3>
                 <div class="application-applied">
+                    <p>Posted on: <strong><?php echo htmlspecialchars($dateTime->format('Y-m-d H:i:s')); ?></strong></p>
                     <p>Status: <strong><?php echo htmlspecialchars($data['status']); ?></strong></p>
 
                     <div class="cv-container">

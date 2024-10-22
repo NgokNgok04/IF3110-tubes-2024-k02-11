@@ -191,6 +191,30 @@ class LowonganModel extends Model
             return false;
     }
 
+    public function getLamaranDateUserInLowongan($id, $user_id)
+    {
+        $sql =
+        "SELECT lamaran.created_at
+        FROM lamaran
+        JOIN users 
+            ON lamaran.user_id = users.user_id
+        JOIN lowongan 
+            ON lamaran.lowongan_id = lowongan.lowongan_id
+        WHERE 
+            lamaran.lowongan_id = :lowongan_id
+            AND 
+            users.user_id = :user_id";
+        $params = [
+            ':lowongan_id' => $id,
+            ':user_id' => $user_id
+        ];
+        $result = $this->db->fetch($sql, $params);
+        if ($result)
+            return $result;
+        else
+            return false;
+    }
+
     public function getDetailLowonganByID($id, $user_id)
     {
         $sql =
