@@ -71,16 +71,19 @@ class LamaranController extends Controller
         $cv_path = '/public/uploads/' . $_FILES['cv']['full_path'];
         $video_path = '/public/uploads/' . $_FILES['video']['full_path'];
         $status = 'waiting';
-        $created_at = date('Y-m-d H:i:s');
-        $this->upload_cv();
-        $this->upload_video();
-        $this->model->addLamaran($user_id, $lowongan_id,$cv_path, $video_path, $status, "", $created_at);
-        header('Location: /');   
+        $result = $this->model->addLamaran($user_id, $lowongan_id,$cv_path, $video_path, $status, "");
+        if($result){
+            $this->upload_cv();
+            $this->upload_video();
+            header('Location: /');   
+        } else{
+            echo "Failed to submit lamaran";
+        }
     }
 
     public function upload_cv(){
         $target_dir =  FILE_DIR;
-        $target_file = $target_dir . "" .basename($_FILES["cv"]["name"]);
+        $target_file = $target_dir . basename($_FILES["cv"]["name"]);
         $uploadOK = 1; 
         $fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
@@ -95,8 +98,8 @@ class LamaranController extends Controller
             $uploadOK = 0;
         }
 
-        //size 
-        if($_FILES["cv"]["size"] > 500000){
+        //size (100 MB)
+        if($_FILES["cv"]["size"] > 100 * 1024 * 1024){
             echo "Sorry, your file is too large.";
             $uploadOK = 0;
         }
@@ -136,8 +139,8 @@ class LamaranController extends Controller
             $uploadOK = 0;
         }
 
-        // Check file size (limit: 500 MB)
-        if ($_FILES["video"]["size"] > 500 * 1024 * 1024) { // 500 MB
+        // Check file size (limit: 100 MB)
+        if ($_FILES["video"]["size"] > 100 * 1024 * 1024) { // 500 MB
             echo "Sorry, your file is too large.";
             $uploadOK = 0;
         }

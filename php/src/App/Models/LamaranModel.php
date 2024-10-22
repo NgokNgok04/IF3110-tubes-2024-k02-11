@@ -10,7 +10,6 @@ class LamaranModel extends Model
     public function getAllLamaran()
     {
         $sql = "SELECT * FROM lamaran";
-        // var_dump($this->db->fetchAll($sql));
         return $this->db->fetchAll($sql);
     }
 
@@ -36,10 +35,9 @@ class LamaranModel extends Model
             return false;
     }
 
-    public function addLamaran($lamaran_id, $user_id, $lowongan_id, $cv_path, $video_path, $status, $status_reason, $created_at)
-    {
-        $sql = "INSERT INTO lamaran (lamaran_id, user_id, lowongan_id, cv_path, video_path, status, status_reason, created_at) VALUES (
-            :lamaran_id, :user_id, :lowongan_id, :cv_path, :video_path, :status, :status_reason, :created_at)
+    public function addLamaran($user_id, $lowongan_id, $cv_path, $video_path, $status, $status_reason){
+        $sql = "INSERT INTO lamaran (user_id, lowongan_id, cv_path, video_path, status, status_reason) VALUES (
+            :user_id, :lowongan_id, :cv_path, :video_path, :status, :status_reason)
         ";
         $params = [
             ':user_id' => $user_id,
@@ -48,7 +46,6 @@ class LamaranModel extends Model
             ':video_path' => $video_path,
             ':status' => $status,
             ':status_reason' => $status_reason,
-            ':created_at' => $created_at
         ];
         $result = $this->db->execute($sql, $params);
         if ($result)
@@ -116,10 +113,7 @@ class LamaranModel extends Model
         return false;
     }
 
-
-    //might need to change 
-    public function getLamaranByLowonganID($id)
-    {
+    public function getLamaranByLowonganID($id){
         $sql = "SELECT * FROM lamaran WHERE lowongan_id = :lowongan_id";
         $params = [':lowongan_id' => $id];
         $result = $this->db->fetch($sql, $params);
@@ -152,7 +146,6 @@ class LamaranModel extends Model
             ON cd.company_id = lo.company_id
         WHERE lo.lowongan_id = :lowongan_id
         ";
-
         $params = [':lowongan_id' => $id];
         $result = $this->db->fetch($sql, $params);
         if ($result)
