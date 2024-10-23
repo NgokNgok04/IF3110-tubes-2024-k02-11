@@ -83,14 +83,19 @@ if (isset($_GET['status'])) {
                     </div>
 
                     <div class="video-container">
-                        <p><strong>Introduction Video:</strong></p>
-                        <video controls width="100%" height="400px">
-                            <source src="<?php echo htmlspecialchars($data['video_path']); ?>" type="video/mp4">
-                            Your browser does not support the video tag. 
-                            <a href="<?php echo htmlspecialchars($data['video_path']); ?>">Watch Introduction Video</a>
-                        </video>
+                        <?php
+                            if (isset($data['video_path']) && $data['video_path'] !== null): 
+                        ?>
+                            <p><strong>Introduction Video:</strong></p>
+                            <video controls width="100%" height="400px">
+                                <source src="<?php echo htmlspecialchars($data['video_path']); ?>" type="video/mp4">
+                                Your browser does not support the video tag. 
+                                <a href="<?php echo htmlspecialchars($data['video_path']); ?>">Watch Introduction Video</a>
+                            </video>
+                        <?php else: ?>
+                            <p><strong>No introduction video available.</strong></p>
+                        <?php endif; ?>
                     </div>
-
                     <p>Reason: <strong><?php echo htmlspecialchars($data['status_reason'] ?? "-"); ?></strong></p>
                 </div>
             <?php endif; ?>
