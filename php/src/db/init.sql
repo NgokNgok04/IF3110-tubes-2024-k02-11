@@ -173,23 +173,23 @@ INSERT INTO lowongan (company_id, posisi, deskripsi, jenis_pekerjaan, jenis_loka
 
 -- Insert Attachments for Job Listings
 INSERT INTO attachment_lowongan (lowongan_id, file_path) VALUES
-(1, '/public/uploads/attachment_1.png'),
-(1, '/public/uploads/attachment_2.png'),
-(1, '/public/uploads/attachment_3.png'),
-(2, '/public/uploads/attachment_4.png'),
-(3, '/public/uploads/attachment_5.png'),
-(4, '/public/uploads/attachment_6.png'),
-(4, '/public/uploads/attachment_7.png'),
-(5, '/public/uploads/attachment_8.png'),
-(6, '/public/uploads/attachment_9.png'),
-(7, '/public/uploads/attachment_10.png'),
-(10, '/public/uploads/attachment_11.png'),
-(13, '/public/uploads/attachment_12.png'),
-(16, '/public/uploads/attachment_13.png'),
-(19, '/public/uploads/attachment_14.png'),
-(22, '/public/uploads/attachment_15.png'),
-(25, '/public/uploads/attachment_16.png'),
-(28, '/public/uploads/attachment_17.png');
+(1, '/public/attachment_1.png'),
+(1, '/public/attachment_2.png'),
+(1, '/public/attachment_3.png'),
+(2, '/public/attachment_4.png'),
+(3, '/public/attachment_5.png'),
+(4, '/public/attachment_6.png'),
+(4, '/public/attachment_7.png'),
+(5, '/public/attachment_8.png'),
+(6, '/public/attachment_9.png'),
+(7, '/public/attachment_10.png'),
+(10, '/public/attachment_11.png'),
+(13, '/public/attachment_12.png'),
+(16, '/public/attachment_13.png'),
+(19, '/public/attachment_14.png'),
+(22, '/public/attachment_15.png'),
+(25, '/public/attachment_16.png'),
+(28, '/public/attachment_17.png');
 
 
 -- Insert Job Applications (Lamaran)

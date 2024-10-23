@@ -83,8 +83,11 @@ class LowonganController extends Controller
             $data = json_decode(file_get_contents('php://input'), true);
 
             if (isset($data['file_path'])) {
-                $file_path = WORK_DIR . $data['file_path'];
+                $originalPath = $data['file_path'];
+                $decodedFilePath = urldecode($originalPath);
+                $file_path = WORK_DIR . $decodedFilePath;
 
+                // if ($file_path && file_exists($file_path)) {
                 if ($file_path && file_exists($file_path)) {
                     try {
                         if (!unlink($file_path)) {
@@ -101,7 +104,7 @@ class LowonganController extends Controller
                     }
                 } else {
                     http_response_code(404);
-                    echo json_encode(['status' => 'error', 'message' => 'Image not found.']);
+                    echo json_encode(['status' => 'error', 'message' => 'Image not found.' . $file_path]);
                 }
             } else {
                 http_response_code(400);
@@ -146,16 +149,70 @@ class LowonganController extends Controller
             $is_open = $_POST['is_open'];
             $is_open === 'true' ? true : false;
 
+            $attachments = $_FILES['attachments'];
+            $uploadedFilePaths = [];
+            $attachmentIds = [];
+
+            $allowedTypes = ['image/jpeg', 'image/png'];
+
             try {
+                if (isset($attachments['tmp_name']) && is_array($attachments['tmp_name'])) {
+                    foreach ($attachments['tmp_name'] as $key => $tempPath) {
+                        if ($attachments['error'][$key] === UPLOAD_ERR_NO_FILE) {
+                            continue;
+                        }
+
+
+                        if ($attachments['error'][$key] === UPLOAD_ERR_OK) {
+                            $originalName = $attachments['name'][$key];
+                            $fileType = mime_content_type($tempPath);
+
+                            if (!in_array($fileType, $allowedTypes)) {
+                                throw new Exception("Invalid file type: " . $originalName . ". Only JPEG and PNG files are allowed.");
+                            }
+
+
+                            $newFileName = uniqid() . '_' . basename($originalName);
+                            $relativePath = RELATIVE_FILE_DIR . $newFileName;
+                            $newFilePath = WORK_DIR . $relativePath;
+
+                            if (move_uploaded_file($tempPath, $newFilePath)) {
+                                $attachmentId = $this->attachmentModel->addAttachment($id, $relativePath);
+                                if ($attachmentId !== false) {
+                                    $uploadedFilePaths[] = $newFilePath;
+                                    $attachmentIds[] = $attachmentId;
+                                } else {
+                                    throw new Exception("Failed to insert attachment into the database.");
+                                }
+                            } else {
+                                throw new Exception("Failed to move uploaded file.");
+                            }
+                        } else {
+                            http_response_code(500);
+                            throw new Exception("Error uploading file: " . $attachments['error'][$key]);
+                        }
+                    }
+                }
+
                 $this->model->updateLowongan($id, $posisi, $deskripsi, $jenis_pekerjaan, $jenis_lokasi, $is_open);
-            } catch (\Exception $e) {
+                http_response_code(200);
+                echo json_encode(['message' => 'Lowongan berhasil diperbarui']);
+            } catch (Exception $e) {
+                // undo
+                foreach ($uploadedFilePaths as $filePath) {
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+                }
+
+                foreach ($attachmentIds as $attachmentId) {
+                    $this->attachmentModel->deleteAttachmentByID($attachmentId);
+                }
+
                 http_response_code(500);
                 echo json_encode(['message' => 'Failed to update lowongan: ' . $e->getMessage()]);
                 return;
             }
-
-            http_response_code(200);
-            echo json_encode(['message' => 'Lowongan berhasil diperbarui']);
         } else {
             http_response_code(405);
             echo json_encode(['message' => 'Metode tidak diizinkan.']);
