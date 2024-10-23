@@ -6,7 +6,8 @@ use PDO;
 use PDOException;
 use Exception;
 
-class Database {
+class Database
+{
     private $host = DB_HOST;
     private $database_name = DB_NAME;
     private $username = DB_USER;
@@ -15,7 +16,8 @@ class Database {
     private $connection;
     private static $instance = null;
 
-    private function __construct() {
+    private function __construct()
+    {
         $dsn = "pgsql:host={$this->host};port={$this->port};dbname={$this->database_name}";
 
         try {
@@ -29,18 +31,26 @@ class Database {
         }
     }
 
-    public static function getInstance() {
+    public static function getInstance()
+    {
         if (self::$instance === null) {
             self::$instance = new Database();
         }
         return self::$instance;
     }
 
-    public function __destruct() {
+    public function __destruct()
+    {
         $this->connection = null; // Close the connection
     }
 
-    public function execute($query, $params = []) {
+    public function prepare($sql)
+    {
+        return $this->connection->prepare($sql);
+    }
+
+    public function execute($query, $params = [])
+    {
         try {
             $stmt = $this->connection->prepare($query);
             $stmt->execute($params);
@@ -50,7 +60,8 @@ class Database {
         }
     }
 
-    public function fetchAll($query, $params = []) {
+    public function fetchAll($query, $params = [])
+    {
         try {
             $stmt = $this->connection->prepare($query);
             $stmt->execute($params);
@@ -60,7 +71,8 @@ class Database {
         }
     }
 
-    public function fetch($query, $params = []) {
+    public function fetch($query, $params = [])
+    {
         try {
             $stmt = $this->connection->prepare($query);
             $stmt->execute($params);
@@ -70,7 +82,8 @@ class Database {
         }
     }
 
-    public function rowCount($query, $params = []) {
+    public function rowCount($query, $params = [])
+    {
         try {
             $stmt = $this->connection->prepare($query);
             $stmt->execute($params);
@@ -80,7 +93,8 @@ class Database {
         }
     }
 
-    public function showTables() {
+    public function showTables()
+    {
         try {
             $stmt = $this->connection->query("SELECT tablename FROM pg_tables WHERE schemaname = 'public'");
             return $stmt->fetchAll();
@@ -89,8 +103,9 @@ class Database {
         }
     }
 
-    public function runScript($filepath){
-        try{
+    public function runScript($filepath)
+    {
+        try {
             $script = file_get_contents($filepath);
             $this->connection->exec($script);
         } catch (PDOException $e) {

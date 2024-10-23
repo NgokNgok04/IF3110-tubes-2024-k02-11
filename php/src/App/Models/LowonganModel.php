@@ -16,9 +16,9 @@ class LowonganModel extends Model
             return false;
     }
 
-    public function getAllLowonganByCompanyID($id){
+    public function getAllLowonganByCompanyID($company_id){
         $sql = "SELECT * FROM lowongan WHERE company_id = :company_id";
-        $params = [':company_id' => $id];
+        $params = [':company_id' => $company_id];
         $result = $this->db->fetchAll($sql, $params);
         if ($result)
             return $result;
@@ -26,17 +26,15 @@ class LowonganModel extends Model
             return false;
     }
 
-    public function addLowongan($company_id, $posisi, $deskripsi, $jenis_pekerjaan, $jenis_lokasi, $is_open, $created_at, $updated_at)
+    public function addLowongan($company_id, $posisi, $deskripsi, $jenis_pekerjaan, $jenis_lokasi)
     {
-        $sql = "INSERT INTO lowongan (company_id, posisi, deskripsi, jenis_pekerjaan, jenis_lokasi, is_open, created_at, updated_at) VALUES (
+        $sql = "INSERT INTO lowongan (company_id, posisi, deskripsi, jenis_pekerjaan, jenis_lokasi, is_open) VALUES (
             :company_id, 
             :posisi, 
             :deskripsi, 
             :jenis_pekerjaan, 
             :jenis_lokasi, 
-            :is_open, 
-            :created_at, 
-            :updated_at
+            true
         )";
         $params = [
             ':company_id' => $company_id,
@@ -44,11 +42,15 @@ class LowonganModel extends Model
             ':deskripsi' => $deskripsi,
             ':jenis_pekerjaan' => $jenis_pekerjaan,
             ':jenis_lokasi' => $jenis_lokasi,
-            ':is_open' => $is_open,
-            ':created_at' => $created_at,
-            ':updated_at' => $updated_at
         ];
-        return (bool) $this->db->execute($sql, $params);
+
+        $result = $this->db->execute($sql, $params);
+        if ($result) {
+            $stmt = $this->db->prepare("SELECT LASTVAL()");
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        }
+        return false;
     }
 
     public function deleteLowonganByID($id)
