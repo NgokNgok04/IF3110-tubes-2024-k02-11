@@ -230,36 +230,84 @@ class LowonganController extends Controller
 
     public function storeLowongan()
     {
-        $posisi = $_POST['title'];
-        $description = $_POST['description'];
-        $requirements = $_POST['requirements'];
-        $location = $_POST['location'];
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $company_id = $_SESSION['id'];
+            $posisi = $_POST['posisi'];
+            $deskripsi = $_POST['deskripsi'];
+            $jenis_pekerjaan = $_POST['jenis_pekerjaan'];
+            $jenis_lokasi = $_POST['jenis_lokasi'];
 
-        if (!isset($_SESSION['company_id'])) {
-            header('Location: /tambah-lowongan');
-        }
-        $company_id = $_SESSION['company_id'];
-        $is_open = True;
-        $created_at = date('Y-m-d H:i:s');
-        $updated_at = date('Y-m-d H:i:s');
+            $attachments = $_FILES['attachments'];
 
-        // echo $company_id;
-        // echo $posisi;
-        // echo $description;
-        // echo $requirements;
-        // echo $location;
-        // echo $is_open;
-        // echo $created_at;
-        // echo $updated_at;
+            $uploadedFilePaths = [];
+            $attachmentIds = [];
+            $lowongan_id = '';
+            $allowedTypes = ['image/jpeg', 'image/png'];
+            try {
+                if ($attachments && isset($attachments['tmp_name']) && is_array($attachments['tmp_name'])) {
+                    $lowongan_id = $this->model->addLowongan($company_id, $posisi, $deskripsi, $jenis_pekerjaan, $jenis_lokasi);
+                    foreach ($attachments['tmp_name'] as $key => $tempPath) {
+                        if ($attachments['error'][$key] === UPLOAD_ERR_NO_FILE) {
+                            continue;
+                        }
 
-        $result = $this->model->addLowongan($company_id, $posisi, $description, $requirements, $location, $is_open, $created_at, $updated_at);
-        if (!$result) {
-            header('Location: /tambah-lowongan');
+                        if ($attachments['error'][$key] === UPLOAD_ERR_OK) {
+                            $originalName = $attachments['name'][$key];
+                            $fileType = mime_content_type($tempPath);
+
+                            if (!in_array($fileType, $allowedTypes)) {
+                                throw new Exception("Invalid file type: " . $originalName . ". Only JPEG and PNG files are allowed.");
+                            }
+
+                            $newFileName = uniqid() . '_' . basename($originalName);
+                            $relativePath = RELATIVE_FILE_DIR . $newFileName;
+                            $newFilePath = WORK_DIR . $relativePath;
+
+                            if (move_uploaded_file($tempPath, $newFilePath)) {
+                                $attachmentId = $this->attachmentModel->addAttachment($lowongan_id, $relativePath);
+                                if ($attachmentId !== false) {
+                                    $uploadedFilePaths[] = $newFilePath;
+                                    $attachmentIds[] = $attachmentId;
+                                } else {
+                                    throw new Exception("Failed to insert attachment into the database.");
+                                }
+                            } else {
+                                throw new Exception("Failed to move uploaded file.");
+                            }
+                        } else {
+                            http_response_code(500);
+                            throw new Exception("Error uploading file: " . $attachments['error'][$key]);
+                        }
+                    }
+                } else {
+                    $lowongan_id = $this->model->addLowongan($company_id, $posisi, $deskripsi, $jenis_pekerjaan, $jenis_lokasi);
+                }
+                header('Location: /detail-lowongan/' . $lowongan_id);
+            } catch (Exception $e) {
+                // undo
+                if ($lowongan_id)
+                    $this->model->deleteLowonganByID($lowongan_id);
+
+                foreach ($uploadedFilePaths as $filePath) {
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+                }
+
+                foreach ($attachmentIds as $attachmentId) {
+                    $this->attachmentModel->deleteAttachmentByID($attachmentId);
+                }
+
+
+                if (!headers_sent()) {
+                    http_response_code(500);
+                }
+                echo json_encode(['message' => 'Failed to add lowongan: ' . $e->getMessage()]);
+                return;
+            }
         } else {
-            header('Location: /');
+            http_response_code(405);
+            echo json_encode(['message' => 'Metode tidak diizinkan.']);
         }
-
-        // Redirect
-        header('Location: /');
     }
 }
