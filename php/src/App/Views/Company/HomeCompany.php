@@ -31,12 +31,21 @@
                             <h1 class="job-title" id="job-title-<?php echo $index; ?>">
                                 <?php echo htmlspecialchars($job['posisi']); ?>
                             </h1>
-                            <h1 class="job-company" id="job-company-<?php echo $index; ?>">
+                            <h1 class="job-company" id="job-company-<?php echo $index;?>">
                                 <?php echo $companyData['nama'] ?>
                             </h1>
-                            <h1 class="job-location" id="job-location-<?php echo $index; ?>">
-                                <?php echo $companyData['lokasi'] ?>
+                            <h1 class="job-location" id="job-location-<?php echo $index;?>">
+                                <?php echo $companyData['lokasi']?>
                             </h1>
+                            <p>
+                                <?php echo $job['jenis_lokasi'];?> 
+                            </p>
+                            <p>
+                                <?php echo $job['jenis_pekerjaan'];?>
+                            </p>
+                            <p>
+                                <?php echo $job['is_open'] ? 'Open' : 'Closed';?>
+                            </p>
                             <h1 class="display-none" id="job-desc-<?php echo $index;?>"><?php echo htmlspecialchars($job['deskripsi']); ?></h1>
                             <h1 class="display-none" id="job-status-<?php echo $index;?>"><?php echo htmlspecialchars($job['jenis_lokasi']); ?></h1>
                             <h1 class="display-none" id="job-type-<?php echo $index;?>"><?php echo htmlspecialchars($job['jenis_pekerjaan']); ?></h1>
@@ -94,6 +103,21 @@
                     <label>
                         <input type="checkbox" name="statuses[]" value="0" onchange="debounceSearch()">
                         Closed
+                    </label><br>
+                </div>
+                <div id="jobtypes-checkboxes">
+                    <h4>Job Type</h4>
+                    <label>
+                        <input type="checkbox" name="jobtypes[]" value="full-time" onchange="debounceSearch()">
+                        Full-time
+                    </label><br>
+                    <label>
+                        <input type="checkbox" name="jobtypes[]" value="part-time" onchange="debounceSearch()">
+                        Part-time
+                    </label><br>
+                    <label>
+                        <input type="checkbox" name="jobtypes[]" value="contract" onchange="debounceSearch()">
+                        Contract
                     </label><br>
                 </div>
                 <div>

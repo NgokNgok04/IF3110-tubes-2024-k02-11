@@ -131,6 +131,21 @@ $totalPages = $data['totalPages'] ?? 1;
                     Closed
                 </label><br>
             </div>
+            <div id="job-type-checkboxes">
+                <h4>Job Type</h4>
+                <label>
+                    <input type="checkbox" name="jobtypes[]" value="full-time" onchange="debounceSearch()">
+                    Full-time
+                </label><br>
+                <label>
+                    <input type="checkbox" name="jobtypes[]" value="part-time" onchange="debounceSearch()">
+                    Part-time
+                </label><br>
+                <label>
+                    <input type="checkbox" name="jobtypes[]" value="contract" onchange="debounceSearch()">
+                    Contract
+                </label><br>
+            </div>
             <div>
                 <label for="sort-by">Sort By:</label>
                 <select id="sort-by" name="sort" onchange="debounceSearch()">

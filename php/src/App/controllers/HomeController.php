@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
-use App\Core\Database;
 use App\Interfaces\ControllerInterface;
 use App\Models\LowonganModel;
 use App\Models\UsersModel;
@@ -33,12 +32,13 @@ class HomeController extends Controller implements ControllerInterface
         $search = $_GET['search'] ?? '';
         $locationFilter = $_GET['locations'] ?? '';
         $statusFilter = $_GET['statuses'] ?? '';
+        $jobtypeFilter = $_GET['jobtypes'] ?? '';
         $sort = $_GET['sort'] ?? 'posisi'; // Default sort by 'posisi'
 
         $currentPage = (int)($_GET['page'] ?? 1);
         
-        if (!empty($search) || !empty($locationFilter) || !empty($statusFilter) || !empty($sort)) {
-            $lowonganList = $this->modelLowongan->getSearchQuery($search, $locationFilter, $statusFilter, $sort);
+        if (!empty($search) || !empty($locationFilter) || !empty($statusFilter) || !empty($sort) || !empty($jobtypeFilter)) {
+            $lowonganList = $this->modelLowongan->getSearchQuery($search, $locationFilter, $statusFilter, $jobtypeFilter, $sort);
         } else {
             $lowonganList = $this->modelLowongan->getAllLowongan();
         }
@@ -59,6 +59,7 @@ class HomeController extends Controller implements ControllerInterface
         }, $statuses);
         // var_dump($statuses);
         $locations = array_unique(array_column($lowonganList, 'jenis_lokasi'));
+        $jobtypes = array_unique(array_column($lowonganList, 'jenis_pekerjaan'));
     
         // Pagination setup
         $itemsPerPage = 12;
@@ -74,39 +75,21 @@ class HomeController extends Controller implements ControllerInterface
     
         $offset = ($currentPage - 1) * $itemsPerPage;
         $currentItems = array_slice($lowonganList, $offset, $itemsPerPage);
-        
-        // Render the view with the filtered, sorted, and paginated data
-        if (isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
-            // AJAX request
-            $this->view('JobSeeker', 'HomeJobSeeker', [
-                'lowonganList' => $currentItems,
-                'statuses' => $statuses,
-                'locations' => $locations,
-                'currentPage' => $currentPage,
-                'totalPages' => $totalPages,
-                'locationFilter' => $locationFilter,
-                'statusFilter' => $statusFilter,
-                'searchTerm' => $search,
-                'sort' => $sort
-            ]);
-        } else {
-            // Regular request
-            $this->view('JobSeeker', 'HomeJobSeeker', [
-                'lowonganList' => $currentItems,
-                'statuses' => $statuses,
-                'locations' => $locations,
-                'currentPage' => $currentPage,
-                'totalPages' => $totalPages,
-                'locationFilter' => $locationFilter,
-                'statusFilter' => $statusFilter,
-                'searchTerm' => $search,
-                'sort' => $sort
-            ]);
-        }
+        $this->view('JobSeeker', 'HomeJobSeeker', [
+            'lowonganList' => $currentItems,
+            // 'statuses' => $statuses,
+            // 'locations' => $locations,
+            // 'jobtypes' => $jobtypes,
+            'currentPage' => $currentPage,
+            'totalPages' => $totalPages,
+            // 'locationFilter' => $locationFilter,
+            // 'statusFilter' => $statusFilter,
+            // 'jobtypeFilter' => $jobtypeFilter,
+            'searchTerm' => $search,
+            'sort' => $sort
+        ]);
     }
     
-    
-
     public function companyHome()
     {
         $company_id = $_SESSION['id'];
@@ -117,17 +100,14 @@ class HomeController extends Controller implements ControllerInterface
         $search = $_GET['search'] ?? '';
         $locationFilter = $_GET['locations'] ?? '';
         $statusFilter = $_GET['statuses'] ?? '';
+        $jobtypeFilter = $_GET['jobtypes'] ?? '';
         $sort = $_GET['sort'] ?? 'posisi'; // Default sort by 'posisi'
 
         $currentPage = (int)($_GET['page'] ?? 1);
 
-        if(!empty($search) || !empty($locationFilter) || !empty($statusFilter) || !empty($sort)) {
-            // var_dump($search);
-            // var_dump($locationFilter);
-            // var_dump($statusFilter);
-            // var_dump($sort);
+        if(!empty($search) || !empty($locationFilter) || !empty($statusFilter) || !empty($jobtypeFilter) || !empty($sort)) {
             // var_dump("masuk sini");
-            $jobList = $this->modelLowongan->getSearchQueryCompany($company_id, $search, $locationFilter, $statusFilter, $sort);
+            $jobList = $this->modelLowongan->getSearchQueryCompany($company_id, $search, $locationFilter, $statusFilter, $jobtypeFilter, $sort);
         } else {
             $jobList = $this->modelLowongan->getAllLowonganByCompanyID($company_id);
         }
@@ -135,18 +115,13 @@ class HomeController extends Controller implements ControllerInterface
             $jobList = [];
         }
 
-
-        // foreach($jobList as &$job){
-        //     $job['nama'] = $this->modelUsers->getUserById(($job['company_id']))['nama'];
-        //     $job['lokasi'] = $this->modelUsers->getUserById(($job['company_id']))['lokasi'];
-        //     $job['about'] = $this->modelUsers->getUserById(($job['company_id']))['about'];
-        // }
-
         $statuses = array_unique(array_column($jobList, 'is_open'));
         $statuses = array_map(function($status) {
             return $status == 1 ? 'Open' : 'Closed';
         }, $statuses);
+
         $locations = array_unique(array_column($jobList, 'jenis_lokasi'));
+        $jobtypes = array_unique(array_column($jobList, 'jenis_pekerjaan'));
 
         $itemsPerPage = 12;
         $totalItems = count($jobList);
@@ -161,36 +136,19 @@ class HomeController extends Controller implements ControllerInterface
     
         $offset = ($currentPage - 1) * $itemsPerPage;
         $currentItems = array_slice($jobList, $offset, $itemsPerPage);
-
-        if (isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
-            // AJAX request
-            $this->view('Company', 'HomeCompany', [
-                'jobs' => $currentItems,
-                'statuses' => $statuses,
-                'locations' => $locations,
-                'currentPage' => $currentPage,
-                'totalPages' => $totalPages,
-                'locationFilter' => $locationFilter,
-                'statusFilter' => $statusFilter,
-                'searchTerm' => $search,
-                'sort' => $sort, 
-                'companyData' => $companyData
-            ]);
-        } else {
-            // Regular request
-            $this->view('Company', 'HomeCompany', [
-                'jobs' => $currentItems,
-                'statuses' => $statuses,
-                'locations' => $locations,
-                'currentPage' => $currentPage,
-                'totalPages' => $totalPages,
-                'locationFilter' => $locationFilter,
-                'statusFilter' => $statusFilter,
-                'searchTerm' => $search,
-                'sort' => $sort,
-                'companyData' => $companyData
-            ]);
-        }
+        $this->view('Company', 'HomeCompany', [
+            'jobs' => $currentItems,
+            'currentPage' => $currentPage,
+            'totalPages' => $totalPages,
+            'searchTerm' => $search,
+            'sort' => $sort, 
+            'companyData' => $companyData
+            // 'statuses' => $statuses,
+            // 'locations' => $locations,
+            // 'jobtypes' => $jobtypes,
+            // 'locationFilter' => $locationFilter,
+            // 'statusFilter' => $statusFilter,
+            // 'jobtypeFilter' => $jobtypeFilter,
+        ]);
     }
-
 }

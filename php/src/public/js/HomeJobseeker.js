@@ -7,17 +7,22 @@ function debounceSearch() {
     const searchInput = document.getElementById('searchInput').value; // Get the search input value
     const locations = [...document.querySelectorAll('input[name="locations[]"]:checked')].map(checkbox => checkbox.value); // Get the checked locations
     const statuses = [...document.querySelectorAll('input[name="statuses[]"]:checked')].map(checkbox => checkbox.value); // Get the checked statuses
+    // console.log(statuses);
+    const jobtypes = [...document.querySelectorAll('input[name="jobtypes[]"]:checked')].map(checkbox => checkbox.value); // Get the checked jobtypes
+    // console.log(jobtypes);
     const sort = document.getElementById('sort-by').value; // Get the selected sort option
 
     const locationQuery = locations.length > 0 ? `&locations[]=${locations.join('&locations[]=')}` : ''; // Create the query string for locations
     const statusQuery = statuses.length > 0 ? `&statuses[]=${statuses.join('&statuses[]=')}` : ''; // Create the query string for statuses
+    const jobtypeQuery = jobtypes.length > 0 ? `&jobtypes[]=${jobtypes.join('&jobtypes[]=')}` : ''; // Create the query string for jobtypes
 
     //url to be displayed in the browser
-    const url = `/?search=${encodeURIComponent(searchInput)}${locationQuery}${statusQuery}&sort=${encodeURIComponent(sort)}&page=${encodeURIComponent(currPage)}`;
+    const url = `/?search=${encodeURIComponent(searchInput)}${locationQuery}${statusQuery}${jobtypeQuery}&sort=${encodeURIComponent(sort)}&page=${encodeURIComponent(currPage)}`;
     //update the url in the browser without refreshing the page
-    window.history.pushState({ search: searchInput, locations, statuses, sort, page: currPage }, '', url);
+    window.history.pushState({ search: searchInput, locations, statuses, jobtypes, sort, page: currPage }, '', url);
     const xhr = new XMLHttpRequest(); 
     xhr.open('GET', url, true); // Send a GET request to the server
+
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); // Set the X-Requested-With header to XMLHttpRequest
     xhr.onreadystatechange = function(){
       if(xhr.readyState === 4 && xhr.status === 200){ // If the request is successful

@@ -7,14 +7,17 @@ function debounceSearch() {
     const searchInput = document.getElementById('searchInput').value;
     const locations = [...document.querySelectorAll('input[name="locations[]"]:checked')].map(checkbox => checkbox.value);
     const statuses = [...document.querySelectorAll('input[name="statuses[]"]:checked')].map(checkbox => checkbox.value);
+    const jobtypes = [...document.querySelectorAll('input[name="jobtypes[]"]:checked')].map(checkbox => checkbox.value);
+    console.log(jobtypes);
     const sort = document.getElementById('sort-by').value;
 
     const locationQuery = locations.length > 0 ? `&locations[]=${locations.join('&locations[]=')}` : '';
     const statusQuery = statuses.length > 0 ? `&statuses[]=${statuses.join('&statuses[]=')}` : '';
+    const jobtypeQuery = jobtypes.length > 0 ? `&jobtypes[]=${jobtypes.join('&jobtypes[]=')}` : '';
 
-    const url = `/?search=${encodeURIComponent(searchInput)}${locationQuery}${statusQuery}&sort=${encodeURIComponent(sort)}&page=${encodeURIComponent(currPage)}`;
+    const url = `/?search=${encodeURIComponent(searchInput)}${locationQuery}${statusQuery}${jobtypeQuery}&sort=${encodeURIComponent(sort)}&page=${encodeURIComponent(currPage)}`;
 
-    window.history.pushState({ search: searchInput, locations, statuses, sort, page: currPage }, '', url);
+    window.history.pushState({ search: searchInput, locations, statuses, jobtypes, sort, page: currPage }, '', url);
 
     const xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
@@ -63,7 +66,9 @@ function attachPaginationListeners() {
   });
 }
 
+//initial attach
 attachPaginationListeners();
+attachJobCardListeners();
 
 function attachJobCardListeners() {
   document.querySelectorAll(".job-card").forEach((button, index) => {
@@ -123,7 +128,9 @@ function moveSearchSection() {
 window.addEventListener("load", moveSearchSection);
 window.addEventListener("resize", moveSearchSection);
 document.addEventListener("DOMContentLoaded", moveSearchSection);
+document.addEventListener("DOMContentLoaded", function () {
+  attachJobCardListeners();
 
-// Attach initial event listeners
-attachPaginationListeners();
-attachJobCardListeners();
+  const closeModals = document.getElementById("close-modal");
+  closeModals.addEventListener("click", closeModal);
+});

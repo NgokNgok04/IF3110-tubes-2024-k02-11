@@ -1,5 +1,6 @@
 CREATE TYPE role_enum AS ENUM ('jobseeker', 'company');
 CREATE TYPE lokasi_enum AS ENUM ('on-site', 'hybrid', 'remote');
+CREATE TYPE job_type_enum AS ENUM ('full-time', 'part-time', 'contract');
 CREATE TYPE status_enum AS ENUM ('accepted', 'rejected', 'waiting');
 
 CREATE TABLE IF NOT EXISTS users (
@@ -22,7 +23,7 @@ CREATE TABLE IF NOT EXISTS lowongan(
     company_id INT REFERENCES company_detail(company_id) ON DELETE CASCADE,
     posisi VARCHAR(255) NOT NULL,
     deskripsi TEXT,
-    jenis_pekerjaan TEXT,
+    jenis_pekerjaan job_type_enum,
     jenis_lokasi lokasi_enum,
     is_open BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -122,54 +123,54 @@ INSERT INTO company_detail (company_id, company_name, lokasi, about) VALUES
 -- Insert Job Listings (Lowongan)
 INSERT INTO lowongan (company_id, posisi, deskripsi, jenis_pekerjaan, jenis_lokasi, is_open) VALUES
 -- Google Positions
-(11, 'Senior Software Engineer', 'Leading development of next-generation search algorithms.', 'Full-time', 'hybrid', true),
-(11, 'Product Manager', 'Lead product strategy for Google Cloud initiatives.', 'Full-time', 'on-site', true),
-(11, 'Machine Learning Engineer', 'Develop ML models for Google Assistant.', 'Full-time', 'remote', true),
+(11, 'Senior Software Engineer', 'Leading development of next-generation search algorithms.', 'full-time', 'hybrid', true),
+(11, 'Product Manager', 'Lead product strategy for Google Cloud initiatives.', 'full-time', 'on-site', true),
+(11, 'Machine Learning Engineer', 'Develop ML models for Google Assistant.', 'full-time', 'remote', true),
 
 -- Microsoft Positions
-(12, 'Frontend Developer', 'Build responsive web applications using React.', 'Full-time', 'remote', true),
-(12, 'DevOps Engineer', 'Manage Azure cloud infrastructure.', 'Full-time', 'hybrid', true),
-(12, 'Game Developer', 'Create next-gen gaming experiences for Xbox.', 'Full-time', 'on-site', true),
+(12, 'Frontend Developer', 'Build responsive web applications using React.', 'full-time', 'remote', true),
+(12, 'DevOps Engineer', 'Manage Azure cloud infrastructure.', 'full-time', 'hybrid', true),
+(12, 'Game Developer', 'Create next-gen gaming experiences for Xbox.', 'full-time', 'on-site', true),
 
 -- Amazon Positions
-(13, 'Data Scientist', 'Analyze customer behavior patterns.', 'Full-time', 'on-site', true),
-(13, 'Solutions Architect', 'Design AWS cloud solutions.', 'Full-time', 'remote', true),
-(13, 'UX Designer', 'Design shopping experiences.', 'Contract', 'remote', false),
+(13, 'Data Scientist', 'Analyze customer behavior patterns.', 'full-time', 'on-site', true),
+(13, 'Solutions Architect', 'Design AWS cloud solutions.', 'full-time', 'remote', true),
+(13, 'UX Designer', 'Design shopping experiences.', 'contract', 'remote', false),
 
 -- Meta Positions
-(14, 'AR/VR Developer', 'Build immersive experiences for Meta Quest.', 'Full-time', 'hybrid', true),
-(14, 'Privacy Engineer', 'Implement data protection measures.', 'Full-time', 'on-site', true),
-(14, 'Content Moderator', 'Review and moderate content.', 'Part-time', 'remote', true),
+(14, 'AR/VR Developer', 'Build immersive experiences for Meta Quest.', 'full-time', 'hybrid', true),
+(14, 'Privacy Engineer', 'Implement data protection measures.', 'full-time', 'on-site', true),
+(14, 'Content Moderator', 'Review and moderate content.', 'part-time', 'remote', true),
 
 -- Netflix Positions
-(15, 'Content Algorithm Engineer', 'Improve content recommendation systems.', 'Full-time', 'hybrid', true),
-(15, 'Platform Engineer', 'Maintain streaming infrastructure.', 'Full-time', 'on-site', true),
-(15, 'Quality Assurance Engineer', 'Ensure streaming quality across devices.', 'Contract', 'remote', true),
-
+(15, 'Content Algorithm Engineer', 'Improve content recommendation systems.', 'full-time', 'hybrid', true),
+(15, 'Platform Engineer', 'Maintain streaming infrastructure.', 'full-time', 'on-site', true),
+(15, 'Quality Assurance Engineer', 'Ensure streaming quality across devices.', 'contract', 'remote', true),
+    
 -- Apple Positions
-(16, 'iOS Developer', 'Develop new features for iOS.', 'Full-time', 'on-site', true),
-(16, 'Hardware Engineer', 'Design next-gen Apple devices.', 'Full-time', 'on-site', true),
-(16, 'Machine Learning Researcher', 'Advance Siri capabilities.', 'Full-time', 'hybrid', true),
+(16, 'iOS Developer', 'Develop new features for iOS.', 'full-time', 'on-site', true),
+(16, 'Hardware Engineer', 'Design next-gen Apple devices.', 'full-time', 'on-site', true),
+(16, 'Machine Learning Researcher', 'Advance Siri capabilities.', 'full-time', 'hybrid', true),
 
 -- Twitter Positions
-(17, 'Backend Engineer', 'Scale Twitter''s distributed systems.', 'Full-time', 'remote', true),
-(17, 'Data Engineer', 'Build data pipelines.', 'Full-time', 'hybrid', true),
-(17, 'Security Engineer', 'Protect user data and privacy.', 'Full-time', 'on-site', false),
+(17, 'Backend Engineer', 'Scale Twitter''s distributed systems.', 'full-time', 'remote', true),
+(17, 'Data Engineer', 'Build data pipelines.', 'full-time', 'hybrid', true),
+(17, 'Security Engineer', 'Protect user data and privacy.', 'full-time', 'on-site', false),
 
 -- LinkedIn Positions
-(18, 'Full Stack Developer', 'Develop features across the stack.', 'Full-time', 'hybrid', true),
-(18, 'AI Engineer', 'Improve job matching algorithms.', 'Full-time', 'remote', true),
-(18, 'Technical Product Manager', 'Lead development of new features.', 'Full-time', 'on-site', true),
+(18, 'Full Stack Developer', 'Develop features across the stack.', 'full-time', 'hybrid', true),
+(18, 'AI Engineer', 'Improve job matching algorithms.', 'full-time', 'remote', true),
+(18, 'Technical Product Manager', 'Lead development of new features.', 'full-time', 'on-site', true),
 
 -- Spotify Positions
-(19, 'Audio Engineer', 'Optimize streaming quality.', 'Full-time', 'on-site', true),
-(19, 'Recommendation Engineer', 'Improve music recommendations.', 'Full-time', 'remote', true),
-(19, 'Product Designer', 'Design new user experiences.', 'Contract', 'hybrid', true),
+(19, 'Audio Engineer', 'Optimize streaming quality.', 'full-time', 'on-site', true),
+(19, 'Recommendation Engineer', 'Improve music recommendations.', 'full-time', 'remote', true),
+(19, 'Product Designer', 'Design new user experiences.', 'contract', 'hybrid', true),
 
 -- Adobe Positions
-(20, 'Graphics Engineer', 'Develop new creative tools.', 'Full-time', 'on-site', true),
-(20, 'Cloud Engineer', 'Maintain Creative Cloud services.', 'Full-time', 'remote', true),
-(20, 'Technical Support Engineer', 'Support enterprise customers.', 'Part-time', 'hybrid', false);
+(20, 'Graphics Engineer', 'Develop new creative tools.', 'full-time', 'on-site', true),
+(20, 'Cloud Engineer', 'Maintain Creative Cloud services.', 'full-time', 'remote', true),
+(20, 'Technical Support Engineer', 'Support enterprise customers.', 'part-time', 'hybrid', false);
 
 -- Insert Attachments for Job Listings
 INSERT INTO attachment_lowongan (lowongan_id, file_path) VALUES
