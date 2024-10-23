@@ -6,7 +6,6 @@ use App\Models\CompanyDetailModel;
 use App\Models\LowonganModel;
 use App\Models\AttachmentModel;
 use App\Models\LamaranModel;
-use Exception;
 
 class LowonganController extends Controller
 {
@@ -31,11 +30,10 @@ class LowonganController extends Controller
     public function editLowonganPage($id)
     {
         $lowongan = $this->model->getLowonganByID(($id));
-        $attachment = $this->attachmentModel->getAttachmentByLowonganID($id);
         $this->view('Company', 'EditLowongan', [
-            'attachment' => $attachment,
             'lowongan' => $lowongan,
         ]);
+
     }
 
 
@@ -51,10 +49,11 @@ class LowonganController extends Controller
             ]);
         } else {
             $detailLowongan = $this->model->getDetailLowonganByID($id, $_SESSION['id']);
-            if (!$detailLowongan) {
+            $date = $this->model->getLamaranDateUserInLowongan($id, $_SESSION['id']);
+            if(!$detailLowongan){
                 $detailLowongan = $this->model->getDetailLowonganByIDWithoutLamaran($id);
             }
-            $this->view('JobSeeker', 'DetailLowongan', ['lowongan' => $detailLowongan]);
+            $this->view('JobSeeker', 'DetailLowongan', ['lowongan' => $detailLowongan, 'date' => $date]);
         }
     }
 
@@ -214,7 +213,7 @@ class LowonganController extends Controller
                 return;
             }
         } else {
-            http_response_code(405);
+            http_response_code(405); 
             echo json_encode(['message' => 'Metode tidak diizinkan.']);
         }
     }

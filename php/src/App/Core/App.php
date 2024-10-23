@@ -23,6 +23,7 @@ class App
         $this->router->dispatch();
     }
 
+
     private function defineRoutes()
     {
         $this->router->get('/login', AuthController::class, 'loginPage');
