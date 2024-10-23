@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Core;
+use App\Core\Controller;
 
 class Router
 {
@@ -72,7 +73,19 @@ class Router
                     call_user_func_array([$controller, $action], $matches);
                     return;
                 } else {
-                    echo "Access Denied for $currentRole!";
+                    $err = new Controller(); 
+                    if($currentRole == 'unauthorized') {
+                        $err->view('Error', 'NoAccess', []);
+                    } else if($currentRole == 'JobSeeker') {
+                        $err->view('Error', 'NoAccessCompany', []);
+                    } else if($currentRole == 'Company') {
+                        $err->view('Error', 'NoAccessJobSeeker', []);
+                    }
+                    echo "<script>
+                            setTimeout(function(){
+                                window.location.href = '/';
+                            }, 5000);
+                          </script>";
                     return;
                 }
             }
