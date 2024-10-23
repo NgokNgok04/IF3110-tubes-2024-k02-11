@@ -1,6 +1,6 @@
 CREATE TYPE role_enum AS ENUM ('jobseeker', 'company');
 CREATE TYPE lokasi_enum AS ENUM ('on-site', 'hybrid', 'remote');
-CREATE TYPE job_type_enum AS ENUM ('full-time', 'part-time', 'contract');
+CREATE TYPE job_type_enum AS ENUM ('full-time', 'part-time', 'internship');
 CREATE TYPE status_enum AS ENUM ('accepted', 'rejected', 'waiting');
 
 CREATE TABLE IF NOT EXISTS users (
@@ -135,7 +135,7 @@ INSERT INTO lowongan (company_id, posisi, deskripsi, jenis_pekerjaan, jenis_loka
 -- Amazon Positions
 (13, 'Data Scientist', 'Analyze customer behavior patterns.', 'full-time', 'on-site', true),
 (13, 'Solutions Architect', 'Design AWS cloud solutions.', 'full-time', 'remote', true),
-(13, 'UX Designer', 'Design shopping experiences.', 'contract', 'remote', false),
+(13, 'UX Designer', 'Design shopping experiences.', 'internship', 'remote', false),
 
 -- Meta Positions
 (14, 'AR/VR Developer', 'Build immersive experiences for Meta Quest.', 'full-time', 'hybrid', true),
@@ -145,7 +145,7 @@ INSERT INTO lowongan (company_id, posisi, deskripsi, jenis_pekerjaan, jenis_loka
 -- Netflix Positions
 (15, 'Content Algorithm Engineer', 'Improve content recommendation systems.', 'full-time', 'hybrid', true),
 (15, 'Platform Engineer', 'Maintain streaming infrastructure.', 'full-time', 'on-site', true),
-(15, 'Quality Assurance Engineer', 'Ensure streaming quality across devices.', 'contract', 'remote', true),
+(15, 'Quality Assurance Engineer', 'Ensure streaming quality across devices.', 'internship', 'remote', true),
     
 -- Apple Positions
 (16, 'iOS Developer', 'Develop new features for iOS.', 'full-time', 'on-site', true),
@@ -165,7 +165,7 @@ INSERT INTO lowongan (company_id, posisi, deskripsi, jenis_pekerjaan, jenis_loka
 -- Spotify Positions
 (19, 'Audio Engineer', 'Optimize streaming quality.', 'full-time', 'on-site', true),
 (19, 'Recommendation Engineer', 'Improve music recommendations.', 'full-time', 'remote', true),
-(19, 'Product Designer', 'Design new user experiences.', 'contract', 'hybrid', true),
+(19, 'Product Designer', 'Design new user experiences.', 'internship', 'hybrid', true),
 
 -- Adobe Positions
 (20, 'Graphics Engineer', 'Develop new creative tools.', 'full-time', 'on-site', true),

@@ -142,8 +142,8 @@ $totalPages = $data['totalPages'] ?? 1;
                     Part-time
                 </label><br>
                 <label>
-                    <input type="checkbox" name="jobtypes[]" value="contract" onchange="debounceSearch()">
-                    Contract
+                    <input type="checkbox" name="jobtypes[]" value="internship" onchange="debounceSearch()">
+                    Internship
                 </label><br>
             </div>
             <div>
