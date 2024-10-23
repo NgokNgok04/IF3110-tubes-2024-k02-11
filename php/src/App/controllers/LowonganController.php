@@ -47,7 +47,7 @@ class LowonganController extends Controller
                 'lowongan' => $lowongan,
                 'listLamaran' => $listLamaran
             ]);
-        } else {
+        } else if(isset($_SESSION['role']) && $_SESSION['role'] == 'jobseeker') {
             $detailLowongan = $this->model->getDetailLowonganByID($id, $_SESSION['id']);
             $date = $this->model->getLamaranDateUserInLowongan($id, $_SESSION['id']);
             if(!$detailLowongan){
