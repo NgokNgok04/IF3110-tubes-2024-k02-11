@@ -1,10 +1,5 @@
-body {
-    font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', 'Fira Sans', Ubuntu, Oxygen, 'Oxygen Sans', Cantarell, 'Droid Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Lucida Grande', Helvetica, Arial, sans-serif;
-    background-color: #f3f2ef;
-    color: rgba(0, 0, 0, 0.9);
-    line-height: 1.5;
-    margin: 0;
-    padding: 0;
+body{
+    padding-top: 50px;
 }
 
 .container {
@@ -71,7 +66,7 @@ p {
     font-size: 15px;
 }
 
-.btn {
+.apply-btn {
     display: inline-block;
     padding: 10px 24px;
     background-color: #0a66c2;
@@ -83,7 +78,7 @@ p {
     transition: background-color 0.3s;
 }
 
-.btn:hover {
+.apply-btn:hover {
     background-color: #004182;
 }
 

@@ -1,8 +1,6 @@
 <?php
 $lamaranList = $data;
 $user = $user_data;
-// var_dump($user);
-// echo $user['user_id'];
 ?>
 
 <!DOCTYPE html>
@@ -12,10 +10,20 @@ $user = $user_data;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Riwayat Lamaran</title>
     <link rel="stylesheet" href="../../../public/styles/global.css">
-    <!-- <link rel="stylesheet" href="../../../public/styles/navbar.css"> -->
+    <link rel="stylesheet" href="../../../public/styles/navbar.css">
+    <script src="https://kit.fontawesome.com/3816d0d83d.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../../../public/styles/jobseeker/riwayat.css">
 </head>
 <body>
+    <?php 
+        include(__DIR__ . '/../../Components/navbar.php');
+        if(isset($_SESSION['role']) && $_SESSION['role'] == 'jobseeker') {
+            generateNavbar('JobSeeker');
+        } else {
+            generateNavbar('Not Login');
+        }
+    ?>
+
     <main>
         <div class="container">
             <h1>Riwayat Lamaran</h1>

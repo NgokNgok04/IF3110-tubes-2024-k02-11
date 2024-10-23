@@ -6,7 +6,6 @@ use App\Models\CompanyDetailModel;
 use App\Models\LowonganModel;
 use App\Models\AttachmentModel;
 use App\Models\LamaranModel;
-use Exception;
 
 class LowonganController extends Controller
 {
@@ -31,11 +30,10 @@ class LowonganController extends Controller
     public function editLowonganPage($id)
     {
         $lowongan = $this->model->getLowonganByID(($id));
-        $attachment = $this->attachmentModel->getAttachmentByLowonganID($id);
         $this->view('Company', 'EditLowongan', [
-            'attachment' => $attachment,
             'lowongan' => $lowongan,
         ]);
+
     }
 
 
@@ -51,10 +49,11 @@ class LowonganController extends Controller
             ]);
         } else {
             $detailLowongan = $this->model->getDetailLowonganByID($id, $_SESSION['id']);
-            if (!$detailLowongan) {
+            $date = $this->model->getLamaranDateUserInLowongan($id, $_SESSION['id']);
+            if(!$detailLowongan){
                 $detailLowongan = $this->model->getDetailLowonganByIDWithoutLamaran($id);
             }
-            $this->view('JobSeeker', 'DetailLowongan', ['lowongan' => $detailLowongan]);
+            $this->view('JobSeeker', 'DetailLowongan', ['lowongan' => $detailLowongan, 'date' => $date]);
         }
     }
 
@@ -75,47 +74,6 @@ class LowonganController extends Controller
             echo json_encode(['status' => 'error', 'message' => 'Method tidak diizinkan']);
         }
     }
-
-
-    public function deleteAttachment($id)
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = json_decode(file_get_contents('php://input'), true);
-
-            if (isset($data['file_path'])) {
-                $file_path = WORK_DIR . $data['file_path'];
-
-                if ($file_path && file_exists($file_path)) {
-                    try {
-                        if (!unlink($file_path)) {
-                            throw new Exception('Failed to delete the image.');
-                        }
-
-                        $this->attachmentModel->deleteAttachmentById($data['attachment_id']);
-
-                        http_response_code(200);
-                        echo json_encode(['status' => 'success', 'message' => 'Image and attachment deleted successfully.']);
-                    } catch (Exception $e) {
-                        http_response_code(500);
-                        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
-                    }
-                } else {
-                    http_response_code(404);
-                    echo json_encode(['status' => 'error', 'message' => 'Image not found.']);
-                }
-            } else {
-                http_response_code(400);
-                echo json_encode(['status' => 'error', 'message' => 'No image path provided.']);
-            }
-        } else {
-            http_response_code(405);
-            echo json_encode(['status' => 'error', 'message' => 'Method not allowed.']);
-        }
-    }
-
-
-
-
 
     public function toogleLowongan($id)
     {
@@ -157,7 +115,7 @@ class LowonganController extends Controller
             http_response_code(200);
             echo json_encode(['message' => 'Lowongan berhasil diperbarui']);
         } else {
-            http_response_code(405);
+            http_response_code(405); 
             echo json_encode(['message' => 'Metode tidak diizinkan.']);
         }
     }
