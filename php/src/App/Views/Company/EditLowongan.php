@@ -15,10 +15,10 @@
         <div class="card">
             <h3 class="title">Edit Job</h3>
             <div class="form-group">
-                <?php if ($attachment): ?>
+                <?php if ($attachments): ?>
                     <label>Current Attachments</label>
                     <div id="current-attachments">
-                        <?php foreach ($attachment as $attach): ?>
+                        <?php foreach ($attachments as $attach): ?>
                             <?php if (isset($attach['file_path'])): ?>
                                 <div class="attachment-container">
                                     <img src="<?php echo htmlspecialchars($attach['file_path']); ?>"

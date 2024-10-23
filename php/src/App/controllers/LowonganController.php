@@ -31,12 +31,12 @@ class LowonganController extends Controller
     public function editLowonganPage($id)
     {
         $lowongan = $this->model->getLowonganByID(($id));
+        $attchments = $this->attachmentModel->getAttachmentByLowonganID($id);
         $this->view('Company', 'EditLowongan', [
             'lowongan' => $lowongan,
+            'attachments' => $attchments
         ]);
-
     }
-
 
     //detail lowongan Page
     public function detailLowonganPage($id)
@@ -48,10 +48,10 @@ class LowonganController extends Controller
                 'lowongan' => $lowongan,
                 'listLamaran' => $listLamaran
             ]);
-        } else if(isset($_SESSION['role']) && $_SESSION['role'] == 'jobseeker') {
+        } else if (isset($_SESSION['role']) && $_SESSION['role'] == 'jobseeker') {
             $detailLowongan = $this->model->getDetailLowonganByID($id, $_SESSION['id']);
             $date = $this->model->getLamaranDateUserInLowongan($id, $_SESSION['id']);
-            if(!$detailLowongan){
+            if (!$detailLowongan) {
                 $detailLowongan = $this->model->getDetailLowonganByIDWithoutLamaran($id);
             }
             $this->view('JobSeeker', 'DetailLowongan', ['lowongan' => $detailLowongan, 'date' => $date]);
@@ -75,7 +75,6 @@ class LowonganController extends Controller
             echo json_encode(['status' => 'error', 'message' => 'Method tidak diizinkan']);
         }
     }
-
 
     public function deleteAttachment($id)
     {
@@ -116,10 +115,6 @@ class LowonganController extends Controller
         }
     }
 
-
-
-
-
     public function toogleLowongan($id)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
@@ -137,7 +132,6 @@ class LowonganController extends Controller
             echo json_encode(['message' => 'Metode tidak diizinkan.']);
         }
     }
-
 
     public function updateLowongan($id)
     {
@@ -214,11 +208,10 @@ class LowonganController extends Controller
                 return;
             }
         } else {
-            http_response_code(405); 
+            http_response_code(405);
             echo json_encode(['message' => 'Metode tidak diizinkan.']);
         }
     }
-
 
     public function showDebug()
     {
@@ -226,7 +219,6 @@ class LowonganController extends Controller
         $this->view('User', 'DebugPage', ['lowongans' => $lowongans]);
         //TODO
     }
-
 
     public function storeLowongan()
     {
