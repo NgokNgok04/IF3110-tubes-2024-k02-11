@@ -12,28 +12,31 @@
 </head>
 
 <body>
-    <?php 
-        include(__DIR__ . "/../../Components/navbar.php"); 
-        generateNavbar('Company')
-    ?>
-    <form id="updatecompany_detail" class="company-profile-form">
+    <?php
+    include(__DIR__ . "/../../Components/navbar.php");
+    generateNavbar('Company')
+        ?>
+    <form id="profile-form" class="company-profile-form" method="POST">
         <h1 class="profile-form-title">Edit Profile</h1>
         <!-- Company Name -->
         <section class="profile-form-group">
             <label for="companyName">Name</label>
-            <input type="text" id="companyName" name="companyName" placeholder="Enter company name..">
+            <input type="text" id="company-name" name="company_name" placeholder="Enter company name.."
+                value="<?= htmlspecialchars($companyDetails['company_name']) ?>" required>
         </section>
 
         <!-- Company Description -->
         <section class="profile-form-group">
             <label for="aboutCompany">About</label>
-            <textarea id="about" name="about" rows="4" placeholder="Enter company description.."></textarea>
+            <textarea id="about" name="about" rows="4" placeholder="Enter company description.."
+                required><?= htmlspecialchars($companyDetails['about']) ?></textarea>
         </section>
 
         <!-- Location -->
         <section class="profile-form-group">
             <label for="lokasi">Location</label>
-            <input type="text" id="lokasi" name="lokasi" placeholder="Enter location..">
+            <input type="text" id="lokasi" name="lokasi" placeholder="Enter location.."
+                value="<?= htmlspecialchars($companyDetails['lokasi']) ?>" required>
         </section>
 
         <!-- Submit Button -->
@@ -41,26 +44,8 @@
             <button type="submit" id="submitButton">Submit</button>
         </section>
     </form>
+
+    <script src="../../../public/js/profil.js"> </script>
 </body>
-<script>
-    submitButton = document.getElementById("submitButton");
-    submitButton.addEventListener("click", function (event) {
-        event.preventDefault();
-        let companyName = document.getElementById("companyName").value;
-        let aboutCompany = document.getElementById("about").value;
-        let location = document.getElementById("lokasi").value;
-
-        let data = {
-            companyName: companyName,
-            aboutCompany: aboutCompany,
-            location: location
-        };
-
-        const form = document.getElementById("updatecompany_detail");
-        form.action = "/company/update";
-        form.method = "POST";
-        form.submit();
-    });
-</script>
 
 </html>

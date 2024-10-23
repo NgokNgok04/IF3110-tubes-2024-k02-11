@@ -15,12 +15,33 @@ class CompanyController extends Controller
     }
     public function profilePage()
     {
-        $this->view('Company', 'CompanyProfile');
+        $companyDetails = $this->model->getCompanyById($_SESSION['id']);
+        $this->view('Company', 'CompanyProfile', [
+            'companyDetails' => $companyDetails
+        ]);
     }
 
+    public function updateProfile()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $company_id = $_SESSION['id'];
+            $company_name = trim($_POST['company_name']);
+            $lokasi = trim($_POST['lokasi']);
+            $about = trim($_POST['about']);
+
+            $this->model->updateCompanyDetail($company_id, $company_name, $lokasi, $about);
+            header("Location: /profil");
+        } else {
+            http_response_code(405); // Method Not Allowed
+            echo json_encode(['message' => 'Metode tidak diizinkan.']);
+        }
+    }
+
+
     //debug show 
-    public function showDebug(){
-        $companyDetails = $this->model->getAllCompany(); 
+    public function showDebug()
+    {
+        $companyDetails = $this->model->getAllCompany();
         $this->view('User', 'DebugPage', ['companyDetails' => $companyDetails]);
     }
 
