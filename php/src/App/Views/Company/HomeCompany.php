@@ -46,52 +46,62 @@
                     <?php endforeach; ?>
                 </div>
             </section>
-            <section class="pagination-section">
-                <?php if ($page > 1): ?>
-                    <a class="pagination-prev" href="?page=<?php echo $page - 1; ?>&search=<?php echo urlencode($searchTerm); ?>&status=<?php echo urlencode($statusFilter); ?>&location=<?php echo urlencode($locationFilter); ?>">&laquo; Previous</a>
+            <!-- update pagination -->
+            <div class="pagination">
+                <?php if ($currentPage > 1): ?>
+                    <a class="pagination-prev" data-page="<?php echo $currentPage - 1;?>" href="javascript:void(0);">&laquo; Previous</a>
                 <?php endif; ?>
-                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                    <a class="pagination-page <?php echo ($i == ($_GET['page'] ?? 1)) ? 'active' : ''; ?>" href="?page=<?php echo $i; ?>&sort=<?php echo $sort; ?>&search=<?php echo urlencode($searchTerm); ?>&status=<?php echo urlencode($statusFilter); ?>&location=<?php echo urlencode($locationFilter); ?>" <?php echo $i == $page ? 'style="font-weight: bold;"' : ''; ?>><?php echo $i; ?></a>
+
+                <?php for ($page = 1; $page <= $totalPages; $page++):?>
+                    <a class="pagination-page <?php echo ($page == $currentPage) ? 'active' : ''; ?>" 
+                    data-page="<?php echo $page; ?>" href="javascript:void(0);">
+                        <?php echo $page; ?>
+                    </a>
                 <?php endfor; ?>
-                <?php if ($page < $totalPages): ?>
-                    <a class="pagination-next" href="?page=<?php echo $page + 1; ?>&search=<?php echo urlencode($searchTerm); ?>&status=<?php echo urlencode($statusFilter); ?>&location=<?php echo urlencode($locationFilter); ?>">Next &raquo;</a>
+
+                <?php if ($currentPage < $totalPages): ?>
+                    <a class="pagination-next" data-page="<?php echo $currentPage + 1; ?>" href="javascript:void(0);">Next &raquo;</a>
                 <?php endif; ?>
-            </section>
+            </div>
         </section>
 
         <section class="search-section">
             <form action="" method="get" id="filters-form">
                 <div class="search-bar">
-                    <input class="search" type="text" name="search" placeholder="Search jobs..." value="<?php echo htmlspecialchars($searchTerm); ?>">
-                    <button type="submit">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <span class="sr-only">Search</span>    
-                    </button>
+                    <input class="search" id="searchInput" type="text" name="search" placeholder="Search jobs..." value="<?php echo htmlspecialchars($searchTerm); ?>" onkeyup="debounceSearch()">
                 </div>
-                <div class="filters-sort">
-                    <select name="status" onchange="submitFiltersForm()">
-                        <option value="">Status</option>
-                        <?php foreach ($statuses as $status): ?>
-                            <option value="<?php echo htmlspecialchars($status); ?>" <?php echo $status == $statusFilter ? 'selected' : ''; ?>>
-                                <?php echo htmlspecialchars($status === 'Open' ? 'Open' : 'Closed'); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                    
-                    <select name="location" onchange="submitFiltersForm()">
-                        <option value="">Locations</option>
-                        <?php foreach ($locations as $location): ?>
-                            <option value="<?php echo htmlspecialchars($location); ?>" <?php echo $location === $locationFilter ? 'selected' : ''; ?>>
-                                <?php echo htmlspecialchars($location); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                    
-                    <select name="sort" onchange="submitFiltersForm()">
-                        <option value="lowongan_id" <?php echo $sort == 'lowongan_id' ? 'selected' : ''; ?>>Sort by ID</option>
-                        <option value="posisi" <?php echo $sort == 'posisi' ? 'selected' : ''; ?>>Sort by Title</option>
-                        <option value="is_open" <?php echo $sort == 'is_open' ? 'selected' : ''; ?>>Sort by Status</option>
-                        <option value="jenis_lokasi" <?php echo $sort == 'jenis_lokasi' ? 'selected' : ''; ?>>Sort by Location</option>
+                <div id = "locations-checkboxes">
+                    <h4>Locations</h4>
+                    <label>
+                        <input type="checkbox" name="locations[]" value="on-site" onchange="debounceSearch()">
+                        on-site
+                    </label><br>
+                    <label>
+                        <input type="checkbox" name="locations[]" value="hybrid" onchange="debounceSearch()">
+                        hybrid
+                    </label><br>
+                    <label>
+                        <input type="checkbox" name="locations[]" value="remote" onchange="debounceSearch()">
+                        remote
+                    </label><br>
+                </div>
+                <div id = "status-checkboxes">
+                    <h4>Statuses</h4>
+                    <label>
+                        <input type="checkbox" name="statuses[]" value="1" onchange="debounceSearch()">
+                        Open
+                    </label><br>
+                    <label>
+                        <input type="checkbox" name="statuses[]" value="0" onchange="debounceSearch()">
+                        Closed
+                    </label><br>
+                </div>
+                <div>
+                    <label for="sort-by">Sort By:</label>
+                    <select id="sort-by" name="sort" onchange="debounceSearch()">
+                        <option value="posisi" <?php echo $sort === 'posisi' ? 'selected' : ''; ?>>Position</option>
+                        <option value="created_at" <?php echo $sort === 'created_at' ? 'selected' : ''; ?>>Date</option>
+                        <option value="company_id" <?php echo $sort === 'company_id' ? 'selected' : ''; ?>>Company</option>
                     </select>
                 </div>
             </form>
@@ -139,6 +149,5 @@
         generateNavbar('Company')?>
     
 </body>
-</html>
-
 <script src="../../../public/js/HomeCompany.js" defer></script>
+</html>

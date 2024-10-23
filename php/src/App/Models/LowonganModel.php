@@ -16,6 +16,16 @@ class LowonganModel extends Model
             return false;
     }
 
+    public function getAllLowonganByCompanyID($id){
+        $sql = "SELECT * FROM lowongan WHERE company_id = :company_id";
+        $params = [':company_id' => $id];
+        $result = $this->db->fetchAll($sql, $params);
+        if ($result)
+            return $result;
+        else
+            return false;
+    }
+
     public function addLowongan($company_id, $posisi, $deskripsi, $jenis_pekerjaan, $jenis_lokasi, $is_open, $created_at, $updated_at)
     {
         $sql = "INSERT INTO lowongan (company_id, posisi, deskripsi, jenis_pekerjaan, jenis_lokasi, is_open, created_at, updated_at) VALUES (
@@ -279,6 +289,43 @@ class LowonganModel extends Model
         if($result) return $result;
         else return false;
     }
-    
-    
+
+    public function getSearchQueryCompany($company_id, $query, $locations = [], $statuses = [], $sort = 'posisi'){
+        $sql = "SELECT * FROM lowongan WHERE company_id = :company_id AND (posisi LIKE :query OR deskripsi LIKE :query)";
+
+        $params = [':company_id' => $company_id, ':query' => "%$query%"];
+        // Apply location filter if provided
+        if(!empty($locations)){
+            // Create named placeholders for locations
+            $locationPlaceholders = [];
+            foreach ($locations as $index => $location) {
+                $locationPlaceholders[] = ":location_$index"; // Named placeholder
+                $params[":location_$index"] = $location; // Set value in params
+            }
+            $sql .= " AND jenis_lokasi IN (" . implode(',', $locationPlaceholders) . ")";
+        }
+
+        // Apply status filter if provided (0 or 1 for is_open)
+
+        if(!empty($statuses)){
+            // Create named placeholders for statuses
+            $statusPlaceholders = [];
+            foreach ($statuses as $index => $status) {
+                $statusPlaceholders[] = ":status_$index"; // Named placeholder
+                $params[":status_$index"] = $status; // Set value in params
+            }
+            $sql .= " AND is_open IN (" . implode(',', $statusPlaceholders) . ")";
+        }
+
+        // Sort by the specified field
+        $allowedSortFields = ['posisi', 'created_at', 'company_id'];
+        if(in_array($sort, $allowedSortFields)){
+            $sql .= " ORDER BY $sort";
+        }else{
+            $sql .= " ORDER BY posisi"; //default
+        }
+        $result = $this->db->fetchAll($sql, $params);
+        if($result) return $result;
+        else return false;
+    }
 }
