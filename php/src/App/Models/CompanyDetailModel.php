@@ -43,11 +43,10 @@ class CompanyDetailModel extends Model
     }
 
     //updating company data
-    public function updateCompanyDetail($company_id, $company_name, $lokasi, $about): bool
+    public function updateCompanyDetail($company_id, $lokasi, $about): bool
     {
-        $sql = "UPDATE company_detail SET company_name = :company_name, lokasi = :lokasi, about = :about WHERE company_id = :company_id";
+        $sql = "UPDATE company_detail SET  lokasi = :lokasi, about = :about WHERE company_id = :company_id";
         $params = [
-            'company_name' => $company_name,
             ':lokasi' => $lokasi,
             ':about' => $about,
             'company_id' => $company_id

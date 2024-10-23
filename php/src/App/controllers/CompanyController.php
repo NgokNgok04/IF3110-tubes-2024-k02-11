@@ -4,14 +4,18 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Models\CompanyDetailModel;
+use App\Models\UsersModel;
 
 class CompanyController extends Controller
 {
     private CompanyDetailModel $model;
 
+    private UsersModel $usersModel;
+
     public function __construct()
     {
         $this->model = $this->model('CompanyDetailModel');
+        $this->usersModel = $this->model('UsersModel');
     }
     public function profilePage()
     {
@@ -29,7 +33,8 @@ class CompanyController extends Controller
             $lokasi = trim($_POST['lokasi']);
             $about = trim($_POST['about']);
 
-            $this->model->updateCompanyDetail($company_id, $company_name, $lokasi, $about);
+            $this->usersModel->updateName($company_id, $company_name);
+            $this->model->updateCompanyDetail($company_id, $lokasi, $about);
             header("Location: /profil");
         } else {
             http_response_code(405); // Method Not Allowed
