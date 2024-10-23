@@ -1,50 +1,51 @@
 CREATE TYPE role_enum AS ENUM ('jobseeker', 'company');
-CREATE TYPE lokasi_enum AS ENUM ('on-site', 'hybrid', 'remote');
+CREATE TYPE location_enum AS ENUM ('on-site', 'hybrid', 'remote');
 CREATE TYPE status_enum AS ENUM ('accepted', 'rejected', 'waiting');
+CREATE TYPE job_type_enum AS ENUM('Full-time', 'Part-time', 'Internship');
 
 CREATE TABLE IF NOT EXISTS users (
     user_id SERIAL PRIMARY KEY,
     nama VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    role role_enum
+    role role_enum NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS company_detail (
-    company_id SERIAL PRIMARY KEY REFERENCES users(user_id) ON DELETE CASCADE,
-    company_name VARCHAR(255) NOT NULL,
-    lokasi VARCHAR(255),
-    about TEXT
+    company_id SERIAL PRIMARY KEY REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    company_name VARCHAR(255) REFERENCES users(nama),
+    lokasi VARCHAR(255) NOT NULL,
+    about TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS lowongan(
     lowongan_id SERIAL PRIMARY KEY,
-    company_id INT REFERENCES company_detail(company_id) ON DELETE CASCADE,
+    company_id INT REFERENCES company_detail(company_id) ON DELETE CASCADE ON UPDATE CASCADE,
     posisi VARCHAR(255) NOT NULL,
-    deskripsi TEXT,
-    jenis_pekerjaan TEXT,
-    jenis_lokasi lokasi_enum,
-    is_open BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    deskripsi TEXT NOT NULL,
+    jenis_pekerjaan job_type_enum NOT NULL,
+    jenis_lokasi location_enum NOT NULL,
+    is_open BOOLEAN DEFAULT TRUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS attachment_lowongan (
     attachment_id SERIAL PRIMARY KEY,
     lowongan_id INT REFERENCES lowongan(lowongan_id) ON DELETE CASCADE,
-    file_path TEXT
+    file_path TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS lamaran (
     lamaran_id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
     lowongan_id INT REFERENCES lowongan(lowongan_id) ON DELETE CASCADE,
-    cv_path TEXT,
+    cv_path TEXT NOT NULL,
     video_path TEXT,
-    status status_enum,
-    status_reason TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    status status_enum NOT NULL, 
+    status_reason TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 CREATE OR REPLACE FUNCTION update_timestamp()
