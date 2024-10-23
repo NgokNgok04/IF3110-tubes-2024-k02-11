@@ -240,43 +240,44 @@ class LowonganModel extends Model
     {
         // Base SQL query 
         $sql = "SELECT * FROM lowongan WHERE (posisi LIKE :query OR deskripsi LIKE :query)";
-        
-        // Prepare parameters for query
+
+        // Prepare parameters for query searching 
         $params = [':query' => "%$query%"];
-        
         // Apply location filter if provided
-        if (!empty($locations)) {
+        //the $sql will append with locations, statuses, and sort if those aren't empty
+        if(!empty($locations)){
             // Create named placeholders for locations
             $locationPlaceholders = [];
             foreach ($locations as $index => $location) {
                 $locationPlaceholders[] = ":location_$index"; // Named placeholder
                 $params[":location_$index"] = $location; // Set value in params
             }
+            //append the sql with locations
             $sql .= " AND jenis_lokasi IN (" . implode(',', $locationPlaceholders) . ")";
         }
         
         // Apply status filter if provided (0 or 1 for is_open)
-        if (!empty($statuses)) {
+        if(!empty($statuses)){
             // Create named placeholders for statuses
             $statusPlaceholders = [];
             foreach ($statuses as $index => $status) {
                 $statusPlaceholders[] = ":status_$index"; // Named placeholder
                 $params[":status_$index"] = $status; // Set value in params
             }
+            //append the sql with statuses
             $sql .= " AND is_open IN (" . implode(',', $statusPlaceholders) . ")";
         }
-        
+
         // Sort by the specified field
         $allowedSortFields = ['posisi', 'created_at', 'company_id'];
-        if (in_array($sort, $allowedSortFields)) {
+        if(in_array($sort, $allowedSortFields)){
             $sql .= " ORDER BY $sort";  
-        } else {
-            $sql .= " ORDER BY posisi"; // Default sorting
+        }else{
+            $sql .= " ORDER BY posisi"; //default
         }
-        
-        // Execute query
         $result = $this->db->fetchAll($sql, $params);
-        return $result ?: false;
+        if($result) return $result;
+        else return false;
     }
     
     

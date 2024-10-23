@@ -80,23 +80,24 @@ $totalPages = $data['totalPages'] ?? 1;
             <?php else: ?>
                 <p>No vacancy available right now!</p>
             <?php endif; ?>
-
+            
+            <!-- 
+                pagination it's not href so it can run asynchronously with search and filter (AJAX)
+            -->
             <div class="pagination">
                 <?php if ($currentPage > 1): ?>
-                    <a class="pagination-prev" href="?page=<?php echo $currentPage - 1; ?>&sort=<?php echo $sort; ?>&search=<?php echo urlencode($searchTerm); ?>&location=<?php echo urlencode($locationFilter); ?>">&laquo; Previous</a>
+                    <a class="pagination-prev" data-page="<?php echo $currentPage - 1;?>" href="javascript:void(0);">&laquo; Previous</a>
                 <?php endif; ?>
 
-                <?php for ($page = 1; $page <= $totalPages; $page++): ?>
-                    <a class="pagination-page <?php echo ($page == ($_GET['page'] ?? 1)) ? 'active' : ''; ?>" 
-                    href="?page=<?php echo $page; ?>&sort=<?php echo $sort; ?>&search=<?php echo urlencode($searchTerm); ?>&location=<?php echo urlencode($locationFilter); ?>">
+                <?php for ($page = 1; $page <= $totalPages; $page++):?>
+                    <a class="pagination-page <?php echo ($page == $currentPage) ? 'active' : ''; ?>" 
+                    data-page="<?php echo $page; ?>" href="javascript:void(0);">
                         <?php echo $page; ?>
                     </a>
                 <?php endfor; ?>
 
-
-
                 <?php if ($currentPage < $totalPages): ?>
-                    <a class="pagination-next" href="?page=<?php echo $currentPage + 1; ?>&sort=<?php echo $sort; ?>&search=<?php echo urlencode($searchTerm); ?>&location=<?php echo urlencode($locationFilter); ?>">Next &raquo;</a>
+                    <a class="pagination-next" data-page="<?php echo $currentPage + 1; ?>" href="javascript:void(0);">Next &raquo;</a>
                 <?php endif; ?>
             </div>
         </section>
@@ -143,8 +144,5 @@ $totalPages = $data['totalPages'] ?? 1;
         <div id="modalOverlay" class="modal-overlay display-none"></div>
     </main>
 </body>
-<script>
-    const currPage = <?php echo json_encode($currentPage); ?>; // Pass the current page to AJAX
-</script>
 <script src = "/../../../public/js/HomeJobseeker.js"></script>
 </html>

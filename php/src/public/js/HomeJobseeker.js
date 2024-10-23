@@ -1,65 +1,77 @@
 let debounceTimer;
+let currPage = 1; 
 
 function debounceSearch() {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(function() {
-        const searchInput = document.getElementById('searchInput').value;
-        // Gather all checked locations
-        const locations = [...document.querySelectorAll('input[name="locations[]"]:checked')].map(checkbox => checkbox.value);
-        // Gather all checked statuses
-        const statuses = [...document.querySelectorAll('input[name="statuses[]"]:checked')].map(checkbox => checkbox.value);
-        const sort = document.getElementById('sort-by').value;
-        const page = currPage; // Pass the current page to AJAX
-        const locationQuery = locations.length > 0 ? `&locations[]=${locations.join('&locations[]=')}` : '';
-        const statusQuery = statuses.length > 0 ? `&statuses[]=${statuses.join('&statuses[]=')}` : '';
-        const url = `/?search=${encodeURIComponent(searchInput)}${locationQuery}${statusQuery}&sort=${encodeURIComponent(sort)}&page=${encodeURIComponent(page)}`;
-        window.history.pushState({ search: searchInput, locations, statuses, sort, page }, '', url);
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(function(){
+    const searchInput = document.getElementById('searchInput').value; // Get the search input value
+    const locations = [...document.querySelectorAll('input[name="locations[]"]:checked')].map(checkbox => checkbox.value); // Get the checked locations
+    const statuses = [...document.querySelectorAll('input[name="statuses[]"]:checked')].map(checkbox => checkbox.value); // Get the checked statuses
+    const sort = document.getElementById('sort-by').value; // Get the selected sort option
 
-        // AJAX to server
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', url, true);
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); // This ensures it's an AJAX request
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                // Prevent resetting cursor position
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(xhr.responseText, 'text/html');
-                const newList = doc.querySelector('.list-vacancy');
+    const locationQuery = locations.length > 0 ? `&locations[]=${locations.join('&locations[]=')}` : ''; // Create the query string for locations
+    const statusQuery = statuses.length > 0 ? `&statuses[]=${statuses.join('&statuses[]=')}` : ''; // Create the query string for statuses
 
-                if (newList) {
-                    const existingList = document.querySelector('.list-vacancy');
-                    if (existingList) {
-                        existingList.innerHTML = newList.innerHTML; 
-                    }
-                    attachJobCardListeners(); 
-                }
+    //url to be displayed in the browser
+    const url = `/?search=${encodeURIComponent(searchInput)}${locationQuery}${statusQuery}&sort=${encodeURIComponent(sort)}&page=${encodeURIComponent(currPage)}`;
+    //update the url in the browser without refreshing the page
+    window.history.pushState({ search: searchInput, locations, statuses, sort, page: currPage }, '', url);
+    const xhr = new XMLHttpRequest(); 
+    xhr.open('GET', url, true); // Send a GET request to the server
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); // Set the X-Requested-With header to XMLHttpRequest
+    xhr.onreadystatechange = function(){
+      if(xhr.readyState === 4 && xhr.status === 200){ // If the request is successful
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(xhr.responseText, 'text/html');
+        const newList = doc.querySelector('.list-vacancy');
+        const newPagination = doc.querySelector('.pagination');
+
+        //update the list and pagination with the new content
+        //if not do it, user can't interact with the new content
+          if(newList){
+            const existingList = document.querySelector('.list-vacancy');
+            if(existingList){
+              existingList.innerHTML = newList.innerHTML; 
             }
-        };
-        xhr.send();
-    }, 300);   
+          }
+
+          if(newPagination){
+            const existingPagination = document.querySelector('.pagination');
+            if(existingPagination){
+              existingPagination.innerHTML = newPagination.innerHTML;
+            }
+          }
+          //after updating the list, reattach listeners so user can interact with the new content
+          attachJobCardListeners();
+          attachPaginationListeners(); 
+        }
+      };
+      xhr.send();
+    }, 300);
 }
 
-
-// Prevent form submission on Enter key (not best practice, but it works)
+// Prevent form submission on "Enter" key button (not best practice, but it works)
 document.getElementById('filters-form').addEventListener('submit', function(event) {
-    event.preventDefault(); 
+  event.preventDefault(); 
 });
 
-// document.getElementById('searchInput').addEventListener('keyup', debounceSearch);
-// document.querySelectorAll('input[name="locations[]"]').forEach(checkbox => {
-//     checkbox.addEventListener('change', debounceSearch);
-// });
-// document.querySelectorAll('input[name="statuses[]"]').forEach(checkbox => {
-//     checkbox.addEventListener('change', debounceSearch);
-// });
+function attachPaginationListeners() {
+    const paginationLinks = document.querySelectorAll('.pagination a');
+    paginationLinks.forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault(); 
+            currPage = parseInt(this.getAttribute('data-page')); // Update current page with the new page number
+            debounceSearch(); 
+        });
+    });
+}
 
-// document.getElementById('sort-by').addEventListener('change', debounceSearch);
-
+//attach listner for the first time
+attachPaginationListeners();
 function attachJobCardListeners() {
   document.querySelectorAll(".job-card").forEach((button, index) => {
     button.addEventListener("click", () => openModal(index));
   });
-
   // Attach close button listeners for each modal
   document.querySelectorAll(".close-modal").forEach((button) => {
     button.addEventListener("click", () => closeModal());
@@ -67,6 +79,7 @@ function attachJobCardListeners() {
 
 }
 
+//this code below is for the modal of each job card
 function openModal(index) {
   const modal = document.getElementById("myModal");
   const modalContent = document.getElementById("modalContent");
