@@ -7,6 +7,7 @@ use App\Models\LowonganModel;
 use App\Models\AttachmentModel;
 use App\Models\LamaranModel;
 use Exception;
+
 class LowonganController extends Controller
 {
     private LowonganModel $model;

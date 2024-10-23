@@ -1,53 +1,54 @@
 CREATE TYPE role_enum AS ENUM ('jobseeker', 'company');
-CREATE TYPE lokasi_enum AS ENUM ('on-site', 'hybrid', 'remote');
-CREATE TYPE job_type_enum AS ENUM ('full-time', 'part-time', 'internship');
+CREATE TYPE location_enum AS ENUM ('on-site', 'hybrid', 'remote');
 CREATE TYPE status_enum AS ENUM ('accepted', 'rejected', 'waiting');
+CREATE TYPE job_type_enum AS ENUM('Full-time', 'Part-time', 'Internship');
 
 CREATE TABLE IF NOT EXISTS users (
     user_id SERIAL PRIMARY KEY,
     nama VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    role role_enum
+    email VARCHAR(255) NOT NULL UNIQUE,
+    role role_enum NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS company_detail (
-    company_id SERIAL PRIMARY KEY REFERENCES users(user_id) ON DELETE CASCADE,
-    company_name VARCHAR(255) NOT NULL,
-    lokasi VARCHAR(255),
-    about TEXT
+    company_id SERIAL PRIMARY KEY REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    company_name VARCHAR(255),
+    lokasi VARCHAR(255) NOT NULL,
+    about TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS lowongan(
     lowongan_id SERIAL PRIMARY KEY,
-    company_id INT REFERENCES company_detail(company_id) ON DELETE CASCADE,
+    company_id INT REFERENCES company_detail(company_id) ON DELETE CASCADE ON UPDATE CASCADE,
     posisi VARCHAR(255) NOT NULL,
-    deskripsi TEXT,
-    jenis_pekerjaan job_type_enum,
-    jenis_lokasi lokasi_enum,
-    is_open BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    deskripsi TEXT NOT NULL,
+    jenis_pekerjaan job_type_enum NOT NULL,
+    jenis_lokasi location_enum NOT NULL,
+    is_open BOOLEAN DEFAULT TRUE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS attachment_lowongan (
     attachment_id SERIAL PRIMARY KEY,
     lowongan_id INT REFERENCES lowongan(lowongan_id) ON DELETE CASCADE,
-    file_path TEXT
+    file_path TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS lamaran (
     lamaran_id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
     lowongan_id INT REFERENCES lowongan(lowongan_id) ON DELETE CASCADE,
-    cv_path TEXT,
+    cv_path TEXT NOT NULL,
     video_path TEXT,
-    status status_enum,
+    status status_enum NOT NULL, 
     status_reason TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
+-- timestamp
 CREATE OR REPLACE FUNCTION update_timestamp()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -69,6 +70,24 @@ WHEN (OLD.posisi IS DISTINCT FROM NEW.posisi
 EXECUTE FUNCTION update_timestamp();
 
 
+-- Memastikan jika nama di users diganti, company_name di company_detail juga terganti
+CREATE OR REPLACE FUNCTION update_company_name()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (OLD.nama IS DISTINCT FROM NEW.nama) THEN
+        UPDATE company_detail
+        SET company_name = NEW.nama
+        WHERE company_id = NEW.user_id; 
+    END IF;
+    RETURN NEW;  
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER update_company_name_trigger
+AFTER UPDATE OF nama ON users
+FOR EACH ROW
+EXECUTE FUNCTION update_company_name();
 
 -- Seeding data
 
@@ -133,9 +152,9 @@ INSERT INTO lowongan (company_id, posisi, deskripsi, jenis_pekerjaan, jenis_loka
 (12, 'Game Developer', 'Create next-gen gaming experiences for Xbox.', 'full-time', 'on-site', true),
 
 -- Amazon Positions
-(13, 'Data Scientist', 'Analyze customer behavior patterns.', 'full-time', 'on-site', true),
-(13, 'Solutions Architect', 'Design AWS cloud solutions.', 'full-time', 'remote', true),
-(13, 'UX Designer', 'Design shopping experiences.', 'internship', 'remote', false),
+(13, 'Data Scientist', 'Analyze customer behavior patterns.', 'Full-time', 'on-site', true),
+(13, 'Solutions Architect', 'Design AWS cloud solutions.', 'Full-time', 'remote', true),
+(13, 'UX Designer', 'Design shopping experiences.', 'Internship', 'remote', false),
 
 -- Meta Positions
 (14, 'AR/VR Developer', 'Build immersive experiences for Meta Quest.', 'full-time', 'hybrid', true),
@@ -143,10 +162,10 @@ INSERT INTO lowongan (company_id, posisi, deskripsi, jenis_pekerjaan, jenis_loka
 (14, 'Content Moderator', 'Review and moderate content.', 'part-time', 'remote', true),
 
 -- Netflix Positions
-(15, 'Content Algorithm Engineer', 'Improve content recommendation systems.', 'full-time', 'hybrid', true),
-(15, 'Platform Engineer', 'Maintain streaming infrastructure.', 'full-time', 'on-site', true),
-(15, 'Quality Assurance Engineer', 'Ensure streaming quality across devices.', 'internship', 'remote', true),
-    
+(15, 'Content Algorithm Engineer', 'Improve content recommendation systems.', 'Full-time', 'hybrid', true),
+(15, 'Platform Engineer', 'Maintain streaming infrastructure.', 'Full-time', 'on-site', true),
+(15, 'Quality Assurance Engineer', 'Ensure streaming quality across devices.', 'Internship', 'remote', true),
+
 -- Apple Positions
 (16, 'iOS Developer', 'Develop new features for iOS.', 'full-time', 'on-site', true),
 (16, 'Hardware Engineer', 'Design next-gen Apple devices.', 'full-time', 'on-site', true),
@@ -163,9 +182,9 @@ INSERT INTO lowongan (company_id, posisi, deskripsi, jenis_pekerjaan, jenis_loka
 (18, 'Technical Product Manager', 'Lead development of new features.', 'full-time', 'on-site', true),
 
 -- Spotify Positions
-(19, 'Audio Engineer', 'Optimize streaming quality.', 'full-time', 'on-site', true),
-(19, 'Recommendation Engineer', 'Improve music recommendations.', 'full-time', 'remote', true),
-(19, 'Product Designer', 'Design new user experiences.', 'internship', 'hybrid', true),
+(19, 'Audio Engineer', 'Optimize streaming quality.', 'Full-time', 'on-site', true),
+(19, 'Recommendation Engineer', 'Improve music recommendations.', 'Full-time', 'remote', true),
+(19, 'Product Designer', 'Design new user experiences.', 'Internship', 'hybrid', true),
 
 -- Adobe Positions
 (20, 'Graphics Engineer', 'Develop new creative tools.', 'full-time', 'on-site', true),
