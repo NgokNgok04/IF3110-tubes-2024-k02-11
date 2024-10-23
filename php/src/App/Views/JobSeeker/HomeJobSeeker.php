@@ -32,7 +32,7 @@ $totalPages = $data['totalPages'] ?? 1;
         <section class="profile-section">
             <div class="profile-bg-white">
                 <div class="profile-image">
-                        <img src="../../../public/icons/profil.png" class="profile-icon" alt="profile-picture">
+                    <img src="../../../public/icons/profil.png" class="profile-icon" alt="profile-picture">
                 </div>
                 <h1 class="profile-name"><?php echo isset($_SESSION['name']) ? $_SESSION['name'] : 'guess'  ?></h1>
             </div>

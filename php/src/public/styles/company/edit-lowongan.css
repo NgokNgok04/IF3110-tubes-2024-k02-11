@@ -56,3 +56,8 @@ label {
 .btn:hover {
   background-color: #004182;
 }
+
+.attachment-image {
+  height: 200px;
+  width: max(auto, 400px);
+}

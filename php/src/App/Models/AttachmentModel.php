@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Models; 
+namespace App\Models;
 
 use App\Models\Model;
 use Exception;
 
-class AttachmentModel extends Model{
+class AttachmentModel extends Model
+{
     public function getAllAttachment()
     {
         $sql = "SELECT * FROM attachment_lowongan";
@@ -18,21 +19,23 @@ class AttachmentModel extends Model{
             :company_id, :attachment_name, :file_path)
         ";
         $params = [
-            ':company_id' => $company_id, 
-            ':attachment_name' => $attachment_name, 
+            ':company_id' => $company_id,
+            ':attachment_name' => $attachment_name,
             ':file_path' => $file_path
         ];
         $result = $this->db->execute($sql, $params);
-        if($result) return true; 
+        if ($result)
+            return true;
         return false;
     }
 
     public function deleteAttachmentByID($id)
     {
-        $sql = "DELETE FROM attachment_lowongan WHERE id = :id";
-        $params = [':id' => $id]; 
+        $sql = "DELETE FROM attachment_lowongan WHERE attachment_id = :id";
+        $params = [':id' => $id];
         $result = $this->db->execute($sql, $params);
-        if($result) return true; 
+        if ($result)
+            return true;
         return false;
     }
 
@@ -45,8 +48,9 @@ class AttachmentModel extends Model{
             ':attachment_id' => $attachment_id
         ];
         $result = $this->db->execute($sql, $params);
-        if($result) return true; 
-        return false;     
+        if ($result)
+            return true;
+        return false;
     }
     public function updateAttachmentField($attachment_id, $field, $value)
     {
@@ -57,8 +61,9 @@ class AttachmentModel extends Model{
         $sql = "UPDATE attachment_lowongan SET $field = :value WHERE attachment_id = :attachment_id";
         $params = [':value' => $value, ':attachment_id' => $attachment_id];
         $result = $this->db->execute($sql, $params);
-        if($result) return true; 
-        return false;     
+        if ($result)
+            return true;
+        return false;
     }
 
     //might need to change the query
@@ -66,9 +71,11 @@ class AttachmentModel extends Model{
     {
         $sql = "SELECT * FROM attachment_lowongan WHERE lowongan_id = :lowongan_id";
         $params = [':lowongan_id' => $id];
-        $result = $this->db->fetch($sql, $params);
-        if($result) return $result;
-        else return false;
+        $result = $this->db->fetchAll($sql, $params);
+        if ($result)
+            return $result;
+        else
+            return false;
     }
 
 }

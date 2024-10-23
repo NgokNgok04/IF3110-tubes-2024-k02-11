@@ -173,28 +173,24 @@ INSERT INTO lowongan (company_id, posisi, deskripsi, jenis_pekerjaan, jenis_loka
 
 -- Insert Attachments for Job Listings
 INSERT INTO attachment_lowongan (lowongan_id, file_path) VALUES
--- Google Attachments
-(1, '/attachments/google/swe_jd.pdf'),
-(1, '/attachments/google/swe_requirements.pdf'),
-(1, '/attachments/google/benefits.pdf'),
-(2, '/attachments/google/pm_jd.pdf'),
-(3, '/attachments/google/ml_requirements.pdf'),
+(1, '/public/uploads/attachment_1.png'),
+(1, '/public/uploads/attachment_2.png'),
+(1, '/public/uploads/attachment_3.png'),
+(2, '/public/uploads/attachment_4.png'),
+(3, '/public/uploads/attachment_5.png'),
+(4, '/public/uploads/attachment_6.png'),
+(4, '/public/uploads/attachment_7.png'),
+(5, '/public/uploads/attachment_8.png'),
+(6, '/public/uploads/attachment_9.png'),
+(7, '/public/uploads/attachment_10.png'),
+(10, '/public/uploads/attachment_11.png'),
+(13, '/public/uploads/attachment_12.png'),
+(16, '/public/uploads/attachment_13.png'),
+(19, '/public/uploads/attachment_14.png'),
+(22, '/public/uploads/attachment_15.png'),
+(25, '/public/uploads/attachment_16.png'),
+(28, '/public/uploads/attachment_17.png');
 
--- Microsoft Attachments
-(4, '/attachments/microsoft/frontend_jd.pdf'),
-(4, '/attachments/microsoft/frontend_assessment.pdf'),
-(5, '/attachments/microsoft/devops_jd.pdf'),
-(6, '/attachments/microsoft/game_dev_requirements.pdf'),
-
--- Various Company Attachments
-(7, '/attachments/amazon/ds_jd.pdf'),
-(10, '/attachments/meta/arvr_requirements.pdf'),
-(13, '/attachments/netflix/algorithm_test.pdf'),
-(16, '/attachments/apple/ios_technical_test.pdf'),
-(19, '/attachments/twitter/backend_assessment.pdf'),
-(22, '/attachments/linkedin/fullstack_challenge.pdf'),
-(25, '/attachments/spotify/audio_engineering_specs.pdf'),
-(28, '/attachments/adobe/graphics_portfolio_requirements.pdf');
 
 -- Insert Job Applications (Lamaran)
 INSERT INTO lamaran (user_id, lowongan_id, cv_path, video_path, status, status_reason) VALUES

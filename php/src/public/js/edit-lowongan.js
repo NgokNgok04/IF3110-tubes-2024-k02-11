@@ -1,41 +1,33 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Inisialisasi Quill editor
   const quill = new Quill("#description-container", {
     theme: "snow",
   });
 
-  // Ambil konten deskripsi yang tersimpan dari hidden input
+  // hidden input
   const savedDescription = document.getElementById("description").value;
 
-  // Set konten Quill dengan deskripsi yang tersimpan (jika ada)
   if (savedDescription) {
     quill.root.innerHTML = savedDescription;
   }
 
-  // Ketika formulir disubmit
+  // event listener untuk form
   document.getElementById("edit-lowongan-form").onsubmit = function (e) {
-    e.preventDefault(); // Mencegah pengiriman formulir secara default
+    e.preventDefault();
 
-    // Mengambil nilai deskripsi dari Quill
     const description = quill.root.innerHTML;
     document.getElementById("description").value = description; // Set nilai ke input hidden
 
-    // Mengambil data formulir
     const formData = new FormData(this);
 
-    // Mengirim data menggunakan XMLHttpRequest
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", window.location.href, true); // Menggunakan URL halaman saat ini
+    xhr.open("POST", window.location.href, true);
 
     // Menangani respon dari server
     xhr.onload = function () {
       if (xhr.status >= 200 && xhr.status < 300) {
-        // Menangani respon sukses
         alert("Job updated successfully!");
-        // Redirect atau reload halaman setelah update
-        // window.location.reload(); // Uncomment jika ingin reload halaman
+        window.location.reload();
       } else {
-        // Menangani kesalahan
         alert(
           "An error occurred while updating the job. Status: " + xhr.status
         );
@@ -46,7 +38,39 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("Request failed. There was an error during the transaction.");
     };
 
-    // Mengirim data
     xhr.send(formData);
   };
+
+  // Event listener untuk setiap tombol hapus
+  document.querySelectorAll(".remove-attachment").forEach((button) => {
+    button.addEventListener("click", function () {
+      const attachmentId = this.dataset.id;
+      const filePath = this.previousElementSibling.src;
+
+      const relativeFilePath = new URL(filePath).pathname;
+
+      const xhr = new XMLHttpRequest();
+      const url = window.location.href + "/delete";
+      xhr.open("POST", url, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          const response = JSON.parse(xhr.responseText);
+          alert(response.message);
+          this.closest(".attachment-container").remove();
+        } else {
+          const response = JSON.parse(xhr.responseText);
+          alert(response.message);
+        }
+      }.bind(this);
+
+      const requestData = JSON.stringify({
+        attachment_id: attachmentId,
+        file_path: relativeFilePath,
+      });
+      console.log(requestData);
+      xhr.send(requestData);
+    });
+  });
 });

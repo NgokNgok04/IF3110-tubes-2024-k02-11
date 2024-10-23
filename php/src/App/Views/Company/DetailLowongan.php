@@ -4,43 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../public/styles/global.css">
+    <link rel="stylesheet" href="../../../public/styles/navbar.css">
+    <script src="https://kit.fontawesome.com/3816d0d83d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../../../public/styles/company/detailLowongan.css">
     <title>Job Details</title>
 
-    <link rel="stylesheet" href="../../../public/styles/company/detail-lowongan.css">
 </head>
 
 <body>
-
-    <header>
-        <h1>Job Details <?= htmlspecialchars($lowongan['posisi']) ?></h1>
-    </header>
-
-    <section>
-        <h2>Job Details</h2>
-        <p><strong>Description:</strong> <?= htmlspecialchars($lowongan['deskripsi']) ?></p>
-        <p><strong>Job Type:</strong> <?= htmlspecialchars($lowongan['jenis_pekerjaan']) ?></p>
-        <p><strong>Location:</strong> <?= htmlspecialchars($lowongan['jenis_lokasi']) ?></p>
-        <p><strong>Status:</strong> <?= $lowongan['is_open'] ? 'Open' : 'Closed' ?></p>
-
-        <h2></h2>
-        <table>
-            <thead>
+    <?php 
+        include(__DIR__ . "/../../Components/navbar.php"); 
+        generateNavbar('Company')
+    ?>
+    <main>
+        <table class="detail-container">
+            <thead class="detail-table-head">
                 <tr>
-                    <th>Applicant Name</th>
-                    <th>Status</th>
-                    <th>Details</th>
+                    <th style="width: 200px;">Name</th>
+                    <th style="width: 100px;">Status</th>
+                    <th style="width: 100px;">Details</th>
                 </tr>
             </thead>
             <tbody>
                 <?php if (!empty($listLamaran)): ?>
                     <?php foreach ($listLamaran as $lamaran): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($lamaran['nama']) ?></td>
-                            <td class="status <?= strtolower($lamaran['status']) ?>">
+                        <tr class="detail-table-row">
+                            <td class="tdata-nama" style="width: 200px;"><?= htmlspecialchars($lamaran['nama']) ?></td>
+                            <td style="width: 100px;" class="status <?= strtolower($lamaran['status']) ?>">
                                 <?= htmlspecialchars($lamaran['status']) ?>
                             </td>
-                            <td>
-                                <a href="/detail-lamaran/<?= $lamaran['lamaran_id'] ?>">Applications Details</a>
+                            <td style="width: 100px;">
+                                <a class="detail-action" href="/detail-lamaran/<?= $lamaran['lamaran_id'] ?>">Detail</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -51,16 +46,7 @@
                 <?php endif; ?>
             </tbody>
         </table>
-    </section>
-
-    <div class="action-buttons">
-        <button id="deleteLowonganBtn">Delete Job</button>
-        <button id="toogleLowonganBtn" data-status="<?= $lowongan['is_open'] ?>">
-            <?= $lowongan['is_open'] === false ? 'Open Job' : 'Close Job' ?>
-        </button>
-    </div>
-
-
+    </main>
     <script src="../../../public/js/detail-lowongan.js"></script>
 </body>
 

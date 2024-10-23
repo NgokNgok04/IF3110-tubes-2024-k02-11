@@ -54,6 +54,7 @@ class App
 
         $this->router->put('/edit-lowongan/{id}', LowonganController::class, 'updateLowongan', ['company']);
         $this->router->post('/edit-lowongan/{id}', LowonganController::class, 'updateLowongan', ['company']);
+        $this->router->post('/edit-lowongan/{id}/delete', LowonganController::class, 'deleteAttachment', ['company']);
 
         // Routes for 'jobseeker' role
         $this->router->get('/detail-lowongan/lamaran/{id}', LamaranController::class, 'lamaranPage', ['jobseeker']);
