@@ -14,16 +14,15 @@
     <div class="container">
         <div class="card">
             <h3 class="title">Edit Job</h3>
-            <form id="edit-lowongan-form">
-
-                <div class="form-group">
+            <div class="form-group">
+                <?php if ($attachment): ?>
                     <label>Current Attachments</label>
                     <div id="current-attachments">
                         <?php foreach ($attachment as $attach): ?>
                             <?php if (isset($attach['file_path'])): ?>
                                 <div class="attachment-container">
-                                    <img src="<?php echo htmlspecialchars($attach['file_path']); ?>" alt="Attachment"
-                                        class="attachment-image">
+                                    <img src="<?php echo htmlspecialchars($attach['file_path']); ?>"
+                                        alt="<?php echo htmlspecialchars($attach['file_path']); ?>" class="attachment-image">
                                     <button type="button" class="remove-attachment"
                                         data-id="<?php echo htmlspecialchars($attach['attachment_id']); ?>">Remove</button>
 
@@ -31,8 +30,10 @@
                             <?php endif; ?>
                         <?php endforeach; ?>
                     </div>
-                </div>
+                <? endif; ?>
+            </div>
 
+            <form id="edit-lowongan-form">
                 <!-- Job Title -->
                 <div class="form-group">
                     <label for="position">Job Title</label>
@@ -86,6 +87,11 @@
                     </select>
                 </div>
 
+                <!-- Attachment Upload -->
+                <div class="form-group">
+                    <label for="attachments">Upload Attachments</label>
+                    <input type="file" id="attachments" name="attachments[]" multiple>
+                </div>
 
                 <button type="submit" class="btn">Update Job</button>
             </form>

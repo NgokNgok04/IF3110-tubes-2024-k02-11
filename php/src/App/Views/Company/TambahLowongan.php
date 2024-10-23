@@ -4,139 +4,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Lowongan</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <title>Add Job</title>
 
-    <!-- Quill.js CSS -->
+    <link rel="stylesheet" href="../../../public/styles/company/edit-lowongan.css">
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-
-    <style>
-        body {
-            background-color: #f3f2ef;
-        }
-
-        .navbar {
-            background-color: #0a66c2;
-        }
-
-        .navbar-brand {
-            color: white;
-            font-weight: bold;
-        }
-
-        .container {
-            margin-top: 50px;
-            max-width: 800px;
-        }
-
-        .card {
-            padding: 30px;
-            border-radius: 10px;
-        }
-
-        .form-label {
-            font-weight: bold;
-        }
-
-        #description-container {
-            height: 300px;
-            margin-bottom: 20px;
-        }
-
-        #requirement-container {
-            height: 200px;
-            margin-bottom: 20px;
-        }
-
-        .btn-primary {
-            background-color: #0a66c2;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background-color: #004182;
-        }
-    </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="card shadow">
-            <h3 class="text-center mb-4">Tambah Lowongan</h3>
-            <form action="/tambah-lowongan/add" method="post" onsubmit="return submitForm()">
-                <div class="mb-3">
-                    <label for="title" class="form-label">Job Title</label>
-                    <input type="text" class="form-control" id="title" name="title" required>
+        <div class="card">
+            <h3 class="title">Add Job</h3>
+
+            <form id="lowongan-form" method="POST" enctype="multipart/form-data">
+                <!-- Job Title -->
+                <div class="form-group">
+                    <label for="position">Job Title</label>
+                    <input type="text" class="form-control" id="position" name="posisi" required>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label">Job Description</label>
-                    <div id="description-container"></div>
-                    <input type="hidden" name="description" id="description">
+                <!-- Job Description -->
+                <div class="form-group">
+                    <label>Job Description</label>
+                    <div id="description-container" class="editor"></div>
+                    <input type="hidden" name="deskripsi" id="description">
                 </div>
 
-                <div class="mb-3">
-                    <label for="requirements" class="form-label">Requirements</label>
-                    <div id="requirement-container"></div>
-                    <input type="hidden" name="requirements" id="requirements">
+                <!-- Job Type -->
+                <div class="form-group">
+                    <label for="jenis_pekerjaan">Job Type</label>
+                    <select class="form-control" id="jenis_pekerjaan" name="jenis_pekerjaan" required>
+                        <option value="">Select Job Type</option>
+                        <option value="Full-time">Full-time</option>
+                        <option value="Part-time">Part-time</option>
+                        <option value="Internship">Internship</option>
+                    </select>
                 </div>
 
-                <div class="mb-3">
-                    <label for="location" class="form-label">Location</label>
-                    <select class="form-control" id="location" name="location" required>
-                        <option value="">Select Type Location</option>
+                <!-- Location Type -->
+                <div class="form-group">
+                    <label for="jenis_lokasi">Location Type</label>
+                    <select class="form-control" id="jenis_lokasi" name="jenis_lokasi" required>
+                        <option value="">Select Location</option>
                         <option value="on-site">On-site</option>
                         <option value="hybrid">Hybrid</option>
                         <option value="remote">Remote</option>
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100">Post Job</button>
+                <!-- Attachment Upload -->
+                <div class="form-group">
+                    <label for="attachments">Upload Attachments</label>
+                    <input type="file" id="attachments" name="attachments[]" multiple>
+                </div>
+
+                <button type="submit" class="btn">Post Job</button>
             </form>
         </div>
     </div>
 
     <!-- Quill.js JS -->
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
-    <script>
-        // Initialize Quill editor
-        const quill = new Quill('#description-container', {
-            theme: 'snow',
-            placeholder: 'Enter job description...',
-            modules: {
-                toolbar: [
-                    [{ header: [1, 2, 3, false] }],
-                    ['bold', 'italic', 'underline'],
-                    ['link', 'blockquote', 'code-block'],
-                    [{ list: 'ordered' }, { list: 'bullet' }]
-                ]
-            }
-        });
-
-        const quillReq = new Quill('#requirement-container', {
-            theme: 'snow',
-            placeholder: 'Enter job requirements...',
-            modules: {
-                toolbar: [
-                    [{ header: [1, 2, 3, false] }],
-                    ['bold', 'italic', 'underline'],
-                    ['link', 'blockquote', 'code-block'],
-                    [{ list: 'ordered' }, { list: 'bullet' }]
-                ]
-            }
-        });
-
-        // Submit handler to get Quill content as HTML
-        function submitForm() {
-            const descriptionHTML = quill.root.innerHTML;
-            document.getElementById('description').value = descriptionHTML;
-            const requirementsHTML = quillReq.root.innerHTML;
-            document.getElementById('requirements').value = requirementsHTML;
-            return true;
-        }
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../../public/js/tambah-lowongan.js"></script>
+    <script src="../../../public/js/quill-setup.js"></script>
 </body>
 
 </html>

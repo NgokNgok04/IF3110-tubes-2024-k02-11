@@ -13,19 +13,22 @@ class AttachmentModel extends Model
         return $this->db->fetchAll($sql);
     }
 
-    public function addAttachment($company_id, $attachment_name, $file_path)
+    public function addAttachment($lowongan_id, $file_path)
     {
-        $sql = "INSERT INTO attachment_lowongan (company_id, attachment_name, attachment_path) VALUES (
-            :company_id, :attachment_name, :file_path)
+        $sql = "INSERT INTO attachment_lowongan (lowongan_id, file_path) VALUES (
+            :lowongan_id, :file_path)
         ";
         $params = [
-            ':company_id' => $company_id,
-            ':attachment_name' => $attachment_name,
+            ':lowongan_id' => $lowongan_id,
             ':file_path' => $file_path
         ];
         $result = $this->db->execute($sql, $params);
-        if ($result)
-            return true;
+        if ($result) {
+            $stmt = $this->db->prepare("SELECT LASTVAL()");
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        }
+
         return false;
     }
 

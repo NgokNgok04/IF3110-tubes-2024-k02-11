@@ -15,8 +15,28 @@ document.addEventListener("DOMContentLoaded", function () {
     e.preventDefault();
 
     const description = quill.root.innerHTML;
-    document.getElementById("description").value = description; // Set nilai ke input hidden
+    document.getElementById("description").value = description;
 
+    // attachment extension validation
+    const attachments = document.getElementById("attachments").files;
+    const allowedTypes = ["image/jpeg", "image/png"];
+    let valid = true;
+
+    for (let i = 0; i < attachments.length; i++) {
+      if (!allowedTypes.includes(attachments[i].type)) {
+        alert(
+          "Invalid file type: " +
+            attachments[i].name +
+            ". Please upload images only (JPG, JPEG, PNG)."
+        );
+        valid = false;
+        break;
+      }
+    }
+
+    if (!valid) return;
+
+    // form
     const formData = new FormData(this);
 
     const xhr = new XMLHttpRequest();
@@ -24,12 +44,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Menangani respon dari server
     xhr.onload = function () {
+      const response = JSON.parse(xhr.responseText);
       if (xhr.status >= 200 && xhr.status < 300) {
         alert("Job updated successfully!");
         window.location.reload();
       } else {
         alert(
-          "An error occurred while updating the job. Status: " + xhr.status
+          "An error occurred while updating the job. Status: " +
+            xhr.status +
+            response.message
         );
       }
     };

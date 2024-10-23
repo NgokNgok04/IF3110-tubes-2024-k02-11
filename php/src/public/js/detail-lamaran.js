@@ -29,9 +29,16 @@ document.addEventListener("DOMContentLoaded", function () {
       xhr.setRequestHeader("Content-Type", "application/json");
 
       xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          console.log(xhr.responseText);
-          // window.location.reload();
+        if (xhr.readyState === 4) {
+          console.log(
+            `Ready State: ${xhr.readyState}, Status: ${xhr.status}, Response: ${xhr.responseText}`
+          );
+          if (xhr.status === 200) {
+            alert(xhr.responseText);
+            window.location.reload();
+          } else {
+            alert("An error occurred: " + xhr.status);
+          }
         }
       };
 
