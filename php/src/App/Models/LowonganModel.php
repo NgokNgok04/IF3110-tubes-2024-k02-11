@@ -248,7 +248,7 @@ class LowonganModel extends Model
             return false;
     }
 
-    public function getSearchQuery($query, $locations = [], $statuses = [], $sort = 'posisi')
+    public function getSearchQuery($query, $locations = [], $statuses = [], $jobtypes = [], $sort = 'posisi')
     {
         // Base SQL query 
         $sql = "SELECT * FROM lowongan WHERE (posisi LIKE :query OR deskripsi LIKE :query)";
@@ -280,6 +280,18 @@ class LowonganModel extends Model
             $sql .= " AND is_open IN (" . implode(',', $statusPlaceholders) . ")";
         }
 
+        //apply jobtypes
+        if(!empty($jobtypes)){
+            // Create named placeholders for jobtypes
+            $jobtypePlaceholders = [];
+            foreach ($jobtypes as $index => $jobtype) {
+                $jobtypePlaceholders[] = ":jobtype_$index"; // Named placeholder
+                $params[":jobtype_$index"] = $jobtype; // Set value in params
+            }
+            //append the sql with jobtypes
+            $sql .= " AND jenis_pekerjaan IN (" . implode(',', $jobtypePlaceholders) . ")";
+        }
+
         // Sort by the specified field
         $allowedSortFields = ['posisi', 'created_at', 'company_id'];
         if(in_array($sort, $allowedSortFields)){
@@ -292,7 +304,7 @@ class LowonganModel extends Model
         else return false;
     }
 
-    public function getSearchQueryCompany($company_id, $query, $locations = [], $statuses = [], $sort = 'posisi'){
+    public function getSearchQueryCompany($company_id, $query, $locations = [], $statuses = [], $jobtypes = [], $sort = 'posisi'){
         $sql = "SELECT * FROM lowongan WHERE company_id = :company_id AND (posisi LIKE :query OR deskripsi LIKE :query)";
 
         $params = [':company_id' => $company_id, ':query' => "%$query%"];
@@ -319,6 +331,16 @@ class LowonganModel extends Model
             $sql .= " AND is_open IN (" . implode(',', $statusPlaceholders) . ")";
         }
 
+        if(!empty($jobtypes)){
+            // Create named placeholders for jobtypes
+            $jobtypePlaceholders = [];
+            foreach ($jobtypes as $index => $jobtype) {
+                $jobtypePlaceholders[] = ":jobtype_$index"; // Named placeholder
+                $params[":jobtype_$index"] = $jobtype; // Set value in params
+            }
+            $sql .= " AND jenis_pekerjaan IN (" . implode(',', $jobtypePlaceholders) . ")";
+        }
+        
         // Sort by the specified field
         $allowedSortFields = ['posisi', 'created_at', 'company_id'];
         if(in_array($sort, $allowedSortFields)){

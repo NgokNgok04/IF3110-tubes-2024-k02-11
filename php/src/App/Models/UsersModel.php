@@ -127,7 +127,6 @@ class UsersModel extends Model
         $result = $this->db->fetch($sql, $params);
         return $result;
     }
-
     // Get user data by email
     public function getUserByEmail($email): array|false
     {
@@ -136,5 +135,4 @@ class UsersModel extends Model
         $result = $this->db->fetch($sql, $params);
         return $result ?: false;
     }
-
 }

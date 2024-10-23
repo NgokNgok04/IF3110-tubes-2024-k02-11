@@ -51,46 +51,22 @@ class Database
 
     public function execute($query, $params = [])
     {
-        try {
-            $stmt = $this->connection->prepare($query);
-            $stmt->execute($params);
-            return $stmt;
-        } catch (PDOException $e) {
-            throw new Exception("Error executing query: " . $e->getMessage());
-        }
+        return $this->bindAndExecute($query, $params);
     }
 
     public function fetchAll($query, $params = [])
     {
-        try {
-            $stmt = $this->connection->prepare($query);
-            $stmt->execute($params);
-            return $stmt->fetchAll();
-        } catch (PDOException $e) {
-            throw new Exception("Error fetching all rows: " . $e->getMessage());
-        }
+        return $this->bindAndFetchAll($query, $params);
     }
 
     public function fetch($query, $params = [])
     {
-        try {
-            $stmt = $this->connection->prepare($query);
-            $stmt->execute($params);
-            return $stmt->fetch();
-        } catch (PDOException $e) {
-            throw new Exception("Error fetching row: " . $e->getMessage());
-        }
+        return $this->bindAndFetch($query, $params);
     }
 
     public function rowCount($query, $params = [])
     {
-        try {
-            $stmt = $this->connection->prepare($query);
-            $stmt->execute($params);
-            return $stmt->rowCount();
-        } catch (PDOException $e) {
-            throw new Exception("Error counting rows: " . $e->getMessage());
-        }
+        return $this->bindAndRowCount($query, $params);
     }
 
     public function showTables()
@@ -110,6 +86,63 @@ class Database
             $this->connection->exec($script);
         } catch (PDOException $e) {
             throw new Exception("Error running script: " . $e->getMessage());
+        }
+    }
+
+    // New methods for binding and executing
+    private function bindAndExecute($query, $params)
+    {
+        try {
+            $stmt = $this->prepare($query);
+            $this->bindParams($stmt, $params);
+            $stmt->execute();
+            return $stmt;
+        } catch (PDOException $e) {
+            throw new Exception("Error executing query: " . $e->getMessage());
+        }
+    }
+
+    private function bindAndFetchAll($query, $params)
+    {
+        try {
+            $stmt = $this->prepare($query);
+            $this->bindParams($stmt, $params);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            throw new Exception("Error fetching all rows: " . $e->getMessage());
+        }
+    }
+
+    private function bindAndFetch($query, $params)
+    {
+        try {
+            $stmt = $this->prepare($query);
+            $this->bindParams($stmt, $params);
+            $stmt->execute();
+            return $stmt->fetch();
+        } catch (PDOException $e) {
+            throw new Exception("Error fetching row: " . $e->getMessage());
+        }
+    }
+
+    private function bindAndRowCount($query, $params)
+    {
+        try {
+            $stmt = $this->prepare($query);
+            $this->bindParams($stmt, $params);
+            $stmt->execute();
+            return $stmt->rowCount();
+        } catch (PDOException $e) {
+            throw new Exception("Error counting rows: " . $e->getMessage());
+        }
+    }
+
+    // Method to bind parameters
+    private function bindParams($stmt, $params)
+    {
+        foreach ($params as $key => &$value) {
+            $stmt->bindParam($key, $value); // By reference to handle updating of parameters
         }
     }
 }

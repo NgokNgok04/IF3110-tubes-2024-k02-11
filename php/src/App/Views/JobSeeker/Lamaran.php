@@ -27,10 +27,10 @@
         </div>
         <form action="/detail-lamaran/lamaran/<?php echo $data['lowongan_id']; ?>/add" method="POST" enctype="multipart/form-data">
             <label for="cv">Upload CV</label>
-            <input type="file" id="cv" name="cv" accept=".pdf,.doc,.docx" required>
+            <input type="file" id="cv" name="cv" accept=".pdf" required>
 
             <label for="video">Upload Video</label>
-            <input type="file" id="video" name="video" accept=".mkv,.mp4" required>
+            <input type="file" id="video" name="video" accept=".mkv,.mp4">
             
             <button type="submit">Submit</button>
         </form>
@@ -39,16 +39,13 @@
 <script>
     document.getElementById('applicationForm').addEventListener('submit', function(e) {
         e.preventDefault(); // Prevent the default form submission
-        
         const formData = new FormData(this);
         const xhr = new XMLHttpRequest();
         xhr.open('POST', this.action, true);
         xhr.onload = function () {
             if (xhr.status === 200) {
-                // Redirect to detail page with success message
                 window.location.href = '/detail-lowongan/<?php echo $data['lowongan_id']; ?>?status=success';
             } else {
-                // Redirect to detail page with failure message
                 window.location.href = '/detail-lowongan/<?php echo $data['lowongan_id']; ?>?status=failed';
             }
         };
