@@ -68,23 +68,32 @@ class LamaranController extends Controller
         $user_id = $_SESSION['id'];
 
         // Define the new file paths
-        $cv_path = '/public/uploads/' . pathinfo($_FILES['cv']['name'], PATHINFO_FILENAME) . '-' . $user_id . '-' . $lowongan_id. '.pdf';
-        $video_path = '/public/uploads/' . pathinfo($_FILES['video']['name'], PATHINFO_FILENAME) . '-' . $user_id . '-' . $lowongan_id .'.' . pathinfo($_FILES['video']['name'], PATHINFO_EXTENSION);
+        if(isset($_FILES['cv']) && $_FILES['cv']['name'] != ''){
+            $cv_path = '/public/uploads/' . pathinfo($_FILES['cv']['name'], PATHINFO_FILENAME) . '-' . $user_id . '-' . $lowongan_id. '.pdf';
+        }
+        if(isset($_FILES['video']) && $_FILES['video']['name'] != ''){
+            $video_path = '/public/uploads/' . pathinfo($_FILES['video']['name'], PATHINFO_FILENAME) . '-' . $user_id . '-' . $lowongan_id .'.' . pathinfo($_FILES['video']['name'], PATHINFO_EXTENSION);
+        }else{
+            $video_path = null;
+        }
         $status = 'waiting';
 
-        // Add to database
         $result = $this->model->addLamaran($user_id, $lowongan_id, $cv_path, $video_path, $status, "");
-
         if ($result) {
-            $cv_uploaded = $this->uploadFile($lowongan_id, $_FILES['cv'], ['pdf'], 100 * 1024 * 1024);
-            $video_uploaded = $this->uploadFile($lowongan_id, $_FILES['video'], ['mp4', 'avi', 'mkv', 'mov', 'webm'], 100 * 1024 * 1024);
-            if ($cv_uploaded && $video_uploaded) {
+            if(isset($_FILES['cv']) && $_FILES['cv']['name'] != ''){
+                $cv_uploaded = $this->uploadFile($lowongan_id, $_FILES['cv'], ['pdf'], 100 * 1024 * 1024);
+            }
+            if(isset($_FILES['video']) && $_FILES['video']['name'] != ''){
+                $video_uploaded = $this->uploadFile($lowongan_id, $_FILES['video'], ['mp4', 'avi', 'mkv', 'mov', 'webm'], 100 * 1024 * 1024);
+            }
+            if ($cv_uploaded || $video_uploaded) {
                 header("Location: /detail-lowongan/$lowongan_id?status=success"); 
             } else {
+                // echo "Masuk Fail upload";
                 header("Location: /detail-lowongan/$lowongan_id?status=failed");
-                // echo "Failed to upload one or more files.";
             }
         } else {
+            // echo "Masuk sini";
             header("Location: /detail-lowongan/$lowongan_id?status=failed");
         }
     }
