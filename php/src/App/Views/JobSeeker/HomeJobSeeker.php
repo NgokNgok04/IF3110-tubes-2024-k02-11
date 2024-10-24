@@ -152,15 +152,15 @@ $totalPages = $data['totalPages'] ?? 1;
             <div id="job-type-checkboxes">
                 <h4>Job Type</h4>
                 <label>
-                    <input type="checkbox" name="jobtypes[]" value="full-time" onchange="debounceSearch()">
+                    <input type="checkbox" name="jobtypes[]" value="Full-time" onchange="debounceSearch()">
                     Full-time
                 </label><br>
                 <label>
-                    <input type="checkbox" name="jobtypes[]" value="part-time" onchange="debounceSearch()">
+                    <input type="checkbox" name="jobtypes[]" value="Part-time" onchange="debounceSearch()">
                     Part-time
                 </label><br>
                 <label>
-                    <input type="checkbox" name="jobtypes[]" value="internship" onchange="debounceSearch()">
+                    <input type="checkbox" name="jobtypes[]" value="Internship" onchange="debounceSearch()">
                     Internship
                 </label><br>
             </div>

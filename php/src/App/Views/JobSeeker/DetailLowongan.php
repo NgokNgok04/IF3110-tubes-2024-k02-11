@@ -56,7 +56,7 @@ if (isset($_GET['status'])) {
         <hr>
         <section class="job-detail">
             <h2 class="job-title"><?php echo htmlspecialchars($data['posisi']); ?></h2>
-            <p class="job-description"><strong>Job Description:</strong> <?php echo htmlspecialchars($data['deskripsi']); ?></p>
+            <p class="job-description"><strong>Job Description:</strong> <?php echo htmlspecialchars($data['deskripsi'], ENT_QUOTES, 'UTF-8'); ?></p>
             <p><strong>Job Type:</strong> <?php echo htmlspecialchars($data['jenis_pekerjaan']); ?></p>
             <p><strong>Location:</strong> <?php echo htmlspecialchars($data['jenis_lokasi']); ?></p>
             <p><strong>Status:</strong> <?php echo $data['is_open'] ? 'Open' : 'Closed'; ?></p>
@@ -96,7 +96,7 @@ if (isset($_GET['status'])) {
                             <p><strong>No introduction video available.</strong></p>
                         <?php endif; ?>
                     </div>
-                    <p>Reason: <strong><?php echo htmlspecialchars($data['status_reason'] ?? "-"); ?></strong></p>
+                    <p>Reason: <strong><?php echo $data['status_reason'] ?? "-"; ?></strong></p>
                 </div>
             <?php endif; ?>
         </section>

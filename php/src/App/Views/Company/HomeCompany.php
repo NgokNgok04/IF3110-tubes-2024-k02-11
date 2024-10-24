@@ -75,7 +75,7 @@
                 </div>
             </section>
             <!-- update pagination -->
-            <div class="pagination">
+            <div class="pagination-section">
                 <?php if ($currentPage > 1): ?>
                     <a class="pagination-prev" data-page="<?php echo $currentPage - 1; ?>"
                         href="javascript:void(0);">&laquo;
@@ -99,58 +99,63 @@
         <section class="search-section">
             <form action="" method="get" id="filters-form">
                 <div class="search-bar">
-                    <input class="search" id="searchInput" type="text" name="search" placeholder="Search jobs..."
-                        value="<?php echo htmlspecialchars($searchTerm); ?>" onkeyup="debounceSearch()">
+                    <input class="search" id="searchInput" type="text" name="search" placeholder="Search jobs..." value="<?php echo htmlspecialchars($searchTerm); ?>" onkeyup="debounceSearch()">
+                    <button type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <span class="sr-only">Search</span>    
+                    </button>
                 </div>
-                <div id="locations-checkboxes">
-                    <h4>Locations</h4>
-                    <label>
-                        <input type="checkbox" name="locations[]" value="on-site" onchange="debounceSearch()">
-                        on-site
-                    </label><br>
-                    <label>
-                        <input type="checkbox" name="locations[]" value="hybrid" onchange="debounceSearch()">
-                        hybrid
-                    </label><br>
-                    <label>
-                        <input type="checkbox" name="locations[]" value="remote" onchange="debounceSearch()">
-                        remote
-                    </label><br>
-                </div>
-                <div id="status-checkboxes">
-                    <h4>Statuses</h4>
-                    <label>
-                        <input type="checkbox" name="statuses[]" value="1" onchange="debounceSearch()">
-                        Open
-                    </label><br>
-                    <label>
-                        <input type="checkbox" name="statuses[]" value="0" onchange="debounceSearch()">
-                        Closed
-                    </label><br>
-                </div>
-                <div id="jobtypes-checkboxes">
-                    <h4>Job Type</h4>
-                    <label>
-                        <input type="checkbox" name="jobtypes[]" value="full-time" onchange="debounceSearch()">
-                        Full-time
-                    </label><br>
-                    <label>
-                        <input type="checkbox" name="jobtypes[]" value="part-time" onchange="debounceSearch()">
-                        Part-time
-                    </label><br>
-                    <label>
-                        <input type="checkbox" name="jobtypes[]" value="internship" onchange="debounceSearch()">
-                        Internship
-                    </label><br>
-                </div>
-                <div>
-                    <label for="sort-by">Sort By:</label>
-                    <select id="sort-by" name="sort" onchange="debounceSearch()">
-                        <option value="posisi" <?php echo $sort === 'posisi' ? 'selected' : ''; ?>>Position</option>
-                        <option value="created_at" <?php echo $sort === 'created_at' ? 'selected' : ''; ?>>Date</option>
-                        <option value="company_id" <?php echo $sort === 'company_id' ? 'selected' : ''; ?>>Company
-                        </option>
-                    </select>
+
+                <div class="filter-container">
+                    <div id = "locations-checkboxes" class="filter-group">
+                        <h4>Locations</h4>
+                        <label>
+                            <input type="checkbox" name="locations[]" value="on-site" onchange="debounceSearch()">
+                            on-site
+                        </label><br>
+                        <label>
+                            <input type="checkbox" name="locations[]" value="hybrid" onchange="debounceSearch()">
+                            hybrid
+                        </label><br>
+                        <label>
+                            <input type="checkbox" name="locations[]" value="remote" onchange="debounceSearch()">
+                            remote
+                        </label><br>
+                    </div>
+                    <div id = "status-checkboxes" class="filter-group">
+                        <h4>Statuses</h4>
+                        <label>
+                            <input type="checkbox" name="statuses[]" value="1" onchange="debounceSearch()">
+                            Open
+                        </label><br>
+                        <label>
+                            <input type="checkbox" name="statuses[]" value="0" onchange="debounceSearch()">
+                            Closed
+                        </label><br>
+                    </div>
+                    <div id="jobtypes-checkboxes" class="filter-group">
+                        <h4>Job Type</h4>
+                        <label>
+                            <input type="checkbox" name="jobtypes[]" value="Full-time" onchange="debounceSearch()">
+                            Full-time
+                        </label><br>
+                        <label>
+                            <input type="checkbox" name="jobtypes[]" value="Part-time" onchange="debounceSearch()">
+                            Part-time
+                        </label><br>
+                        <label>
+                            <input type="checkbox" name="jobtypes[]" value="Internship" onchange="debounceSearch()">
+                            Internship
+                        </label><br>
+                    </div>
+                    <div>
+                        <label for="sort-by">Sort By</label>
+                        <select class="filter-sortby" id="sort-by" name="sort" onchange="debounceSearch()">
+                            <option value="posisi" <?php echo $sort === 'posisi' ? 'selected' : ''; ?>>Position</option>
+                            <option value="created_at" <?php echo $sort === 'created_at' ? 'selected' : ''; ?>>Date</option>
+                            <option value="company_id" <?php echo $sort === 'company_id' ? 'selected' : ''; ?>>Company</option>
+                        </select>
+                    </div>
                 </div>
             </form>
         </section>
