@@ -15,10 +15,22 @@ document
     for (let i = 0; i < attachments.length; i++) {
       const file = attachments[i];
       if (!file.type.startsWith("image/")) {
-        alert("Please upload only image files.");
-        return false;
+        showErrorToast(
+          "Error type: " + attachments[i] + "Please upload only image files."
+        );
+        event.preventDefault();
       }
     }
 
     return true;
   });
+
+document.addEventListener("DOMContentLoaded", function () {
+  errorMessage = document
+    .getElementById("session-data")
+    .getAttribute("data-error-message");
+
+  if (errorMessage && errorMessage.trim() != "" && errorMessage != null) {
+    showErrorToast(errorMessage);
+  }
+});
