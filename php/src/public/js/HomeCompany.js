@@ -117,18 +117,18 @@ function openModal(index) {
   modal.classList.remove("display-none");
   modalBg.classList.remove("display-none");
 
-  document.getElementById("modal-title").innerText = document.getElementById(
-    `job-title-${index}`
-  ).innerText;
-  document.getElementById("modal-company").innerText = document.getElementById(
-    `job-company-${index}`
-  ).innerText;
-  document.getElementById("modal-location").innerText = document.getElementById(
-    `job-location-${index}`
-  ).innerText;
-  document.getElementById("modal-type").innerText = document.getElementById(
-    `job-type-${index}`
-  ).innerText;
+  document.getElementById("modal-title").innerText = document
+    .getElementById(`job-title-${index}`)
+    .innerText.trim();
+  document.getElementById("modal-company").innerText = document
+    .getElementById(`job-company-${index}`)
+    .innerText.trim();
+  document.getElementById("modal-location").innerText = document
+    .getElementById(`job-location-${index}`)
+    .innerText.trim();
+  document.getElementById("modal-type").innerText = document
+    .getElementById(`job-type-${index}`)
+    .innerText.trim();
   document.getElementById("modal-status").innerText = document
     .getElementById(`job-status-${index}`)
     .innerText.trim();
@@ -178,6 +178,34 @@ window.addEventListener("resize", moveSearchSection);
 document.addEventListener("DOMContentLoaded", moveSearchSection);
 document.addEventListener("DOMContentLoaded", function () {
   attachJobCardListeners();
+
+  const addLowongan = document.getElementById("addLowongan");
+  addLowongan.addEventListener("click", () => {
+    window.location.href = `/tambah-lowongan`;
+  });
+  let currentIndex = 0;
+
+  function moveSlide(step) {
+    const images = document.getElementById("Attachment-Image");
+    const AttachmentLink = document.querySelectorAll(".attachment-link");
+    currentIndex += step;
+    if (currentIndex < 0) {
+      currentIndex = AttachmentLink.length;
+    } else if (currentIndex >= AttachmentLink.length) {
+      currentIndex = 0;
+    }
+    currentImage = AttachmentLink[currentIndex].innerText;
+    images.src = currentImage;
+  }
+
+  const carouselBtnPrev = document.getElementById("btn-prev");
+  const carouselBtnNext = document.getElementById("btn-next");
+  carouselBtnPrev.addEventListener("click", () => {
+    moveSlide(-1);
+  });
+  carouselBtnNext.addEventListener("click", () => {
+    moveSlide(1);
+  });
 
   const closeModals = document.getElementById("close-modal");
   closeModals.addEventListener("click", closeModal);

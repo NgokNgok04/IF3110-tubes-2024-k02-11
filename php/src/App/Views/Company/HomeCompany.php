@@ -49,7 +49,7 @@
                             <div class="display-none" id="job-desc-<?php echo $index; ?>">
                                 <?= htmlspecialchars_decode($job['deskripsi']); ?>
                             </div>
-                            <p>
+                            <!-- <p>
                                 <?php echo $job['jenis_lokasi']; ?>
                             </p>
                             <p>
@@ -57,7 +57,7 @@
                             </p>
                             <p>
                                 <?php echo $job['is_open'] ? 'Open' : 'Closed'; ?>
-                            </p>
+                            </p> -->
                             <h1 class="display-none" id="job-status-<?php echo $index; ?>">
                                 <?php echo htmlspecialchars($job['jenis_lokasi']); ?>
                             </h1>
@@ -159,7 +159,6 @@
                 </div>
             </form>
         </section>
-        <div id="modalOverlay" class="modal-overlay display-none"></div>
         <div id="myModal" class="modal display-none">
             <div class="modal-content" id="modalContent">
                 <button class="close" id="close-modal">
@@ -185,6 +184,19 @@
                 </div>
                 <h1 class="desc">Description</h1>
                 <div id="modal-desc" class="modal-desc"></div>
+                <div class="modal-attachment">
+
+                    <?php foreach($lowonganAttachment as $index => $attach): ?>
+                        <?php if (isset($attach['file_path'])): ?>
+                            <p class="attachment-link display-none"><?php echo htmlspecialchars($attach['file_path']);?></p>
+                        <?php endif;?>
+                    <?php endforeach;?>
+                    <div class="modal-image">
+                        <img id="Attachment-Image" src="/public/uploads/bertojelek.png" alt="Attachment Image">
+                    </div>
+                    <button class="modal-image-btn prev" id="btn-prev">&#10094;</button>
+                    <button class="modal-image-btn next" id="btn-next">&#10095;</button>
+                </div>
                 <div class="modal-action">
                     <form class="modal-trash" id="modal-delete"
                         action="/detail-lowongan/delete/<?php echo $job['lowongan_id']; ?>" method="post">
@@ -202,6 +214,10 @@
     <?php
     include(__DIR__ . "/../../Components/navbar.php");
     generateNavbar('Company') ?>
+    <button id="addLowongan" class="add-lowongan">
+        <img src="../../../public/icons/plus.png">
+    </button>
+    <div id="modalOverlay" class="modal-overlay display-none"></div>
 
 </body>
 <script src="../../../public/js/HomeCompany.js" defer></script>
