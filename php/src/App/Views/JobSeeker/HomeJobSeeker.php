@@ -109,19 +109,19 @@ unset($_SESSION['success_message']);
             <div class="pagination">
                 <?php if ($currentPage > 1): ?>
                     <a class="pagination-prev" data-page="<?php echo $currentPage - 1; ?>"
-                        href="javascript:void(0);">&laquo;
+                        href="#">&laquo;
                         Previous</a>
                 <?php endif; ?>
 
                 <?php for ($page = 1; $page <= $totalPages; $page++): ?>
                     <a class="pagination-page <?php echo ($page == $currentPage) ? 'active' : ''; ?>"
-                        data-page="<?php echo $page; ?>" href="javascript:void(0);">
+                        data-page="<?php echo $page; ?>" href="#">
                         <?php echo $page; ?>
                     </a>
                 <?php endfor; ?>
 
                 <?php if ($currentPage < $totalPages): ?>
-                    <a class="pagination-next" data-page="<?php echo $currentPage + 1; ?>" href="javascript:void(0);">Next
+                    <a class="pagination-next" data-page="<?php echo $currentPage + 1; ?>" href="#">Next
                         &raquo;</a>
                 <?php endif; ?>
             </div>

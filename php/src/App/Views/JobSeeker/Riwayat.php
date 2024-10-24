@@ -8,6 +8,7 @@ $user = $user_data;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Riwayat Lamaran JobSeeker">
     <title>Riwayat Lamaran</title>
     <link rel="stylesheet" href="../../../public/styles/global.css">
     <link rel="stylesheet" href="../../../public/styles/navbar.css">
@@ -37,6 +38,7 @@ $user = $user_data;
 
                 <div class="filters-sort">
                     <div class="filters">
+                        <label for="location">Locations</label>
                         <select name="location" onchange="submitFiltersForm()">
                             <option value="">All Locations</option>
                             <?php foreach ($locations as $location): ?>
@@ -45,6 +47,7 @@ $user = $user_data;
                                 </option>
                             <?php endforeach; ?>
                         </select>
+                        <label for="status">status</label>
                         <select name="status" onchange="submitFiltersForm()">
                             <option value="">All Statuses</option>
                             <?php foreach ($statuses as $status): ?>
@@ -59,7 +62,7 @@ $user = $user_data;
 
             
             <div class="job-listings">
-                <?php foreach ($lamaranList as $lamaran): ?>
+                <?php foreach ($riwayatList as $lamaran): ?>
                     <div class="job-card">
                         <h2><strong><?php echo htmlspecialchars($lamaran['company_name']); ?></strong></h2>
                         <p><strong>Position:</strong> <?php echo htmlspecialchars($lamaran['posisi']); ?></p>
@@ -77,13 +80,11 @@ $user = $user_data;
                 <?php if ($currentPage > 1): ?>
                     <a href="?page=<?php echo $currentPage - 1; ?>&sort=<?php echo $sort; ?>&search=<?php echo urlencode($searchTerm); ?>&location=<?php echo urlencode($locationFilter); ?>">&laquo; Previous</a>
                 <?php endif; ?>
-
                 <?php for ($page = 1; $page <= $totalPages; $page++): ?>
                     <a href="?page=<?php echo $page; ?>&sort=<?php echo $sort; ?>&search=<?php echo urlencode($searchTerm); ?>&location=<?php echo urlencode($locationFilter); ?>" <?php echo $page == $currentPage ? 'class="active"' : ''; ?>>
                         <?php echo $page; ?>
                     </a>
                 <?php endfor; ?>
-
                 <?php if ($currentPage < $totalPages): ?>
                     <a href="?page=<?php echo $currentPage + 1; ?>&sort=<?php echo $sort; ?>&search=<?php echo urlencode($searchTerm); ?>&location=<?php echo urlencode($locationFilter); ?>">Next &raquo;</a>
                 <?php endif; ?>
