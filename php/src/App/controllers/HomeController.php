@@ -5,16 +5,19 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Interfaces\ControllerInterface;
 use App\Models\LowonganModel;
+use App\Models\AttachmentModel;
 use App\Models\UsersModel;
 
 class HomeController extends Controller implements ControllerInterface
 {
     private LowonganModel $modelLowongan;
+    private AttachmentModel $attachmentModel;
     private UsersModel $modelUsers;
     public function __construct()
     {
         $this->modelLowongan = $this->model('LowonganModel');
         $this->modelUsers = $this->model('UsersModel');
+        $this->attachmentModel = $this->model('AttachmentModel');
     }
     public function index()
     {
@@ -136,13 +139,21 @@ class HomeController extends Controller implements ControllerInterface
     
         $offset = ($currentPage - 1) * $itemsPerPage;
         $currentItems = array_slice($jobList, $offset, $itemsPerPage);
+
+        // Lowongan
+        $lowongans = $this->modelLowongan->getAllLowonganByCompanyID($company_id);
+        $lowonganAttachment = [];
+        foreach($lowongans as $lowongan){
+            $lowonganAttachment = $this->attachmentModel->getAttachmentByLowonganID($lowongan['lowongan_id']);
+        }
         $this->view('Company', 'HomeCompany', [
             'jobs' => $currentItems,
             'currentPage' => $currentPage,
             'totalPages' => $totalPages,
             'searchTerm' => $search,
             'sort' => $sort, 
-            'companyData' => $companyData
+            'companyData' => $companyData,
+            'lowonganAttachment' => $lowonganAttachment,
             // 'statuses' => $statuses,
             // 'locations' => $locations,
             // 'jobtypes' => $jobtypes,

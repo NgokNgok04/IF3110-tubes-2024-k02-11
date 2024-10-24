@@ -86,14 +86,17 @@ class LamaranController extends Controller
             if(isset($_FILES['video']) && $_FILES['video']['name'] != ''){
                 $video_uploaded = $this->uploadFile($lowongan_id, $_FILES['video'], ['mp4', 'avi', 'mkv', 'mov', 'webm'], 100 * 1024 * 1024);
             }
-            if ($cv_uploaded || $video_uploaded) {
+            if ((isset($cv_uploaded) && $cv_uploaded)|| (isset($video_uploaded) && $video_uploaded)){
+                $_SESSION['success_message'] = 'Lamaran berhasil dikirim';
                 header("Location: /detail-lowongan/$lowongan_id?status=success"); 
             } else {
+                $_SESSION['error_message'] = 'Gagal mengunggah file';
                 // echo "Masuk Fail upload";
                 header("Location: /detail-lowongan/$lowongan_id?status=failed");
             }
         } else {
             // echo "Masuk sini";
+            $_SESSION['error_message'] = 'Gagal mengirim lamaran';
             header("Location: /detail-lowongan/$lowongan_id?status=failed");
         }
     }
