@@ -45,4 +45,21 @@ document.addEventListener("DOMContentLoaded", function () {
       xhr.send(JSON.stringify(data));
     };
   }
+
+  const modal = document.getElementById("myModal");
+  const modalBg = document.getElementById("modalOverlay");
+
+  function openModal() {
+    modal.classList.remove("display-none");
+    modalBg.classList.remove("display-none");
+  }
+  function closeModal() {
+    modal.classList.add("display-none");
+    modalBg.classList.add("display-none");
+  }
+
+  const changeButton = document.getElementById("change-button");
+  changeButton.addEventListener("click", openModal);
+  const closeButton = document.getElementById("close-modal");
+  closeButton.addEventListener("click", closeModal);
 });
