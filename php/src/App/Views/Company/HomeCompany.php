@@ -55,7 +55,7 @@
                             <p>
                                 <?php echo $job['jenis_pekerjaan']; ?>
                             </p>
-                            <p>
+                            <!-- <p>
                                 <?php echo $job['is_open'] ? 'Open' : 'Closed'; ?>
                             </p> -->
                             <h1 class="display-none" id="job-status-<?php echo $index; ?>">
@@ -64,8 +64,8 @@
                             <h1 class="display-none" id="job-type-<?php echo $index; ?>">
                                 <?php echo htmlspecialchars($job['jenis_pekerjaan']); ?>
                             </h1>
-                            <h1 class="display-none" id="job-isOpen-<?php echo $index; ?>">
-                                <?php echo htmlspecialchars($job['is_open']); ?>
+                            <h1 class="" id="job-isOpen-<?php echo $index; ?>">
+                                <?php echo ($job['is_open'] ? 'Open' : 'Closed'); ?>
                             </h1>
                             <h1 class="display-none" id="job-companyid-<?php echo $index; ?>">
                                 <?php echo htmlspecialchars($job['lowongan_id']); ?>
@@ -99,15 +99,16 @@
         <section class="search-section">
             <form action="" method="get" id="filters-form">
                 <div class="search-bar">
-                    <input class="search" id="searchInput" type="text" name="search" placeholder="Search jobs..." value="<?php echo htmlspecialchars($searchTerm); ?>" onkeyup="debounceSearch()">
+                    <input class="search" id="searchInput" type="text" name="search" placeholder="Search jobs..."
+                        value="<?php echo htmlspecialchars($searchTerm); ?>" onkeyup="debounceSearch()">
                     <button type="submit">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <span class="sr-only">Search</span>    
+                        <span class="sr-only">Search</span>
                     </button>
                 </div>
 
                 <div class="filter-container">
-                    <div id = "locations-checkboxes" class="filter-group">
+                    <div id="locations-checkboxes" class="filter-group">
                         <h4>Locations</h4>
                         <label>
                             <input type="checkbox" name="locations[]" value="on-site" onchange="debounceSearch()">
@@ -122,7 +123,7 @@
                             remote
                         </label><br>
                     </div>
-                    <div id = "status-checkboxes" class="filter-group">
+                    <div id="status-checkboxes" class="filter-group">
                         <h4>Statuses</h4>
                         <label>
                             <input type="checkbox" name="statuses[]" value="1" onchange="debounceSearch()">
@@ -152,8 +153,10 @@
                         <label for="sort-by">Sort By</label>
                         <select class="filter-sortby" id="sort-by" name="sort" onchange="debounceSearch()">
                             <option value="posisi" <?php echo $sort === 'posisi' ? 'selected' : ''; ?>>Position</option>
-                            <option value="created_at" <?php echo $sort === 'created_at' ? 'selected' : ''; ?>>Date</option>
-                            <option value="company_id" <?php echo $sort === 'company_id' ? 'selected' : ''; ?>>Company</option>
+                            <option value="created_at" <?php echo $sort === 'created_at' ? 'selected' : ''; ?>>Date
+                            </option>
+                            <option value="company_id" <?php echo $sort === 'company_id' ? 'selected' : ''; ?>>Company
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -177,10 +180,13 @@
                 </div>
                 <div class="modal-available">
                     <i class="fa-solid fa-tags"></i>
-                    <select id="modal-select" onchange="this.form.submit()">
-                        <option value="Open">Open</option>
-                        <option value="Closed">Close</option>
-                    </select>
+                    <form id="update-status-form">
+                        <select id="modal-select" name="is_open">
+                            <option value="Open" <?php echo $job['is_open'] ? 'selected' : ''; ?>>Open</option>
+                            <option value="Closed" <?php echo !$job['is_open'] ? 'selected' : ''; ?>>Closed
+                            </option>
+                        </select>
+                    </form>
                 </div>
                 <h1 class="desc">Description</h1>
                 <div id="modal-desc" class="modal-desc"></div>
@@ -198,8 +204,7 @@
                     <button class="modal-image-btn next" id="btn-next">&#10095;</button>
                 </div>
                 <div class="modal-action">
-                    <form class="modal-trash" id="modal-delete"
-                        action="/detail-lowongan/delete/<?php echo $job['lowongan_id']; ?>" method="post">
+                    <form class="modal-trash" id="modal-delete">
                         <button type="submit" class="btn btn-danger action-btn"
                             onclick="return confirm('Are you sure you want to delete this job?')">
                             <i class="fa-solid fa-trash"></i>

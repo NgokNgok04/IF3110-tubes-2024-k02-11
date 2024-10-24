@@ -16,7 +16,8 @@ class LowonganModel extends Model
             return false;
     }
 
-    public function getAllLowonganByCompanyID($company_id){
+    public function getAllLowonganByCompanyID($company_id)
+    {
         $sql = "SELECT * FROM lowongan WHERE company_id = :company_id";
         $params = [':company_id' => $company_id];
         $result = $this->db->fetchAll($sql, $params);
@@ -66,6 +67,17 @@ class LowonganModel extends Model
         $sql = "UPDATE lowongan SET is_open = NOT is_open
                 WHERE lowongan_id = :id ";
         $params = [':id' => $id];
+        return (bool) $this->db->execute($sql, $params);
+    }
+
+    public function updateIsOpen($id, $is_open)
+    {
+        $sql = "UPDATE lowongan SET is_open = :is_open
+                WHERE lowongan_id = :id ";
+        $params = [
+            ':id' => $id,
+            'is_open' => $is_open
+        ];
         return (bool) $this->db->execute($sql, $params);
     }
 
@@ -201,7 +213,7 @@ class LowonganModel extends Model
     public function getLamaranDateUserInLowongan($id, $user_id)
     {
         $sql =
-        "SELECT lamaran.created_at
+            "SELECT lamaran.created_at
         FROM lamaran
         JOIN users 
             ON lamaran.user_id = users.user_id
@@ -257,7 +269,7 @@ class LowonganModel extends Model
         $params = [':query' => "%$query%"];
         // Apply location filter if provided
         //the $sql will append with locations, statuses, and sort if those aren't empty
-        if(!empty($locations)){
+        if (!empty($locations)) {
             // Create named placeholders for locations
             $locationPlaceholders = [];
             foreach ($locations as $index => $location) {
@@ -267,9 +279,9 @@ class LowonganModel extends Model
             //append the sql with locations
             $sql .= " AND jenis_lokasi IN (" . implode(',', $locationPlaceholders) . ")";
         }
-        
+
         // Apply status filter if provided (0 or 1 for is_open)
-        if(!empty($statuses)){
+        if (!empty($statuses)) {
             // Create named placeholders for statuses
             $statusPlaceholders = [];
             foreach ($statuses as $index => $status) {
@@ -281,7 +293,7 @@ class LowonganModel extends Model
         }
 
         //apply jobtypes
-        if(!empty($jobtypes)){
+        if (!empty($jobtypes)) {
             // Create named placeholders for jobtypes
             $jobtypePlaceholders = [];
             foreach ($jobtypes as $index => $jobtype) {
@@ -294,22 +306,25 @@ class LowonganModel extends Model
 
         // Sort by the specified field
         $allowedSortFields = ['posisi', 'created_at', 'company_id'];
-        if(in_array($sort, $allowedSortFields)){
-            $sql .= " ORDER BY $sort";  
-        }else{
+        if (in_array($sort, $allowedSortFields)) {
+            $sql .= " ORDER BY $sort";
+        } else {
             $sql .= " ORDER BY posisi"; //default
         }
         $result = $this->db->fetchAll($sql, $params);
-        if($result) return $result;
-        else return false;
+        if ($result)
+            return $result;
+        else
+            return false;
     }
 
-    public function getSearchQueryCompany($company_id, $query, $locations = [], $statuses = [], $jobtypes = [], $sort = 'posisi'){
+    public function getSearchQueryCompany($company_id, $query, $locations = [], $statuses = [], $jobtypes = [], $sort = 'posisi')
+    {
         $sql = "SELECT * FROM lowongan WHERE company_id = :company_id AND (posisi LIKE :query OR deskripsi LIKE :query)";
 
         $params = [':company_id' => $company_id, ':query' => "%$query%"];
         // Apply location filter if provided
-        if(!empty($locations)){
+        if (!empty($locations)) {
             // Create named placeholders for locations
             $locationPlaceholders = [];
             foreach ($locations as $index => $location) {
@@ -321,7 +336,7 @@ class LowonganModel extends Model
 
         // Apply status filter if provided (0 or 1 for is_open)
 
-        if(!empty($statuses)){
+        if (!empty($statuses)) {
             // Create named placeholders for statuses
             $statusPlaceholders = [];
             foreach ($statuses as $index => $status) {
@@ -331,7 +346,7 @@ class LowonganModel extends Model
             $sql .= " AND is_open IN (" . implode(',', $statusPlaceholders) . ")";
         }
 
-        if(!empty($jobtypes)){
+        if (!empty($jobtypes)) {
             // Create named placeholders for jobtypes
             $jobtypePlaceholders = [];
             foreach ($jobtypes as $index => $jobtype) {
@@ -340,16 +355,18 @@ class LowonganModel extends Model
             }
             $sql .= " AND jenis_pekerjaan IN (" . implode(',', $jobtypePlaceholders) . ")";
         }
-        
+
         // Sort by the specified field
         $allowedSortFields = ['posisi', 'created_at', 'company_id'];
-        if(in_array($sort, $allowedSortFields)){
+        if (in_array($sort, $allowedSortFields)) {
             $sql .= " ORDER BY $sort";
-        }else{
+        } else {
             $sql .= " ORDER BY posisi"; //default
         }
         $result = $this->db->fetchAll($sql, $params);
-        if($result) return $result;
-        else return false;
+        if ($result)
+            return $result;
+        else
+            return false;
     }
 }

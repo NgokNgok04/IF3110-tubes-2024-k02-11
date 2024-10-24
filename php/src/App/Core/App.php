@@ -31,10 +31,7 @@ class App
 
         $this->router->get('/', HomeController::class, 'index');
 
-
-
         $this->router->get('/detail-lowongan/{id}', LowonganController::class, 'detailLowonganPage', ['company', 'jobseeker']);
-        $this->router->delete('/detail-lowongan/{id}', LowonganController::class, 'deleteLowongan', ['company']);
         $this->router->put('/detail-lowongan/{id}', LowonganController::class, 'toogleLowongan', ['company']);
 
         $this->router->post('/login', AuthController::class, 'login');
@@ -49,7 +46,8 @@ class App
 
         $this->router->put('/detail-lamaran/{id}', LamaranController::class, 'updateStatus', ['company']);
         $this->router->post('/tambah-lowongan', LowonganController::class, 'storeLowongan', ['company']);
-        $this->router->post('/detail-lowongan/{id}', LowonganController::class, 'delete', ['company']);
+        $this->router->post('/detail-lowongan/delete/{id}', LowonganController::class, 'deleteLowongan', ['company']);
+        $this->router->post('/detail-lowongan/update/{id}', LowonganController::class, 'updateLowonganIsOpen', ['company']);
         $this->router->post('/profil', CompanyController::class, 'updateProfile', ['company']);
 
         $this->router->put('/edit-lowongan/{id}', LowonganController::class, 'updateLowongan', ['company']);

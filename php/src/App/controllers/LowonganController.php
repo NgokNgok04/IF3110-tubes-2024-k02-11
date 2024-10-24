@@ -60,11 +60,11 @@ class LowonganController extends Controller
 
     public function deleteLowongan($id)
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $isDeleted = $this->model->deleteLowonganByID($id);
 
             if ($isDeleted) {
-                header('Content-Type: application/json');
+                header('Location: /');
                 echo json_encode(['status' => 'success', 'message' => 'Lowongan berhasil dihapus']);
             } else {
                 header('Content-Type: application/json', true, 500);
@@ -115,20 +115,27 @@ class LowonganController extends Controller
         }
     }
 
-    public function toogleLowongan($id)
+    public function updateLowonganIsOpen($id)
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-            $isToogled = $this->model->toogleIsOpen($id);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if ($_POST['is_open'] === 'Open') {
+                $is_open = 1;
+            } else if ($_POST['is_open'] === 'Closed') {
+                $is_open = 0;
+            }
 
-            if ($isToogled) {
+            // var_dump($is_open);
+            // exit;
+            $isUpdated = $this->model->updateIsOpen($id, $is_open);
+            if ($isUpdated) {
                 header('Content-Type: application/json');
-                echo json_encode(['status' => 'success', 'message' => 'Lowongan berhasil ditutup']);
+                echo json_encode(['status' => 'success', 'message' => 'Status Lowongan Berhasiil Diganti Menjadi' . $is_open]);
             } else {
                 header('Content-Type: application/json', true, 500);
                 echo json_encode(['status' => 'error', 'message' => 'Gagal menutup lowongan']);
             }
         } else {
-            http_response_code(405); // Method Not Allowed
+            http_response_code(405);
             echo json_encode(['message' => 'Metode tidak diizinkan.']);
         }
     }
