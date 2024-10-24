@@ -66,7 +66,7 @@ $user = $user_data;
                         <p><strong>Location:</strong> <?php echo htmlspecialchars($lamaran['lokasi']); ?></p>
                         <p><strong>Location Type:</strong> <?php echo htmlspecialchars($lamaran['jenis_lokasi']); ?></p>
                         <p><strong>Status:</strong> <?php echo htmlspecialchars($lamaran['status']); ?></p>
-                        <p><strong>Status Reason:</strong> <?php echo isset($lamaran['status_reason']) ? htmlspecialchars($lamaran['status_reason']) : '-'; ?></p>
+                        <p><strong>Status Reason:</strong> <?php echo isset($lamaran['status_reason']) ? $lamaran['status_reason'] : '-'; ?></p>
                         <a href="/detail-lowongan/<?php echo $lamaran['lowongan_id']; ?>" class="btn">View Details</a>
                     </div>
                 <?php endforeach; ?>

@@ -50,7 +50,7 @@ $totalPages = $data['totalPages'] ?? 1;
                             <h1 class="job-connector"> - </h1>
                             <h1 class="job-type" id="job-type-<?php echo $index;?>"><?php echo htmlspecialchars($lowongan['jenis_pekerjaan']); ?></h1>
                         </div>
-                        <h1 class="display-none" id="job-desc-<?php echo $index;?>"><?php echo htmlspecialchars($lowongan['deskripsi']); ?></h1>
+                        <h1 class="display-none" id="job-desc-<?php echo $index;?>"><?php echo htmlspecialchars($lowongan['deskripsi'], ENT_QUOTES, 'UTF-8'); ?></h1>
                         <h1 class="display-none" id="job-status-<?php echo $index;?>"><?php echo htmlspecialchars($lowongan['jenis_lokasi']); ?></h1>
                         <h1 class="display-none" id="job-companyid-<?php echo $index;?>"><?php echo htmlspecialchars($lowongan['lowongan_id']); ?></h1>
                     </button>
@@ -134,15 +134,15 @@ $totalPages = $data['totalPages'] ?? 1;
             <div id="job-type-checkboxes">
                 <h4>Job Type</h4>
                 <label>
-                    <input type="checkbox" name="jobtypes[]" value="full-time" onchange="debounceSearch()">
+                    <input type="checkbox" name="jobtypes[]" value="Full-time" onchange="debounceSearch()">
                     Full-time
                 </label><br>
                 <label>
-                    <input type="checkbox" name="jobtypes[]" value="part-time" onchange="debounceSearch()">
+                    <input type="checkbox" name="jobtypes[]" value="Part-time" onchange="debounceSearch()">
                     Part-time
                 </label><br>
                 <label>
-                    <input type="checkbox" name="jobtypes[]" value="internship" onchange="debounceSearch()">
+                    <input type="checkbox" name="jobtypes[]" value="Internship" onchange="debounceSearch()">
                     Internship
                 </label><br>
             </div>
