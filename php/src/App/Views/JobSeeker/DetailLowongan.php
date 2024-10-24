@@ -1,4 +1,6 @@
 <?php
+include(APP_DIR . '/components/success-toast.php');
+include(APP_DIR . '/components/error-toast.php');
 $date = $data['date'] ?? [];
 $data = $data['lowongan'] ?? [];    
 if($date){
@@ -8,12 +10,14 @@ if($date){
 
 // Initialize status message variable
 $statusMessage = '';
-if (isset($_GET['status'])) {
-    if ($_GET['status'] === 'success') {
-        $statusMessage = 'Your application has been submitted successfully!';
-    } elseif ($_GET['status'] === 'failed') {
-        $statusMessage = 'There was an error submitting your application. Please try again.';
-    }
+
+if (isset($_GET['status']) && (isset($_SESSION['success_message']) || isset($_SESSION['error_message']))) {
+    generateSuccessToast();
+    generateErrorToast();
+    $statusMessage = isset($_SESSION['success_message']) ? $_SESSION['success_message'] : $_SESSION['error_message'];
+    $ifSuccess = isset($_SESSION['success_message']);
+    unset($_SESSION['success_message']);
+    unset($_SESSION['error_message']);
 }
 ?>
 
@@ -27,11 +31,17 @@ if (isset($_GET['status'])) {
     <link rel="stylesheet" href="../../../public/styles/jobseeker/detaillowongan.css">
     <link rel="stylesheet" href="../../../public/styles/global.css">
     <link rel="stylesheet" href="../../../public/styles/navbar.css">
+    <link rel="stylesheet" href="../../../public/styles/successToast.css">
+    <link rel="stylesheet" href="../../../public/styles/errorToast.css">
+
     <title>Detail-Lowongan</title>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            <?php if ($statusMessage): ?>
-                alert(<?php echo json_encode($statusMessage); ?>);
+            <?php if ($statusMessage && $ifSuccess): ?>
+                showSuccessToast("<?php echo $statusMessage; ?>", 3000);
+            <?php endif; ?>
+            <?php if ($statusMessage && !$ifSuccess): ?>
+                showErrorToast("<?php echo $statusMessage; ?>", 3000);
             <?php endif; ?>
         });
     </script>
@@ -102,4 +112,35 @@ if (isset($_GET['status'])) {
         </section>
     </div>
 </body>
+<script>
+function showSuccessToast(message) {
+    const successToast = document.getElementById("success-toast");
+    const successMessage = document.getElementById("success-message-content");
+    if (successToast && message) {
+        successMessage.innerText = message;
+        setTimeout(() => {
+            successToast.style.marginTop = "70px"; 
+            successToast.classList.remove("hide");
+            setTimeout(() => {
+                successToast.classList.add("hide");
+            }, 5000);
+        }, 500); // 0.5-second delay
+    }
+}
+
+function showErrorToast(message){
+    const errorToast = document.getElementById("error-toast");
+    const errorMessage = document.getElementById("error-message-content");
+    if (errorToast && message) {
+        errorMessage.innerText = message;
+        setTimeout(() => {
+            errorToast.style.marginTop = "70px"; 
+            errorToast.classList.remove("hide");
+            setTimeout(() => {
+                errorToast.classList.add("hide");
+            }, 5000);
+        }, 500);
+    }
+}
+</script>
 </html>

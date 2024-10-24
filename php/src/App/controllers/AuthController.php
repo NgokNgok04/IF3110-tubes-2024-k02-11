@@ -30,10 +30,12 @@ class AuthController extends Controller
             // $hashedPassword = hash('sha256',$_POST['password']);
             $isUserValid = $this->model->getUserByEmail($_POST['email']);
             if ($isUserValid && $isUserValid['password'] == $_POST['password']){
-                $response['status'] = 'success';
                 $_SESSION['role'] = $isUserValid['role'];
                 $_SESSION['id'] = $isUserValid['user_id'];
                 $_SESSION['name'] = $isUserValid['nama'];
+                $_SESSION['success_message'] = 'Login Sucessfull';
+                $response['status'] = 'success';
+                // $response['data'] = 'Login success';
             } else {
                 $response['status'] = 'error';
                 $response['data'] = 'Email or password wrong';

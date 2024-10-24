@@ -2,8 +2,15 @@
 $lowonganList = $data['lowonganList'] ?? [];
 $currentPage = $data['currentPage'] ?? 1;
 $totalPages = $data['totalPages'] ?? 1;
-// var_dump($lowonganList);
+
+include(APP_DIR . '/components/success-toast.php');
+if(isset($_SESSION['id']) && isset($_SESSION['success_message'])) {
+    generateSuccessToast();
+}
+$successMessage = $_SESSION['success_message'] ?? null;
+unset($_SESSION['success_message']);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,6 +22,7 @@ $totalPages = $data['totalPages'] ?? 1;
     <link rel="stylesheet" href="../../../public/styles/global.css">
     <link rel="stylesheet" href="../../../public/styles/navbar.css">
     <link rel="stylesheet" href="../../../public/styles/login.css">
+    <link rel="stylesheet" href="../../../public/styles/successToast.css">
     <script src="https://kit.fontawesome.com/3816d0d83d.js" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Seeker Home</title>
@@ -178,5 +186,21 @@ $totalPages = $data['totalPages'] ?? 1;
     </main>
 </body>
 <script src="/../../../public/js/HomeJobseeker.js"></script>
-
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const successToast = document.getElementById("success-toast");
+    const successMessage = document.getElementById("success-message-content");
+    const message = "<?php echo $successMessage; ?>";
+    if (successToast && message) {
+        successMessage.innerText = message;
+        setTimeout(() => {
+            successToast.style.marginTop = "70px"; 
+            successToast.classList.remove("hide");
+            setTimeout(() => {
+                successToast.classList.add("hide");
+            }, 5000);
+        }, 500); // 0.5-second delay
+    }
+});
+</script>
 </html>
