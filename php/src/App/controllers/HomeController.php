@@ -38,8 +38,8 @@ class HomeController extends Controller implements ControllerInterface
         $jobtypeFilter = $_GET['jobtypes'] ?? '';
         $sort = $_GET['sort'] ?? 'posisi'; // Default sort by 'posisi'
 
-        $currentPage = (int)($_GET['page'] ?? 1);
-        
+        $currentPage = (int) ($_GET['page'] ?? 1);
+
         if (!empty($search) || !empty($locationFilter) || !empty($statusFilter) || !empty($sort) || !empty($jobtypeFilter)) {
             $lowonganList = $this->modelLowongan->getSearchQuery($search, $locationFilter, $statusFilter, $jobtypeFilter, $sort);
         } else {
@@ -48,8 +48,8 @@ class HomeController extends Controller implements ControllerInterface
         if ($lowonganList === false) {
             $lowonganList = [];
         }
-        
-        foreach($lowonganList as &$lowongan){
+
+        foreach ($lowonganList as &$lowongan) {
             $lowongan['nama'] = $this->modelUsers->getUserById(($lowongan['company_id']))['nama'];
             $lowongan['lokasi'] = $this->modelUsers->getUserById(($lowongan['company_id']))['lokasi'];
             $lowongan['about'] = $this->modelUsers->getUserById(($lowongan['company_id']))['about'];
@@ -57,25 +57,25 @@ class HomeController extends Controller implements ControllerInterface
         // Prepare unique statuses and locations
         $statuses = array_unique(array_column($lowonganList, 'is_open'));
         // Map the numeric statuses to descriptive strings
-        $statuses = array_map(function($status) {
+        $statuses = array_map(function ($status) {
             return $status == 1 ? 'Open' : 'Closed';
         }, $statuses);
         // var_dump($statuses);
         $locations = array_unique(array_column($lowonganList, 'jenis_lokasi'));
         $jobtypes = array_unique(array_column($lowonganList, 'jenis_pekerjaan'));
-    
+
         // Pagination setup
         $itemsPerPage = 12;
         $totalItems = count($lowonganList);
         $totalPages = ceil($totalItems / $itemsPerPage);
-        
+
         // Validate and adjust current page
         if ($currentPage < 1) {
             $currentPage = 1;
         } elseif ($currentPage > $totalPages) {
             $currentPage = $totalPages;
         }
-    
+
         $offset = ($currentPage - 1) * $itemsPerPage;
         $currentItems = array_slice($lowonganList, $offset, $itemsPerPage);
         $this->view('JobSeeker', 'HomeJobSeeker', [
@@ -92,7 +92,7 @@ class HomeController extends Controller implements ControllerInterface
             'sort' => $sort
         ]);
     }
-    
+
     public function companyHome()
     {
         $company_id = $_SESSION['id'];
@@ -106,9 +106,9 @@ class HomeController extends Controller implements ControllerInterface
         $jobtypeFilter = $_GET['jobtypes'] ?? '';
         $sort = $_GET['sort'] ?? 'posisi'; // Default sort by 'posisi'
 
-        $currentPage = (int)($_GET['page'] ?? 1);
+        $currentPage = (int) ($_GET['page'] ?? 1);
 
-        if(!empty($search) || !empty($locationFilter) || !empty($statusFilter) || !empty($jobtypeFilter) || !empty($sort)) {
+        if (!empty($search) || !empty($locationFilter) || !empty($statusFilter) || !empty($jobtypeFilter) || !empty($sort)) {
             // var_dump("masuk sini");
             $jobList = $this->modelLowongan->getSearchQueryCompany($company_id, $search, $locationFilter, $statusFilter, $jobtypeFilter, $sort);
         } else {
@@ -119,7 +119,7 @@ class HomeController extends Controller implements ControllerInterface
         }
 
         $statuses = array_unique(array_column($jobList, 'is_open'));
-        $statuses = array_map(function($status) {
+        $statuses = array_map(function ($status) {
             return $status == 1 ? 'Open' : 'Closed';
         }, $statuses);
 
@@ -129,29 +129,29 @@ class HomeController extends Controller implements ControllerInterface
         $itemsPerPage = 12;
         $totalItems = count($jobList);
         $totalPages = ceil($totalItems / $itemsPerPage);
-        
+
         // Validate and adjust current page
         if ($currentPage < 1) {
             $currentPage = 1;
         } elseif ($currentPage > $totalPages) {
             $currentPage = $totalPages;
         }
-    
+
         $offset = ($currentPage - 1) * $itemsPerPage;
         $currentItems = array_slice($jobList, $offset, $itemsPerPage);
 
         // Lowongan
         $lowongans = $this->modelLowongan->getAllLowonganByCompanyID($company_id);
         $lowonganAttachment = [];
-        foreach($lowongans as $lowongan){
-            $lowonganAttachment = $this->attachmentModel->getAttachmentByLowonganID($lowongan['lowongan_id']);
+        foreach ($lowongans as $lowongan) {
+            $lowonganAttachment[$lowongan['lowongan_id']] = $this->attachmentModel->getAttachmentByLowonganID($lowongan['lowongan_id']);
         }
         $this->view('Company', 'HomeCompany', [
             'jobs' => $currentItems,
             'currentPage' => $currentPage,
             'totalPages' => $totalPages,
             'searchTerm' => $search,
-            'sort' => $sort, 
+            'sort' => $sort,
             'companyData' => $companyData,
             'lowonganAttachment' => $lowonganAttachment,
             // 'statuses' => $statuses,

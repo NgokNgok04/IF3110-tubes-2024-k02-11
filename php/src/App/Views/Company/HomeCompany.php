@@ -2,7 +2,7 @@
 
 include(APP_DIR . '/components/success-toast.php');
 
-if(isset($_SESSION['id']) && isset($_SESSION['success_message'])) {
+if (isset($_SESSION['id']) && isset($_SESSION['success_message'])) {
     generateSuccessToast();
 }
 $successMessage = $_SESSION['success_message'] ?? null;
@@ -204,13 +204,14 @@ unset($_SESSION['success_message']);
                 <div id="modal-desc" class="modal-desc"></div>
                 <div class="modal-attachment">
 
-                    <?php foreach($lowonganAttachment as $index => $attach): ?>
+                    <?php foreach ($lowonganAttachment as $index => $attach): ?>
                         <?php if (isset($attach['file_path'])): ?>
-                            <p class="attachment-link display-none"><?php echo htmlspecialchars($attach['file_path']);?></p>
-                        <?php endif;?>
-                    <?php endforeach;?>
+                            <p class="attachment-link display-none"><?php echo htmlspecialchars($attach['file_path']); ?></p>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
                     <div class="modal-image">
-                        <img id="Attachment-Image" src="/public/uploads/bertojelek.png" alt="Attachment Image">
+                        <img id="Attachment-Image" src="/public/uploads/<?php $lowonganAttachment[0]['file_path'] ?>"
+                            alt="Attachment Image">
                     </div>
                     <button class="modal-image-btn prev" id="btn-prev">&#10094;</button>
                     <button class="modal-image-btn next" id="btn-next">&#10095;</button>
@@ -239,20 +240,21 @@ unset($_SESSION['success_message']);
 </body>
 <script src="../../../public/js/HomeCompany.js" defer></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    const successToast = document.getElementById("success-toast");
-    const successMessage = document.getElementById("success-message-content");
-    const message = "<?php echo $successMessage; ?>";
-    if (successToast && message) {
-        successMessage.innerText = message;
-        setTimeout(() => {
-            successToast.style.marginTop = "70px"; 
-            successToast.classList.remove("hide");
+    document.addEventListener('DOMContentLoaded', function () {
+        const successToast = document.getElementById("success-toast");
+        const successMessage = document.getElementById("success-message-content");
+        const message = "<?php echo $successMessage; ?>";
+        if (successToast && message) {
+            successMessage.innerText = message;
             setTimeout(() => {
-                successToast.classList.add("hide");
-            }, 5000);
-        }, 500);
-    }
+                successToast.style.marginTop = "70px";
+                successToast.classList.remove("hide");
+                setTimeout(() => {
+                    successToast.classList.add("hide");
+                }, 5000);
+            }, 500);
+        }
     });
 </script>
+
 </html>

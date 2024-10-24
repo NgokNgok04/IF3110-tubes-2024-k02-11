@@ -210,13 +210,13 @@ class LowonganController extends Controller
                     $this->attachmentModel->deleteAttachmentByID($attachmentId);
                 }
 
-                http_response_code(500);
-                echo json_encode(['message' => 'Failed to update lowongan: ' . $e->getMessage()]);
+                // http_response_code(500);
+                $_SESSION(['error_message' => 'Failed to update lowongan: ' . $e->getMessage()]);
                 return;
             }
         } else {
             http_response_code(405);
-            echo json_encode(['message' => 'Metode tidak diizinkan.']);
+            echo json_encode(['error_message' => 'Metode tidak diizinkan.']);
         }
     }
 
@@ -281,7 +281,7 @@ class LowonganController extends Controller
                 } else {
                     $lowongan_id = $this->model->addLowongan($company_id, $posisi, $deskripsi, $jenis_pekerjaan, $jenis_lokasi);
                 }
-                header('Location: /detail-lowongan/' . $lowongan_id);
+                header('Location: /');
             } catch (Exception $e) {
                 // undo
                 if ($lowongan_id)
@@ -301,7 +301,8 @@ class LowonganController extends Controller
                 if (!headers_sent()) {
                     http_response_code(500);
                 }
-                echo json_encode(['message' => 'Failed to add lowongan: ' . $e->getMessage()]);
+                $_SESSION['error_message'] = 'Failed to add lowongan: ' . $e->getMessage();
+                header('Location: /tambah-lowongan');
                 return;
             }
         } else {
