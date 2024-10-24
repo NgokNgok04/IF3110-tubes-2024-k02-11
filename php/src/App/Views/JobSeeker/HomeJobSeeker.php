@@ -95,7 +95,6 @@ unset($_SESSION['success_message']);
                             <h1 class="desc">Description</h1>
                             <div id="modal-desc" class="modal-desc"></div>
                             <button class="button-apply" id="button-apply"> Melamar </button>
-
                         </div>
                     </div>
                 <?php endforeach; ?>

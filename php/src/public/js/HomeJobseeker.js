@@ -141,7 +141,9 @@ function openModal(index) {
     `job-desc-${index}`
   ).innerHTML;
 
-  let lowongan_id = document.getElementById(`job-companyid-${index}`).innerText;
+  let lowongan_id = document
+    .getElementById(`job-companyid-${index}`)
+    .innerText.trim();
 
   document
     .getElementById("button-apply")
@@ -174,5 +176,3 @@ document.addEventListener("DOMContentLoaded", function () {
   const closeModals = document.getElementById("close-modal");
   closeModals.addEventListener("click", closeModal);
 });
-
-
