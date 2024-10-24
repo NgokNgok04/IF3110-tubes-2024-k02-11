@@ -122,18 +122,18 @@ function openModal(index) {
   modalContent.classList.remove("display-none");
   bgOverlay.classList.remove("display-none");
 
-  document.getElementById("modal-title").innerText = document.getElementById(
-    `job-title-${index}`
-  ).innerText;
-  document.getElementById("modal-company").innerText = document.getElementById(
-    `job-company-${index}`
-  ).innerText;
-  document.getElementById("modal-location").innerText = document.getElementById(
-    `job-location-${index}`
-  ).innerText;
-  document.getElementById("modal-type").innerText = document.getElementById(
-    `job-type-${index}`
-  ).innerText;
+  document.getElementById("modal-title").innerText = document
+    .getElementById(`job-title-${index}`)
+    .innerText.trim();
+  document.getElementById("modal-company").innerText = document
+    .getElementById(`job-company-${index}`)
+    .innerText.trim();
+  document.getElementById("modal-location").innerText = document
+    .getElementById(`job-location-${index}`)
+    .innerText.trim();
+  document.getElementById("modal-type").innerText = document
+    .getElementById(`job-type-${index}`)
+    .innerText.trim();
   document.getElementById("modal-status").innerText = document
     .getElementById(`job-status-${index}`)
     .innerText.trim();

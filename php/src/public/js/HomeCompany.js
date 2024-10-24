@@ -113,41 +113,43 @@ function openModal(index) {
   const modalViewBtn = document.getElementById("modal-view");
   const modalEditBtn = document.getElementById("modal-edit");
   const modalDeleteForm = document.getElementById("modal-delete");
+  const modalSelectForm = document.getElementById("modal-select");
+
+  const job_id = document
+    .getElementById(`job-companyid-${index}`)
+    .innerText.trim();
 
   modal.classList.remove("display-none");
   modalBg.classList.remove("display-none");
 
-  document.getElementById("modal-title").innerText = document.getElementById(
-    `job-title-${index}`
-  ).innerText;
-  document.getElementById("modal-company").innerText = document.getElementById(
-    `job-company-${index}`
-  ).innerText;
-  document.getElementById("modal-location").innerText = document.getElementById(
-    `job-location-${index}`
-  ).innerText;
-  document.getElementById("modal-type").innerText = document.getElementById(
-    `job-type-${index}`
-  ).innerText;
+  document.getElementById("modal-title").innerText = document
+    .getElementById(`job-title-${index}`)
+    .innerText.trim();
+  document.getElementById("modal-company").innerText = document
+    .getElementById(`job-company-${index}`)
+    .innerText.trim();
+  document.getElementById("modal-location").innerText = document
+    .getElementById(`job-location-${index}`)
+    .innerText.trim();
+  document.getElementById("modal-type").innerText = document
+    .getElementById(`job-type-${index}`)
+    .innerText.trim();
   document.getElementById("modal-status").innerText = document
     .getElementById(`job-status-${index}`)
     .innerText.trim();
   document.getElementById("modal-desc").innerHTML = document.getElementById(
     `job-desc-${index}`
   ).innerHTML;
-  document.getElementById("modal-select").value = document.getElementById(
-    `job-isOpen-${index}`
-  ).innerText;
+  modalSelectForm.value = document
+    .getElementById(`job-isOpen-${index}`)
+    .innerText.trim();
+  modalSelectForm.setAttribute("data-job-id", job_id);
+  modalSelectForm.setAttribute("index", index);
 
-  modalViewBtn.href = `/detail-lowongan/${
-    document.getElementById(`job-companyid-${index}`).innerText
-  }`;
-  modalEditBtn.href = `/detail-lowongan/edit/${
-    document.getElementById(`job-companyid-${index}`).innerText
-  }`;
-  modalDeleteForm.action = `/detail-lowongan/delete/${
-    document.getElementById(`job-companyid-${index}`).innerText
-  }`;
+  modalViewBtn.href = `/detail-lowongan/` + job_id;
+  modalEditBtn.href = `/edit-lowongan/` + job_id;
+  modalDeleteForm.action = `/detail-lowongan/delete/` + job_id;
+  modalDeleteForm.method = "post";
 }
 
 function closeModal() {
@@ -181,4 +183,37 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const closeModals = document.getElementById("close-modal");
   closeModals.addEventListener("click", closeModal);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const selectElement = document.getElementById("modal-select");
+
+  selectElement.addEventListener("change", function () {
+    const form = document.getElementById("update-status-form");
+    const formData = new FormData(form);
+    const jobId = selectElement.getAttribute("data-job-id");
+    const index = selectElement.getAttribute("index");
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/detail-lowongan/update/" + jobId, true);
+    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+    // Handle the response
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          const response = JSON.parse(xhr.responseText);
+          alert(response.message); // Show success or error message
+          document.getElementById("job-isOpen-" + index).innerText =
+            selectElement.value;
+        } else {
+          alert("Error updating status");
+        }
+      }
+    };
+
+    // Send the form data
+    console.log(form);
+    xhr.send(formData);
+  });
 });
