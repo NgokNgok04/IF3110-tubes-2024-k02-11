@@ -34,7 +34,7 @@
         <h2>Application Status</h2>
         <p>Status: <?= htmlspecialchars($lamaran['status']) ?></p>
         <?php if (!empty($lamaran['status_reason'])): ?>
-            <p>Status Reason <?= htmlspecialchars($lamaran['status_reason']) ?></p>
+            <p>Status Reason <?= htmlspecialchars_decode($lamaran['status_reason']) ?></p>
         <?php endif; ?>
 
         <?php if ($lamaran['status'] === 'waiting'): ?>

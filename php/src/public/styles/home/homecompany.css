@@ -270,7 +270,6 @@ main {
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: hidden; /* Enable scroll if needed */
-  /* Black background with transparency */
 }
 
 /* Modal Content */
@@ -377,6 +376,8 @@ main {
 
 .modal-desc {
   margin-top: 0px;
+  overflow-y: auto;
+  max-height: 30vh;
 }
 
 .modal-available {

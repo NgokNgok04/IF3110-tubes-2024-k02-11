@@ -129,18 +129,15 @@ function openModal(index) {
   document.getElementById("modal-type").innerText = document.getElementById(
     `job-type-${index}`
   ).innerText;
-  document.getElementById("modal-status").innerText = document.getElementById(
-    `job-status-${index}`
-  ).innerText;
-  document.getElementById("modal-desc").innerText = document.getElementById(
+  document.getElementById("modal-status").innerText = document
+    .getElementById(`job-status-${index}`)
+    .innerText.trim();
+  document.getElementById("modal-desc").innerHTML = document.getElementById(
     `job-desc-${index}`
+  ).innerHTML;
+  document.getElementById("modal-select").value = document.getElementById(
+    `job-isOpen-${index}`
   ).innerText;
-
-  if (document.getElementById(`job-isOpen-${index}`).innerText.trim()) {
-    document.getElementById("modal-select").value = "Open";
-  } else {
-    document.getElementById("modal-select").value = "Closed";
-  }
 
   modalViewBtn.href = `/detail-lowongan/${
     document.getElementById(`job-companyid-${index}`).innerText
