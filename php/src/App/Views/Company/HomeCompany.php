@@ -67,7 +67,7 @@ unset($_SESSION['success_message']);
                             <p>
                                 <?php echo $job['jenis_pekerjaan']; ?>
                             </p>
-                            <!-- <p>
+                             <p>
                                 <?php echo $job['is_open'] ? 'Open' : 'Closed'; ?>
                             </p> -->
                             <h1 class="display-none" id="job-status-<?php echo $index; ?>">

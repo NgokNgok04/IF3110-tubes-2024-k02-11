@@ -355,6 +355,32 @@ main {
   background-color: white;
 }
 
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #88aaee;
+  margin-top: 20px;
+  padding: 10px 20px;
+  gap: 10px;
+  border-radius: 8px;
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
+}
+
+.filter-group {
+  font-family: "SSP-Regular", sans-serif;
+  font-size: 15px;
+}
+
+.filter-sortby {
+  font-family: "SSP-Regular", sans-serif;
+  width: 110px;
+  padding: 5px 10px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 8px;
+  margin-left: 10px;
+}
+
 .display-none {
   display: none;
 }
@@ -391,6 +417,21 @@ main {
     order: 1;
   }
 
+  .filter-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 10px 20px;
+    gap: 10px;
+  }
+
+  .filter-group {
+    width: 100%;
+  }
+  .filter-sortby {
+    margin-left: 0px;
+  }
+
   .filters-sort {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -404,5 +445,12 @@ main {
     background-color: #88aaee;
     border: 1px solid black;
     border-radius: 8px;
+  }
+}
+
+@media only screen and (max-width: 440px) {
+  .filter-container {
+    padding: 10px 5px;
+    gap: 0px;
   }
 }
