@@ -159,7 +159,7 @@ class LamaranModel extends Model
     public function getRiwayatPage($id)
     {
         $sql =
-            "SELECT * 
+            "SELECT DISTINCT * 
         FROM lamaran AS l 
         JOIN lowongan AS lo 
             ON l.lowongan_id = lo.lowongan_id 
@@ -171,10 +171,8 @@ class LamaranModel extends Model
         ";
         $params = [':user_id' => $id];
         $result = $this->db->fetchAll($sql, $params);
-        if ($result)
-            return $result;
-        else
-            return false;
+        if ($result) return $result;
+        else return false;
     }
 
 }

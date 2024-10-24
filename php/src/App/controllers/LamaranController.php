@@ -66,40 +66,40 @@ class LamaranController extends Controller
     {
         $lowongan_id = $id;
         $user_id = $_SESSION['id'];
-
-        // Define the new file paths
         if(isset($_FILES['cv']) && $_FILES['cv']['name'] != ''){
             $cv_path = '/public/uploads/' . pathinfo($_FILES['cv']['name'], PATHINFO_FILENAME) . '-' . $user_id . '-' . $lowongan_id. '.pdf';
         }
         if(isset($_FILES['video']) && $_FILES['video']['name'] != ''){
             $video_path = '/public/uploads/' . pathinfo($_FILES['video']['name'], PATHINFO_FILENAME) . '-' . $user_id . '-' . $lowongan_id .'.' . pathinfo($_FILES['video']['name'], PATHINFO_EXTENSION);
-        }else{
+        } else {
             $video_path = null;
         }
-        $status = 'waiting';
-
-        $result = $this->model->addLamaran($user_id, $lowongan_id, $cv_path, $video_path, $status, "");
-        if ($result) {
-            if(isset($_FILES['cv']) && $_FILES['cv']['name'] != ''){
-                $cv_uploaded = $this->uploadFile($lowongan_id, $_FILES['cv'], ['pdf'], 100 * 1024 * 1024);
-            }
-            if(isset($_FILES['video']) && $_FILES['video']['name'] != ''){
-                $video_uploaded = $this->uploadFile($lowongan_id, $_FILES['video'], ['mp4', 'avi', 'mkv', 'mov', 'webm'], 100 * 1024 * 1024);
-            }
-            if ((isset($cv_uploaded) && $cv_uploaded)|| (isset($video_uploaded) && $video_uploaded)){
+    
+        $cv_uploaded = false;
+        $video_uploaded = false;
+        if(isset($cv_path) && isset($_FILES['cv']) && $_FILES['cv']['name'] != ''){
+            $cv_uploaded = $this->uploadFile($lowongan_id, $_FILES['cv'], ['pdf'], 100 * 1024 * 1024);
+        }
+        if(isset($video_path) && isset($_FILES['video']) && $_FILES['video']['name'] != ''){
+            $video_uploaded = $this->uploadFile($lowongan_id, $_FILES['video'], ['mp4', 'avi', 'mkv', 'mov', 'webm'], 100 * 1024 * 1024);
+        }
+        if ($cv_uploaded || (isset($video_uploaded) && $video_uploaded)) {
+            $status = 'waiting';
+            $result = $this->model->addLamaran($user_id, $lowongan_id, $cv_path, $video_path, $status, "");
+    
+            if ($result) {
                 $_SESSION['success_message'] = 'Lamaran berhasil dikirim';
-                header("Location: /detail-lowongan/$lowongan_id?status=success"); 
+                header("Location: /detail-lowongan/$lowongan_id?status=success");
             } else {
-                $_SESSION['error_message'] = 'Gagal mengunggah file';
-                // echo "Masuk Fail upload";
+                $_SESSION['error_message'] = 'Gagal mengirim lamaran';
                 header("Location: /detail-lowongan/$lowongan_id?status=failed");
             }
         } else {
-            // echo "Masuk sini";
-            $_SESSION['error_message'] = 'Gagal mengirim lamaran';
+            $_SESSION['error_message'] = 'Gagal mengunggah file';
             header("Location: /detail-lowongan/$lowongan_id?status=failed");
         }
     }
+    
 
 
 

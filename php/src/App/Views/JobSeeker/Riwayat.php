@@ -59,7 +59,7 @@ $user = $user_data;
 
             
             <div class="job-listings">
-                <?php foreach ($lamaranList as $lamaran): ?>
+                <?php foreach ($riwayatList as $lamaran): ?>
                     <div class="job-card">
                         <h2><strong><?php echo htmlspecialchars($lamaran['company_name']); ?></strong></h2>
                         <p><strong>Position:</strong> <?php echo htmlspecialchars($lamaran['posisi']); ?></p>
@@ -77,13 +77,11 @@ $user = $user_data;
                 <?php if ($currentPage > 1): ?>
                     <a href="?page=<?php echo $currentPage - 1; ?>&sort=<?php echo $sort; ?>&search=<?php echo urlencode($searchTerm); ?>&location=<?php echo urlencode($locationFilter); ?>">&laquo; Previous</a>
                 <?php endif; ?>
-
                 <?php for ($page = 1; $page <= $totalPages; $page++): ?>
                     <a href="?page=<?php echo $page; ?>&sort=<?php echo $sort; ?>&search=<?php echo urlencode($searchTerm); ?>&location=<?php echo urlencode($locationFilter); ?>" <?php echo $page == $currentPage ? 'class="active"' : ''; ?>>
                         <?php echo $page; ?>
                     </a>
                 <?php endfor; ?>
-
                 <?php if ($currentPage < $totalPages): ?>
                     <a href="?page=<?php echo $currentPage + 1; ?>&sort=<?php echo $sort; ?>&search=<?php echo urlencode($searchTerm); ?>&location=<?php echo urlencode($locationFilter); ?>">Next &raquo;</a>
                 <?php endif; ?>
