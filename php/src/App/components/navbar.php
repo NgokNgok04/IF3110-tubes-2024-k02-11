@@ -29,7 +29,7 @@ function generateNavbar($type){
                 <div class="navbar-logout">
                     <button class="navbar-menu">
                         <i class="fa-solid fa-circle-user"></i>
-                        <p>Saya</p>
+                        <p>Me</p>
                     </button>
                     <div class="dropdown-content">
                     <button id="nav-logout-1">
