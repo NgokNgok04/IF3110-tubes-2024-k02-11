@@ -301,7 +301,10 @@ main {
 
 .modal-desc {
   margin-top: 0px;
+  overflow-y: auto;
+  max-height: 30vh;
 }
+
 .button-apply {
   margin-top: 50px;
   font-family: "SSP-SemiBold", sans-serif;

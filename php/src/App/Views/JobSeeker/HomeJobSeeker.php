@@ -6,6 +6,7 @@ $totalPages = $data['totalPages'] ?? 1;
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="Find your dream job with our job seeker platform">
@@ -19,14 +20,15 @@ $totalPages = $data['totalPages'] ?? 1;
     <title>Job Seeker Home</title>
     <link rel="stylesheet" href="../../../public/styles/home/homejobseeker.css">
 </head>
+
 <body>
-    <?php 
-        include(__DIR__ . '/../../Components/navbar.php');
-        if(isset($_SESSION['role']) && $_SESSION['role'] == 'jobseeker') {
-            generateNavbar('JobSeeker');
-        } else {
-            generateNavbar('Not Login');
-        }
+    <?php
+    include(__DIR__ . '/../../Components/navbar.php');
+    if (isset($_SESSION['role']) && $_SESSION['role'] == 'jobseeker') {
+        generateNavbar('JobSeeker');
+    } else {
+        generateNavbar('Not Login');
+    }
     ?>
     <main>
         <section class="profile-section">
@@ -34,25 +36,37 @@ $totalPages = $data['totalPages'] ?? 1;
                 <div class="profile-image">
                     <img src="../../../public/icons/profil.png" class="profile-icon" alt="profile-picture">
                 </div>
-                <h1 class="profile-name"><?php echo isset($_SESSION['name']) ? $_SESSION['name'] : 'guess'  ?></h1>
+                <h1 class="profile-name"><?php echo isset($_SESSION['name']) ? $_SESSION['name'] : 'guess' ?></h1>
             </div>
         </section>
         <section class="list-vacancy">
             <?php if ($lowonganList): ?>
                 <?php foreach ($lowonganList as $index => $lowongan): ?>
                     <button id="job-card" class="job-card">
-                        <h1 class="job-title" id="job-title-<?php echo $index;?>">
+                        <h1 class="job-title" id="job-title-<?php echo $index; ?>">
                             <?php echo htmlspecialchars($lowongan['posisi']); ?>
-                        </h1> 
-                        <h1 class="job-company" id="job-company-<?php echo $index;?>"><?php echo htmlspecialchars($lowongan['nama']); ?></h1>
+                        </h1>
+                        <h1 class="job-company" id="job-company-<?php echo $index; ?>">
+                            <?php echo htmlspecialchars($lowongan['nama']); ?>
+                        </h1>
                         <div class="job-loc-type">
-                            <h1 class="job-location" id="job-location-<?php echo $index;?>"><?php echo htmlspecialchars($lowongan['lokasi']); ?></h1>
+                            <h1 class="job-location" id="job-location-<?php echo $index; ?>">
+                                <?php echo htmlspecialchars($lowongan['lokasi']); ?>
+                            </h1>
                             <h1 class="job-connector"> - </h1>
-                            <h1 class="job-type" id="job-type-<?php echo $index;?>"><?php echo htmlspecialchars($lowongan['jenis_pekerjaan']); ?></h1>
+                            <h1 class="job-type" id="job-type-<?php echo $index; ?>">
+                                <?php echo htmlspecialchars($lowongan['jenis_pekerjaan']); ?>
+                            </h1>
                         </div>
-                        <h1 class="display-none" id="job-desc-<?php echo $index;?>"><?php echo htmlspecialchars($lowongan['deskripsi']); ?></h1>
-                        <h1 class="display-none" id="job-status-<?php echo $index;?>"><?php echo htmlspecialchars($lowongan['jenis_lokasi']); ?></h1>
-                        <h1 class="display-none" id="job-companyid-<?php echo $index;?>"><?php echo htmlspecialchars($lowongan['lowongan_id']); ?></h1>
+                        <div class="display-none" id="job-desc-<?php echo $index; ?>">
+                            <?php echo htmlspecialchars_decode($lowongan['deskripsi']); ?>
+                        </div>
+                        <h1 class="display-none" id="job-status-<?php echo $index; ?>">
+                            <?php echo htmlspecialchars($lowongan['jenis_lokasi']); ?>
+                        </h1>
+                        <h1 class="display-none" id="job-companyid-<?php echo $index; ?>">
+                            <?php echo htmlspecialchars($lowongan['lowongan_id']); ?>
+                        </h1>
                     </button>
                     <div id="myModal" class="modal display-none">
                         <div class="modal-content display-none" id="modalContent">
@@ -71,7 +85,7 @@ $totalPages = $data['totalPages'] ?? 1;
                                 <h1 id="modal-type" class="modal-type"></h1>
                             </div>
                             <h1 class="desc">Description</h1>
-                            <h1 id="modal-desc" class="modal-desc"></h1>
+                            <div id="modal-desc" class="modal-desc"></div>
                             <button class="button-apply" id="button-apply"> Melamar </button>
 
                         </div>
@@ -80,30 +94,34 @@ $totalPages = $data['totalPages'] ?? 1;
             <?php else: ?>
                 <p>No vacancy available right now!</p>
             <?php endif; ?>
-            
+
             <!-- 
                 pagination it's not href so it can run asynchronously with search and filter (AJAX)
             -->
             <div class="pagination">
                 <?php if ($currentPage > 1): ?>
-                    <a class="pagination-prev" data-page="<?php echo $currentPage - 1;?>" href="javascript:void(0);">&laquo; Previous</a>
+                    <a class="pagination-prev" data-page="<?php echo $currentPage - 1; ?>"
+                        href="javascript:void(0);">&laquo;
+                        Previous</a>
                 <?php endif; ?>
 
-                <?php for ($page = 1; $page <= $totalPages; $page++):?>
-                    <a class="pagination-page <?php echo ($page == $currentPage) ? 'active' : ''; ?>" 
-                    data-page="<?php echo $page; ?>" href="javascript:void(0);">
+                <?php for ($page = 1; $page <= $totalPages; $page++): ?>
+                    <a class="pagination-page <?php echo ($page == $currentPage) ? 'active' : ''; ?>"
+                        data-page="<?php echo $page; ?>" href="javascript:void(0);">
                         <?php echo $page; ?>
                     </a>
                 <?php endfor; ?>
 
                 <?php if ($currentPage < $totalPages): ?>
-                    <a class="pagination-next" data-page="<?php echo $currentPage + 1; ?>" href="javascript:void(0);">Next &raquo;</a>
+                    <a class="pagination-next" data-page="<?php echo $currentPage + 1; ?>" href="javascript:void(0);">Next
+                        &raquo;</a>
                 <?php endif; ?>
             </div>
         </section>
         <form class="search-section" action="" method="get" id="filters-form">
             <div class="search-bar">
-                <input class="search" id="searchInput" type="text" name="search" placeholder="Search jobs..." value="<?php echo htmlspecialchars($searchTerm); ?>" onkeyup="debounceSearch()">
+                <input class="search" id="searchInput" type="text" name="search" placeholder="Search jobs..."
+                    value="<?php echo htmlspecialchars($searchTerm); ?>" onkeyup="debounceSearch()">
             </div>
             <div id="location-checkboxes">
                 <h4>Locations</h4>
@@ -159,5 +177,6 @@ $totalPages = $data['totalPages'] ?? 1;
         <div id="modalOverlay" class="modal-overlay display-none"></div>
     </main>
 </body>
-<script src = "/../../../public/js/HomeJobseeker.js"></script>
+<script src="/../../../public/js/HomeJobseeker.js"></script>
+
 </html>

@@ -129,9 +129,9 @@ function openModal(index) {
   document.getElementById("modal-type").innerText = document.getElementById(
     `job-type-${index}`
   ).innerText;
-  document.getElementById("modal-status").innerText = document.getElementById(
-    `job-status-${index}`
-  ).innerText;
+  document.getElementById("modal-status").innerText = document
+    .getElementById(`job-status-${index}`)
+    .innerText.trim();
   document.getElementById("modal-desc").innerHTML = document.getElementById(
     `job-desc-${index}`
   ).innerHTML;
