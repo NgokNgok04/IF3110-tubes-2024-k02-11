@@ -68,7 +68,7 @@ if (isset($_GET['status']) && (isset($_SESSION['success_message']) || isset($_SE
         <section class="job-detail">
             <h2 class="job-title"><?php echo htmlspecialchars($data['posisi']); ?></h2>
             <p class="job-description"><strong>Job Description:</strong>
-                <?php echo htmlspecialchars($data['deskripsi'], ENT_QUOTES, 'UTF-8'); ?></p>
+                <?php echo htmlspecialchars_decode($data['deskripsi']); ?></p>
             <p><strong>Job Type:</strong> <?php echo htmlspecialchars($data['jenis_pekerjaan']); ?></p>
             <p><strong>Location:</strong> <?php echo htmlspecialchars($data['jenis_lokasi']); ?></p>
             <p><strong>Status:</strong> <?php echo $data['is_open'] ? 'Open' : 'Closed'; ?></p>
