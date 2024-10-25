@@ -107,7 +107,9 @@ function attachJobCardListeners() {
   });
 }
 
+let currentIndexGlobal = -1;
 function openModal(index) {
+  currentIndexGlobal = index;
   const modal = document.getElementById("myModal");
   const modalBg = document.getElementById("modalOverlay");
   const modalViewBtn = document.getElementById("modal-view");
@@ -163,8 +165,12 @@ function closeModal() {
   const modalBg = document.getElementById("modalOverlay");
   modal.classList.add("display-none");
   modalBg.classList.add("display-none");
-  document.querySelector(".modal-image-btn prev").classList.add("display-none");
-  document.querySelector(".modal-image-btn next").classList.add("display-none");
+  document
+    .getElementById(`btn-prev-${currentIndexGlobal}`)
+    .classList.add("display-none");
+  document
+    .getElementById(`btn-next-${currentIndexGlobal}`)
+    .classList.add("display-none");
 }
 
 function moveSearchSection() {
