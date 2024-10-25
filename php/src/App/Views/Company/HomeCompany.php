@@ -90,11 +90,15 @@
                             <h1 class="display-none" id="job-companyid-<?php echo $index; ?>">
                                 <?php echo htmlspecialchars($job['lowongan_id']); ?>
                             </h1>
+                            <?php
+                                if(isset($lowonganAttachment[$job['lowongan_id']]) && !empty($lowonganAttachment[$job['lowongan_id']])):
+                            ?>
                             <?php foreach ($lowonganAttachment[$job['lowongan_id']] as $attach):?>
                                 <h1 class="attachment-<?php echo $index;?>">
                                     <?php echo htmlspecialchars($attach['file_path']); ?>
                                 </h1>
                             <?php endforeach; ?>
+                            <?php endif; ?>
                             <h1></h1>
                         </button>
                     <?php endforeach; ?>
@@ -217,6 +221,7 @@
                 <h1 class="desc">Description</h1>
                 <div id="modal-desc" class="modal-desc"></div>
                 <div class="modal-attachment">
+                    
                     <div class="modal-image">
                         <img id="Attachment-Image" src="/public/uploads/default.png" alt="Attachment Image">
                     </div>
