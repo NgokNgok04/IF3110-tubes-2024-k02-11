@@ -57,11 +57,9 @@ class AuthController extends Controller
                 $response['data'] = 'The email has been used';
             } else {
                 if ($_POST['role'] == 'company'){
-                    // $this->model->addCompanyUser($_POST['name'],$_POST['email'],$_POST['role'],hash('sha256',$_POST['password']),$_POST['location'],$_POST['about']);
-                    $this->model->addCompanyUser($_POST['name'],$_POST['email'],$_POST['role'],$_POST['password'],$_POST['location'],$_POST['about']);
+                    $this->model->addCompanyUser($_POST['name'],$_POST['email'],$_POST['role'],hash('sha256',$_POST['password']),$_POST['location'],$_POST['about']);
                 } else if ($_POST['role'] == 'jobseeker'){
-                    $this->model->addUser($_POST['name'],$_POST['email'],$_POST['role'],$_POST['password']);
-                    // $this->model->addUser($_POST['name'],$_POST['email'],$_POST['role'],hash('sha256',$_POST['password']));
+                    $this->model->addUser($_POST['name'],$_POST['email'],$_POST['role'],hash('sha256',$_POST['password']));
                 }
                 $response['status'] = 'success';
             }
