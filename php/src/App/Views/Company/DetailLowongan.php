@@ -10,7 +10,6 @@
     <script src="https://kit.fontawesome.com/3816d0d83d.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../../../public/styles/company/detailLowongan.css">
     <title>Job Details</title>
-
 </head>
 
 <body>
