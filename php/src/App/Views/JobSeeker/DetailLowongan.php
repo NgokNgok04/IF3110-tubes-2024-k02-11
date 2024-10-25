@@ -28,11 +28,11 @@ if (isset($_GET['status']) && (isset($_SESSION['success_message']) || isset($_SE
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Detail page of Job for JobSeekers.">
     <script src="https://kit.fontawesome.com/3816d0d83d.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../../../public/styles/jobseeker/detaillowongan.css">
     <link rel="stylesheet" href="../../../public/styles/global.css">
     <link rel="stylesheet" href="../../../public/styles/navbar.css">
     <link rel="stylesheet" href="../../../public/styles/successToast.css">
     <link rel="stylesheet" href="../../../public/styles/errorToast.css">
+    <link rel="stylesheet" href="../../../public/styles/jobseeker/detaillowongan.css">
 
     <title>Detail-Lowongan</title>
     <script>
@@ -76,14 +76,14 @@ if (isset($_GET['status']) && (isset($_SESSION['success_message']) || isset($_SE
                     <?php
                     if(isset($data['cv_path'])):
                     ?>
-                        <a href="<?php echo $data['cv_path']; ?>" style="color: blue; text-decoration: underline;" target="_blank">Your Application</a>
+                        <a href="<?php echo $data['cv_path']; ?>" class="hyperlink" target="_blank">Your Application</a>
                     <?php endif; ?>
                 </li>
                 <li>
                     <?php
                     if(isset($data['video_path'])):
                     ?>
-                        <a href="<?php echo $data['video_path']; ?>" style="color: blue; text-decoration: underline;" target="_blank">Your Introduction Video</a>
+                        <a href="<?php echo $data['video_path']; ?>" class = "hyperlink" target="_blank">Your Introduction Video</a>
                     <?php endif; ?>
                 </li>
             </ul>

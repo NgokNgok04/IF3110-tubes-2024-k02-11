@@ -103,6 +103,11 @@ p {
     margin-top: 16px;
 }
 
+.hyperlink {
+    color: blue; 
+    text-decoration: underline;
+}
+
 @media (max-width: 768px) {
     .container {
         margin: 0;
