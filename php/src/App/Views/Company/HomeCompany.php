@@ -91,7 +91,7 @@
                                 <?php echo htmlspecialchars($job['lowongan_id']); ?>
                             </h1>
                             <?php foreach ($lowonganAttachment[$job['lowongan_id']] as $attach):?>
-                                <h1 class=" attachment-<?php echo $index;?>">
+                                <h1 class="attachment-<?php echo $index;?>">
                                     <?php echo htmlspecialchars($attach['file_path']); ?>
                                 </h1>
                             <?php endforeach; ?>
@@ -221,8 +221,8 @@
                         <img id="Attachment-Image" src="/public/uploads/default.png" alt="Attachment Image">
                     </div>
                     <?php foreach ($jobs as $index => $job): ?>
-                        <button class="modal-image-btn prev" id="btn-prev-<?php echo $index?>">&#10094;</button>
-                        <button class="modal-image-btn next" id="btn-next-<?php echo $index?>">&#10095;</button>
+                        <button class="display-none modal-image-btn prev" id="btn-prev-<?php echo $index?>">&#10094;</button>
+                        <button class="display-none modal-image-btn next" id="btn-next-<?php echo $index?>">&#10095;</button>
                     <?php endforeach; ?>
                 </div>
                 <div class="modal-action">

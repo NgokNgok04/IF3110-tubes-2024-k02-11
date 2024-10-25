@@ -107,7 +107,9 @@ function attachJobCardListeners() {
   });
 }
 
+let currentIndexGlobal = -1;
 function openModal(index) {
+  currentIndexGlobal = index;
   const modal = document.getElementById("myModal");
   const modalBg = document.getElementById("modalOverlay");
   const modalViewBtn = document.getElementById("modal-view");
@@ -141,6 +143,8 @@ function openModal(index) {
     `job-desc-${index}`
   ).innerHTML;
   const AttachmentModal = document.querySelectorAll(`.attachment-${index}`);
+  document.getElementById(`btn-prev-${index}`).classList.remove("display-none");
+  document.getElementById(`btn-next-${index}`).classList.remove("display-none");
   console.log(AttachmentModal);
   document.getElementById("Attachment-Image").src =
     AttachmentModal[0].innerText;
@@ -161,6 +165,12 @@ function closeModal() {
   const modalBg = document.getElementById("modalOverlay");
   modal.classList.add("display-none");
   modalBg.classList.add("display-none");
+  document
+    .getElementById(`btn-prev-${currentIndexGlobal}`)
+    .classList.add("display-none");
+  document
+    .getElementById(`btn-next-${currentIndexGlobal}`)
+    .classList.add("display-none");
 }
 
 function moveSearchSection() {
@@ -193,12 +203,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function moveSlide(step, index) {
     const images = document.getElementById("Attachment-Image");
+    console.log("INDEXX : ", index);
     const AttachmentLink = document.querySelectorAll(`.attachment-${index}`);
 
     console.log("ATTACHMENT LINK", AttachmentLink);
     currentIndex += step;
+    console.log("CURRENT INDEX BEFORE:", currentIndex);
     if (currentIndex < 0) {
-      currentIndex = AttachmentLink.length;
+      currentIndex = AttachmentLink.length - 1;
     } else if (currentIndex >= AttachmentLink.length) {
       currentIndex = 0;
     }
