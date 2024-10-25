@@ -18,7 +18,6 @@ unset($_SESSION['success_message']);
     <meta charset="UTF-8">
     <meta name="description" content="Find your dream job with our job seeker platform">
     <meta name="viewport" content="width=, initial-scale=1.0">
-    <title>Document</title>
     <link rel="stylesheet" href="../../../public/styles/global.css">
     <link rel="stylesheet" href="../../../public/styles/navbar.css">
     <link rel="stylesheet" href="../../../public/styles/login.css">
