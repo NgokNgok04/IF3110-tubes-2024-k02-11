@@ -67,8 +67,20 @@ if (isset($_GET['status']) && (isset($_SESSION['success_message']) || isset($_SE
         <hr>
         <section class="job-detail">
             <h2 class="job-title"><?php echo htmlspecialchars($data['posisi']); ?></h2>
+            <?php if (!empty($attachmentLowongan)):?>
+                <div class="modal-attachment">
+                    <?php foreach($attachmentLowongan as $attachment):?>
+                        <h1 class="display-none attachment"><?php echo htmlspecialchars($attachment['file_path'])?></h1>
+                    <?php endforeach ?>
+                    <div class="modal-image">
+                        <img id="Attachment-Image" src="/public/uploads/default.png" alt="Attachment Image">
+                    </div>
+                    <button class="modal-image-btn prev" id="btn-prev">&#10094;</button>
+                    <button class="modal-image-btn next" id="btn-next">&#10095;</button>
+                </div>
+            <?php endif; ?>
             <p class="job-description"><strong>Job Description:</strong>
-                <?php echo htmlspecialchars($data['deskripsi'], ENT_QUOTES, 'UTF-8'); ?></p>
+                <?php echo htmlspecialchars_decode($data['deskripsi']); ?></p>
             <p><strong>Job Type:</strong> <?php echo htmlspecialchars($data['jenis_pekerjaan']); ?></p>
             <p><strong>Location:</strong> <?php echo htmlspecialchars($data['jenis_lokasi']); ?></p>
             <p><strong>Status:</strong> <?php echo $data['is_open'] ? 'Open' : 'Closed'; ?></p>
@@ -133,6 +145,7 @@ if (isset($_GET['status']) && (isset($_SESSION['success_message']) || isset($_SE
         </section>
     </div>
 </body>
+<script src="../../../public/js/detailLowonganJobseeker.js" defer></script>
 <script>
     function showSuccessToast(message) {
         const successToast = document.getElementById("success-toast");

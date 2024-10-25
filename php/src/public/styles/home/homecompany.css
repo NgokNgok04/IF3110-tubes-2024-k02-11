@@ -75,9 +75,7 @@ main {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
   background-color: white;
-  /* transform: translateY(99px); */
   width: 100%;
-  /* height: 180px; */
   border-bottom: 1px solid #dfdeda;
   padding-left: 20px;
   padding-bottom: 20px;
@@ -247,45 +245,42 @@ main {
   text-align: left;
 }
 
-/* Dark Background Overlay */
 .modal-overlay {
-  display: block; /* Hidden by default */
+  display: block;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Dark background */
-  z-index: 0; /* Make sure it stays behind the modal */
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 0;
 }
 
 .modal {
-  display: flex; /* Hidden by default */
+  display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  position: fixed;
+  z-index: 1;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: hidden; /* Enable scroll if needed */
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
-/* Modal Content */
 .modal-content {
   display: block;
   position: relative;
   flex-direction: column;
   background-color: white;
-  margin: 15% auto; /* 15% from the top and centered */
+  margin: 15% auto;
   border-radius: 11px;
   padding: 0px 20px 20px 20px;
-  width: 600px; /* Could be more or less, depending on screen size */
+  width: 600px;
   box-shadow: 4px 4px 0 rgba(0, 0, 0, 1);
 }
 
-/* Close Button (Back Arrow) */
 .close {
   color: black;
   font-size: 20px;
@@ -358,7 +353,6 @@ main {
   border-radius: 5px;
   justify-content: center;
   align-items: center;
-  /* vertical-align: middle; */
 }
 
 .modal-type {
@@ -462,7 +456,6 @@ main {
 .modal-attachment {
   position: relative;
   width: 100%;
-  /* height: 250px; */
   display: flex;
   margin: 0px;
   overflow: hidden;
@@ -479,7 +472,6 @@ main {
   width: auto;
   max-width: 560px;
   object-fit: contain;
-  /* margin: auto; */
 }
 
 .modal-image-btn {
