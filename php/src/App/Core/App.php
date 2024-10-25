@@ -2,60 +2,74 @@
 
 namespace App\Core;
 
+use App\Controllers\AttachmentController;
+use App\Controllers\AuthController;
+use App\Controllers\HomeController;
+use App\Controllers\LowonganController;
+use App\Controllers\LamaranController;
+use App\Controllers\CompanyController;
+use App\Controllers\JobSeekerController;
+use App\Controllers\UserController;
+// use App\Core\Database;
+
 class App
 {
-    protected $controller = 'HomeController';
-    protected $method = 'index';
-    protected $params = [];
+    protected $router;
 
     public function __construct()
     {
-        $url = $this->parseURL();
-        // print_r($url);
-        if (isset($url[1])) {
-            $controllerName = ucfirst($url[1]) . 'Controller';
-            $controllerFile = __DIR__ . '/../Controllers/' . $controllerName . '.php';
-            // print_r('\n' . $controllerFile);
-            if (file_exists($controllerFile)) {
-                $this->controller = $controllerName;
-                unset($url[1]);
-            }
-        }
-
-        $controllerClass = 'App\\Controllers\\' . $this->controller;
-        $this->controller = new $controllerClass;
-
-        $methodPart = $url[2] ?? null;
-        // var_dump($methodPart);
-        if (isset($methodPart)) {
-            if (method_exists($this->controller, $url[2])) {
-                $this->method = $methodPart;
-                unset($url[2]);
-            }
-        }
-
-        $this->params = $url ? array_values($url) : [];
-
-        call_user_func_array([$this->controller, $this->method], $this->params);
+        $this->router = new Router();
+        $this->defineRoutes();
+        $this->router->dispatch();
     }
 
-    // public function parseURL()
-    // {
-    //     if (isset($_GET['url'])) {
-    //         // echo $_GET['url'];
-    //         $url = rtrim($_GET['url'], '/');
-    //         $url = filter_var($url, FILTER_SANITIZE_URL);
-    //         return explode('/', $url);
-    //     }
-    //     return [];
-    // }
 
-    public function parseURL()
+    private function defineRoutes()
     {
-        $request = $_SERVER['REQUEST_URI'];
-        $request = rtrim($request, '/');
-        $request = filter_var($request, FILTER_SANITIZE_URL);
-        $request = explode('/', $request);
-        return $request;
+        $this->router->get('/login', AuthController::class, 'loginPage');
+        $this->router->get('/register', AuthController::class, 'registerPage');
+
+        $this->router->get('/', HomeController::class, 'index');
+
+        $this->router->get('/detail-lowongan/{id}', LowonganController::class, 'detailLowonganPage', ['company', 'jobseeker']);
+        $this->router->put('/detail-lowongan/{id}', LowonganController::class, 'toogleLowongan', ['company']);
+
+        $this->router->post('/login', AuthController::class, 'login');
+        $this->router->post('/register', AuthController::class, 'register');
+        $this->router->post('/logout', AuthController::class, 'logout');
+
+        // Routes for 'company' role`
+        $this->router->get('/tambah-lowongan', LowonganController::class, 'tambahLowonganPage', ['company']);
+        $this->router->get('/detail-lamaran/{id}', LamaranController::class, 'detailLamaranPage', ['company']);
+        $this->router->get('/edit-lowongan/{id}', LowonganController::class, 'editLowonganPage', ['company']);
+        $this->router->get('/profil', CompanyController::class, 'profilePage', ['company']);
+
+        $this->router->put('/detail-lamaran/{id}', LamaranController::class, 'updateStatus', ['company']);
+        $this->router->post('/tambah-lowongan', LowonganController::class, 'storeLowongan', ['company']);
+        $this->router->post('/detail-lowongan/delete/{id}', LowonganController::class, 'deleteLowongan', ['company']);
+        $this->router->post('/detail-lowongan/update/{id}', LowonganController::class, 'updateLowonganIsOpen', ['company']);
+        $this->router->post('/profil', CompanyController::class, 'updateProfile', ['company']);
+
+        $this->router->post('/edit-lowongan/{id}', LowonganController::class, 'updateLowongan', ['company']);
+        $this->router->post('/edit-lowongan/{id}/delete', LowonganController::class, 'deleteAttachment', ['company']);
+
+        // Routes for 'jobseeker' role
+        $this->router->get('/detail-lowongan/lamaran/{id}', LamaranController::class, 'lamaranPage', ['jobseeker']);
+        $this->router->get('/riwayat', JobSeekerController::class, 'riwayatPage', ['jobseeker']);
+        $this->router->post('/detail-lamaran/lamaran/{id}/add', LamaranController::class, 'store', ['jobseeker']);
+
+        //debugging 
+        $this->router->get('/debug', UserController::class, 'debug');
+        $this->router->post('/debugShow', UserController::class, 'showDebug');
+        $this->router->post('/delete-database', UserController::class, 'deleteDB');
+        $this->router->post('/create-database', UserController::class, 'createDB');
+        $this->router->post('/seeding', UserController::class, 'seeding');
+
+        $this->router->post('/debugShowLowongan', LowonganController::class, 'showDebug');
+        $this->router->post('/debugShowLamaran', LamaranController::class, 'showDebug');
+        $this->router->post('/debugShowCompanyDetail', CompanyController::class, 'showDebug');
+        $this->router->post('/debugShowAttachment', AttachmentController::class, 'showDebug');
+
+        //file 
     }
 }

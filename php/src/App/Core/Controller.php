@@ -2,12 +2,13 @@
 
 namespace App\Core;
 
-class Controller {
-    public function view($folder, $view)
+class Controller
+{
+    public function view($folder, $view, $data = [])
     {
-        $controllerClass = 'App\\Views\\' . $folder . "\\" . $view;
-        echo $controllerClass;
-        return new $controllerClass;
+        $controllerViews = __DIR__ . '/../Views/' . $folder . "/" . $view . ".php";
+        extract($data);
+        require_once $controllerViews;
     }
 
     public function model($model)

@@ -1,0 +1,97 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.company-profile {
+  margin-bottom: 20px;
+}
+
+.company-name {
+  font-size: 1.8em;
+  color: #0a66c2;
+}
+
+.company-location {
+  font-size: 1.1em;
+  color: #555;
+}
+
+.company-about {
+  font-size: 1em;
+  color: #333;
+}
+
+.job-detail {
+  margin-bottom: 20px;
+}
+
+.job-title {
+  font-size: 1.5em;
+  color: #0a66c2;
+}
+
+.job-description {
+  font-size: 1em;
+  color: #333;
+}
+
+.application-status {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.application-not-applied,
+.application-applied {
+  margin: 10px 0;
+}
+
+.application-not-applied p,
+.application-applied p {
+  margin: 5px 0;
+}
+
+.attachment {
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: #0a66c2;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.attachment:hover {
+  background-color: #084e96;
+}
+
+.btn {
+  padding: 10px 15px;
+  background-color: #0a66c2;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.btn:hover {
+  background-color: #084e96;
+}
+
+hr {
+  margin: 20px 0;
+  border: none;
+  border-top: 1px solid #ddd;
+}
