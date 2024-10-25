@@ -10,9 +10,18 @@
     <link rel="stylesheet" href="../../../public/styles/navbar.css">
     <link rel="stylesheet" href="../../../public/styles/company/detailLamaran.css">
     <script src="https://kit.fontawesome.com/3816d0d83d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../../../public/styles/errorToast.css">
+    <link rel="stylesheet" href="../../../public/styles/successToast.css">
 </head>
 
 <body>
+    <?php
+    include(APP_DIR . '/components/error-toast.php');
+    include(APP_DIR . '/components/success-toast.php');
+    generateErrorToast();
+    generateSuccessToast();
+    ?>
+
     <main>
         <section class="cv-and-video">
             <h1>Introduction Video</h1>
@@ -20,16 +29,16 @@
                 <video class="video-frame" controls>
                     <source src="<?= htmlspecialchars($lamaran['video_path']) ?>" type="video/mp4">
                 </video>
-            <?php else:?>
+            <?php else: ?>
                 <h1 id="not-found-video">Video not found</h1>
             <?php endif; ?>
             <h1>CV Applicant</h1>
             <?php if (!empty($lamaran['cv_path'])): ?>
-                <iframe class="cv-frame" src="<?= htmlspecialchars($lamaran['cv_path']) ?>" >
+                <iframe class="cv-frame" src="<?= htmlspecialchars($lamaran['cv_path']) ?>">
                 </iframe>
-            <?php else:?>
+            <?php else: ?>
                 <h1 id="not-found-CV">CV not found</h1>
-            <?php endif;?>
+            <?php endif; ?>
         </section>
         <section class="information-section">
             <h1 class="lamaran-title">Applicant Detail</h1>
@@ -50,12 +59,12 @@
                     </div>
                 </div>
             </div>
-            <div class="lamaran-reason">
+            <div class="lamaran-reason-container">
                 <?php if (!empty($lamaran['status_reason'])): ?>
                     <p class="lamaran-reason">Reason :</p>
-                <?php endif;?>
+                <?php endif; ?>
                 <?php if (!empty($lamaran['status_reason'])): ?>
-                    <p><?= htmlspecialchars_decode($lamaran['status_reason']) ?></p>
+                    <div><?= htmlspecialchars_decode($lamaran['status_reason']) ?></div>
                 <?php endif; ?>
             </div>
 
@@ -87,13 +96,14 @@
             </div>
         </section>
     </main>
-    <?php 
-        include(__DIR__ . "/../../Components/navbar.php"); 
-        generateNavbar('Company')?>
+    <?php
+    include(__DIR__ . "/../../Components/navbar.php");
+    generateNavbar('Company') ?>
     <div id="modalOverlay" class="modal-overlay display-none"></div>
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
     <script src="../../../public/js/detail-lamaran.js"></script>
     <script src="../../../public/js/quill-setup.js"></script>
+    <script src="../../../public/js/toast.js"></script>
 </body>
 
 </html>

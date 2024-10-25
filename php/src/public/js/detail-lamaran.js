@@ -30,14 +30,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
-          console.log(
-            `Ready State: ${xhr.readyState}, Status: ${xhr.status}, Response: ${xhr.responseText}`
-          );
+          const response = JSON.parse(xhr.responseText);
+          closeModal();
           if (xhr.status === 200) {
-            alert(xhr.responseText);
-            window.location.reload();
+            // Mengupdate Reason di halaman
+            const newReasonElement = document.createElement("div");
+            newReasonElement.innerHTML = statusReasonContent;
+            const reasonLabelElement = document.createElement("p");
+            reasonLabelElement.className = "lamaran-reason";
+            reasonLabelElement.textContent = "Reason :";
+            const lamaranReasonContainer = document.querySelector(
+              ".lamaran-reason-container"
+            );
+            lamaranReasonContainer.appendChild(reasonLabelElement);
+            lamaranReasonContainer.appendChild(newReasonElement);
+
+            // Update status dan hilangkan tombol
+            const lamaranStatusText = document.querySelector(
+              ".lamaran-status-btn p"
+            );
+            lamaranStatusText.textContent = data["status"]; // Ganti dengan status yang sesuai
+
+            // Hapus tombol jika status sudah berubah
+            const changeButton = document.getElementById("change-button");
+            if (changeButton) {
+              changeButton.remove();
+            }
+
+            showSuccessToast(response.message);
           } else {
-            alert("An error occurred: " + xhr.status);
+            showErrorToast(response.message);
           }
         }
       };
