@@ -82,6 +82,12 @@ unset($_SESSION['success_message']);
                             <h1 class="display-none" id="job-companyid-<?php echo $index; ?>">
                                 <?php echo htmlspecialchars($job['lowongan_id']); ?>
                             </h1>
+                            <?php foreach ($lowonganAttachment[$job['lowongan_id']] as $attach):?>
+                                <h1 class="display-none attachment-<?php echo $index;?>">
+                                    <?php echo htmlspecialchars($attach['file_path']); ?>
+                                </h1>
+                            <?php endforeach; ?>
+                            <h1></h1>
                         </button>
                     <?php endforeach; ?>
                 </div>
@@ -203,18 +209,13 @@ unset($_SESSION['success_message']);
                 <h1 class="desc">Description</h1>
                 <div id="modal-desc" class="modal-desc"></div>
                 <div class="modal-attachment">
-
-                    <?php foreach ($lowonganAttachment as $index => $attach): ?>
-                        <?php if (isset($attach['file_path'])): ?>
-                            <p class="attachment-link display-none"><?php echo htmlspecialchars($attach['file_path']); ?></p>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
                     <div class="modal-image">
-                        <img id="Attachment-Image" src="/public/uploads/<?php $lowonganAttachment[0]['file_path'] ?>"
-                            alt="Attachment Image">
+                        <img id="Attachment-Image" src="/public/uploads/default.png" alt="Attachment Image">
                     </div>
-                    <button class="modal-image-btn prev" id="btn-prev">&#10094;</button>
-                    <button class="modal-image-btn next" id="btn-next">&#10095;</button>
+                    <?php foreach ($jobs as $index => $job): ?>
+                        <button class="modal-image-btn prev" id="btn-prev-<?php echo $index?>">&#10094;</button>
+                        <button class="modal-image-btn next" id="btn-next-<?php echo $index?>">&#10095;</button>
+                    <?php endforeach; ?>
                 </div>
                 <div class="modal-action">
                     <form class="modal-trash" id="modal-delete">

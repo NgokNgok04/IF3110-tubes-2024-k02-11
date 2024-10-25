@@ -95,6 +95,7 @@ class HomeController extends Controller implements ControllerInterface
 
     public function companyHome()
     {
+
         $company_id = $_SESSION['id'];
         $companyData = $this->modelUsers->getUserById($company_id);
 
@@ -154,12 +155,12 @@ class HomeController extends Controller implements ControllerInterface
             'sort' => $sort,
             'companyData' => $companyData,
             'lowonganAttachment' => $lowonganAttachment,
-            // 'statuses' => $statuses,
-            // 'locations' => $locations,
-            // 'jobtypes' => $jobtypes,
-            // 'locationFilter' => $locationFilter,
-            // 'statusFilter' => $statusFilter,
-            // 'jobtypeFilter' => $jobtypeFilter,
         ]);
     }
 }
+
+// [ 'lowongan_id_1' => [{
+//     'file_path'
+// }], 'lowongan_id_2' => {
+//     'file_path'
+// }]

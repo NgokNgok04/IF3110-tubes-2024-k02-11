@@ -140,6 +140,10 @@ function openModal(index) {
   document.getElementById("modal-desc").innerHTML = document.getElementById(
     `job-desc-${index}`
   ).innerHTML;
+  const AttachmentModal = document.querySelectorAll(`.attachment-${index}`);
+  console.log(AttachmentModal);
+  document.getElementById("Attachment-Image").src =
+    AttachmentModal[0].innerText;
   modalSelectForm.value = document
     .getElementById(`job-isOpen-${index}`)
     .innerText.trim();
@@ -187,26 +191,34 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   let currentIndex = 0;
 
-  function moveSlide(step) {
+  function moveSlide(step, index) {
     const images = document.getElementById("Attachment-Image");
-    const AttachmentLink = document.querySelectorAll(".attachment-link");
+    const AttachmentLink = document.querySelectorAll(`.attachment-${index}`);
+
+    console.log("ATTACHMENT LINK", AttachmentLink);
     currentIndex += step;
     if (currentIndex < 0) {
       currentIndex = AttachmentLink.length;
     } else if (currentIndex >= AttachmentLink.length) {
       currentIndex = 0;
     }
+
+    console.log("CURRENT INDEX :", currentIndex);
     currentImage = AttachmentLink[currentIndex].innerText;
+    console.log("CURRENT IMAGE :", currentIndex);
+    console.log(currentImage);
     images.src = currentImage;
   }
 
-  const carouselBtnPrev = document.getElementById("btn-prev");
-  const carouselBtnNext = document.getElementById("btn-next");
-  carouselBtnPrev.addEventListener("click", () => {
-    moveSlide(-1);
-  });
-  carouselBtnNext.addEventListener("click", () => {
-    moveSlide(1);
+  document.querySelectorAll(".job-card").forEach((_, index) => {
+    const carouselBtnPrev = document.getElementById(`btn-prev-${index}`);
+    const carouselBtnNext = document.getElementById(`btn-next-${index}`);
+    carouselBtnPrev.addEventListener("click", () => {
+      moveSlide(-1, index);
+    });
+    carouselBtnNext.addEventListener("click", () => {
+      moveSlide(1, index);
+    });
   });
 
   const closeModals = document.getElementById("close-modal");
