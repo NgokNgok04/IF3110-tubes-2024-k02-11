@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Page for Company to Update Jobs">
     <title>Edit Job</title>
 
     <link rel="stylesheet" href="../../../public/styles/global.css">
@@ -42,7 +43,7 @@
 
     <div class="container">
         <div class="card">
-            <h3 class="title">Edit Job</h3>
+            <h1 class="title">Edit Job</h1>
             <form id="edit-lowongan-form" method="POST" enctype="multipart/form-data">
                 <!-- Job Title -->
                 <div class="form-group">

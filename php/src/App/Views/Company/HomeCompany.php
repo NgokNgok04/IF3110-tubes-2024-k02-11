@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Home for Company to Check jobs they post">
     <title>List Job</title>
     <link rel="stylesheet" href="../../../public/styles/global.css">
     <link rel="stylesheet" href="../../../public/styles/navbar.css">
@@ -225,8 +226,10 @@
                         <img id="Attachment-Image" src="/public/uploads/default.png" alt="Attachment Image">
                     </div>
                     <?php foreach ($jobs as $index => $job): ?>
-                        <button class="display-none modal-image-btn prev" id="btn-prev-<?php echo $index?>">&#10094;</button>
-                        <button class="display-none modal-image-btn next" id="btn-next-<?php echo $index?>">&#10095;</button>
+                        <button class="display-none modal-image-btn prev"
+                            id="btn-prev-<?php echo $index ?>">&#10094;</button>
+                        <button class="display-none modal-image-btn next"
+                            id="btn-next-<?php echo $index ?>">&#10095;</button>
                     <?php endforeach; ?>
                 </div>
                 <div class="modal-action">
