@@ -16,13 +16,10 @@ class LamaranController extends Controller
         $this->model = $this->model('LamaranModel');
         $this->usersModel = $this->model('UsersModel');
     }
+
+    // Jobseeker
     public function lamaranPage($id)
     {
-        $company_id = $this->model->getCompanyFromLamaran($id);
-        if ($company_id != $_SESSION['id']) {
-            $this->view('Error', 'NoAccess');
-            exit;
-        }
         $data = $this->model->getLamaranPage($id);
         $this->view('JobSeeker', 'Lamaran', [
             'data' => $data

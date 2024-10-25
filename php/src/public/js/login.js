@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
               );
               if (errorToast) {
                 errorMessage.innerText = response.data;
-                errorToast.style.marginTop = "70px"; // Ensure it slides in properly
+                errorToast.classList.add("show-initial"); // Ensure it slides in properly
                 errorToast.classList.remove("hide"); // Ensure it's visible
                 setTimeout(() => {
                   errorToast.classList.add("hide");

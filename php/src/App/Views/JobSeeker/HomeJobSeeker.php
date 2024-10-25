@@ -4,7 +4,7 @@ $currentPage = $data['currentPage'] ?? 1;
 $totalPages = $data['totalPages'] ?? 1;
 
 include(APP_DIR . '/components/success-toast.php');
-if(isset($_SESSION['id']) && isset($_SESSION['success_message'])) {
+if (isset($_SESSION['id']) && isset($_SESSION['success_message'])) {
     generateSuccessToast();
 }
 $successMessage = $_SESSION['success_message'] ?? null;
@@ -107,8 +107,7 @@ unset($_SESSION['success_message']);
             -->
             <div class="pagination">
                 <?php if ($currentPage > 1): ?>
-                    <a class="pagination-prev" data-page="<?php echo $currentPage - 1; ?>"
-                        href="#">&laquo;
+                    <a class="pagination-prev" data-page="<?php echo $currentPage - 1; ?>" href="#">&laquo;
                         Previous</a>
                 <?php endif; ?>
 
@@ -182,30 +181,32 @@ unset($_SESSION['success_message']);
                     <select id="sort-by" class="filter-sortby" name="sort" onchange="debounceSearch()">
                         <option value="posisi" <?php echo $sort === 'posisi' ? 'selected' : ''; ?>>Position</option>
                         <option value="created_at" <?php echo $sort === 'created_at' ? 'selected' : ''; ?>>Date</option>
-                        <option value="company_id" <?php echo $sort === 'company_id' ? 'selected' : ''; ?>>Company</option>
+                        <option value="company_id" <?php echo $sort === 'company_id' ? 'selected' : ''; ?>>Company
+                        </option>
                     </select>
                 </div>
-                </div>
+            </div>
         </form>
         <div id="modalOverlay" class="modal-overlay display-none"></div>
     </main>
 </body>
 <script src="/../../../public/js/HomeJobseeker.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const successToast = document.getElementById("success-toast");
-    const successMessage = document.getElementById("success-message-content");
-    const message = "<?php echo $successMessage; ?>";
-    if (successToast && message) {
-        successMessage.innerText = message;
-        setTimeout(() => {
-            successToast.style.marginTop = "70px"; 
-            successToast.classList.remove("hide");
+    document.addEventListener('DOMContentLoaded', function () {
+        const successToast = document.getElementById("success-toast");
+        const successMessage = document.getElementById("success-message-content");
+        const message = "<?php echo $successMessage; ?>";
+        if (successToast && message) {
+            successMessage.innerText = message;
             setTimeout(() => {
-                successToast.classList.add("hide");
-            }, 5000);
-        }, 500); // 0.5-second delay
-    }
-});
+                successToast.classList.add("show-initial");
+                successToast.classList.remove("hide");
+                setTimeout(() => {
+                    successToast.classList.add("hide");
+                }, 5000);
+            }, 500); // 0.5-second delay
+        }
+    });
 </script>
+
 </html>
