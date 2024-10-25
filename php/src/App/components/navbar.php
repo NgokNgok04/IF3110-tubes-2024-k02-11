@@ -3,7 +3,7 @@ function generateNavbar($type){
     ?>
     <navbar>
         <button id="logo">
-            <img src="../../public/images/logo.png" alt="Logo">
+            <img width="80px" height="80px" src="../../public/images/logis.webp" alt="Logo">
         </button>
 
         <section>

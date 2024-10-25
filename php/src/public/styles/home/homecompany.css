@@ -144,6 +144,13 @@ main {
   font-size: 15px;
 }
 
+.filter-group label {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 10px;
+}
+
 .filter-sortby {
   font-family: "SSP-Regular", sans-serif;
   width: 110px;

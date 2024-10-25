@@ -39,7 +39,7 @@
                 <div class="profile-bg-blue"></div>
                 <div class="profile-bg-white">
                     <div class="profile-image">
-                        <img src="../../../public/icons/building.png" class="profile-icon" alt="profile-picture">
+                        <img width="100px" height="100px" src="../../../public/icons/building.png" class="profile-icon" alt="profile-picture">
                     </div>
                     <h1 class="profile-name"><?php echo isset($companyData['nama']) ? $companyData['nama'] : 'guess' ?>
                     </h1>
@@ -249,14 +249,14 @@
     include(__DIR__ . "/../../Components/navbar.php");
     generateNavbar('Company') ?>
     <button id="addLowongan" class="add-lowongan">
-        <img src="../../../public/icons/plus.png">
+        <img src="../../../public/icons/plus.png" width="50px" alt="Add Button">
     </button>
     <div id="modalOverlay" class="modal-overlay display-none"></div>
 
 </body>
 <script src="../../../public/js/toast.js" defer></script>
 <script src="../../../public/js/HomeCompany.js" defer></script>
-<script>
+<script defer>
     document.addEventListener('DOMContentLoaded', function () {
         const successToast = document.getElementById("success-toast");
         const successMessage = document.getElementById("success-message-content");
@@ -271,6 +271,16 @@
                 }, 5000);
             }, 500);
         }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+        const profileAbout = document.querySelector('.profile-about');
+        profileAbout.innerText = 'Loading profile information...';
+
+        setTimeout(() => {
+            profileAbout.innerText = '<?php echo isset($companyData['about']) ? $companyData['about'] : "guess about" ?>';
+        }, 500); // Adjust delay based on actual loading time
+    });
+
     });
 </script>
 
