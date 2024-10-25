@@ -140,7 +140,7 @@ if (isset($_GET['status']) && (isset($_SESSION['success_message']) || isset($_SE
         if (successToast && message) {
             successMessage.innerText = message;
             setTimeout(() => {
-                successToast.classList.add("show-initial"); = "70px";
+                successToast.classList.add("show-initial");
                 successToast.classList.remove("hide");
                 setTimeout(() => {
                     successToast.classList.add("hide");
@@ -155,7 +155,7 @@ if (isset($_GET['status']) && (isset($_SESSION['success_message']) || isset($_SE
         if (errorToast && message) {
             errorMessage.innerText = message;
             setTimeout(() => {
-                errorToast.classList.add("show-initial"); = "70px";
+                errorToast.classList.add("show-initial");
                 errorToast.classList.remove("hide");
                 setTimeout(() => {
                     errorToast.classList.add("hide");
