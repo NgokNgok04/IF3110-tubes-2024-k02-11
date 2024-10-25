@@ -248,7 +248,7 @@
 
 </body>
 <script src="../../../public/js/HomeCompany.js" defer></script>
-<script src="../../../public/js/toast.js" defer></script>
+<script src="../../../public/js/HomeCompany.js" defer></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const successToast = document.getElementById("success-toast");
@@ -257,7 +257,7 @@
         if (successToast && message) {
             successMessage.innerText = message;
             setTimeout(() => {
-                successToast.style.marginTop = "70px";
+                successToast.classList.add("show-initial");;
                 successToast.classList.remove("hide");
                 setTimeout(() => {
                     successToast.classList.add("hide");
