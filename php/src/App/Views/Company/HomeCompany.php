@@ -1,14 +1,3 @@
-<?php
-
-include(APP_DIR . '/components/success-toast.php');
-
-if (isset($_SESSION['id']) && isset($_SESSION['success_message'])) {
-    generateSuccessToast();
-}
-$successMessage = $_SESSION['success_message'] ?? null;
-unset($_SESSION['success_message']);
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,10 +9,29 @@ unset($_SESSION['success_message']);
     <link rel="stylesheet" href="../../../public/styles/navbar.css">
     <link rel="stylesheet" href="../../../public/styles/home/homecompany.css">
     <link rel="stylesheet" href="../../../public/styles/successToast.css">
+    <link rel="stylesheet" href="../../../public/styles/errorToast.css">
     <script src="https://kit.fontawesome.com/3816d0d83d.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
+    <aside>
+        <?php
+        include(APP_DIR . '/components/error-toast.php');
+        include(APP_DIR . '/components/success-toast.php');
+        generateErrorToast();
+        generateSuccessToast();
+
+        $errorMessage = $_SESSION['error_message'] ?? null;
+        unset($_SESSION['error_message']);
+        $successMessage = $_SESSION['success_message'] ?? null;
+        unset($_SESSION['success_message']);
+        ?>
+
+        <div hidden id="session-data" data-error-message="<?php echo $errorMessage ?>"
+            data-success-message="<?php echo $successMessage ?>">
+        </div>
+    </aside>
+
     <main>
         <section class="main-content">
             <section class="profile-section">
@@ -240,6 +248,7 @@ unset($_SESSION['success_message']);
 
 </body>
 <script src="../../../public/js/HomeCompany.js" defer></script>
+<script src="../../../public/js/toast.js" defer></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const successToast = document.getElementById("success-toast");

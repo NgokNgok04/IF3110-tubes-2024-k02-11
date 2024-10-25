@@ -24,13 +24,3 @@ document
 
     return true;
   });
-
-document.addEventListener("DOMContentLoaded", function () {
-  errorMessage = document
-    .getElementById("session-data")
-    .getAttribute("data-error-message");
-
-  if (errorMessage && errorMessage.trim() != "" && errorMessage != null) {
-    showErrorToast(errorMessage);
-  }
-});

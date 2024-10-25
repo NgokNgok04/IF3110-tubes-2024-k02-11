@@ -33,12 +33,21 @@ class CompanyController extends Controller
             $lokasi = trim($_POST['lokasi']);
             $about = trim($_POST['about']);
 
-            $this->usersModel->updateName($company_id, $company_name);
-            $this->model->updateCompanyDetail($company_id, $lokasi, $about);
+
+            $nameUpdated = $this->usersModel->updateName($company_id, $company_name);
+            $companyUpdated = $this->model->updateCompanyDetail($company_id, $lokasi, $about);
+
+            if ($nameUpdated && $companyUpdated) {
+                $_SESSION['success_message'] = 'Company Update Successfully!';
+            } else {
+                $_SESSION['error_message'] = 'Failed to Update Company!';
+            }
+            http_response_code(200);
             header("Location: /profil");
         } else {
-            http_response_code(405); // Method Not Allowed
-            echo json_encode(['message' => 'Metode tidak diizinkan.']);
+            http_response_code(405);
+            $_SESSION['error_message'] = 'Method Not Allowed ';
+            header("Location: /profil");
         }
     }
 

@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
             newReasonElement.innerHTML = statusReasonContent;
             const reasonLabelElement = document.createElement("p");
             reasonLabelElement.className = "lamaran-reason";
-            reasonLabelElement.textContent = "Reason :";
+            reasonLabelElement.textContent = "Reason";
             const lamaranReasonContainer = document.querySelector(
               ".lamaran-reason-container"
             );
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const lamaranStatusText = document.querySelector(
               ".lamaran-status-btn p"
             );
-            lamaranStatusText.textContent = data["status"]; // Ganti dengan status yang sesuai
+            lamaranStatusText.textContent = ": " + data["status"]; // Ganti dengan status yang sesuai
 
             // Hapus tombol jika status sudah berubah
             const changeButton = document.getElementById("change-button");
@@ -81,7 +81,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const changeButton = document.getElementById("change-button");
-  changeButton.addEventListener("click", openModal);
+  if (changeButton) {
+    changeButton.addEventListener("click", openModal);
+  }
+
   const closeButton = document.getElementById("close-modal");
-  closeButton.addEventListener("click", closeModal);
+  if (closeButton) {
+    closeButton.addEventListener("click", closeModal);
+  }
 });

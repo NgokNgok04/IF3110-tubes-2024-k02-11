@@ -7,11 +7,31 @@
     <link rel="stylesheet" href="../../../public/styles/global.css">
     <link rel="stylesheet" href="../../../public/styles/navbar.css">
     <link rel="stylesheet" href="../../../public/styles/company/companyDetail.css">
+    <link rel="stylesheet" href="../../../public/styles/successToast.css">
+    <link rel="stylesheet" href="../../../public/styles/errorToast.css">
     <script src="https://kit.fontawesome.com/3816d0d83d.js" crossorigin="anonymous"></script>
     <title>Company Detail</title>
 </head>
 
 <body>
+    <aside>
+        <?php
+        include(APP_DIR . '/components/error-toast.php');
+        include(APP_DIR . '/components/success-toast.php');
+        generateErrorToast();
+        generateSuccessToast();
+
+        $errorMessage = $_SESSION['error_message'] ?? null;
+        unset($_SESSION['error_message']);
+        $successMessage = $_SESSION['success_message'] ?? null;
+        unset($_SESSION['success_message']);
+        ?>
+
+        <div hidden id="session-data" data-error-message="<?php echo $errorMessage ?>"
+            data-success-message="<?php echo $successMessage ?>">
+        </div>
+    </aside>
+
     <?php
     include(__DIR__ . "/../../Components/navbar.php");
     generateNavbar('Company')
@@ -46,6 +66,7 @@
     </form>
 
     <script src="../../../public/js/profil.js"> </script>
+    <script src="../../../public/js/toast.js" defer></script>
 </body>
 
 </html>

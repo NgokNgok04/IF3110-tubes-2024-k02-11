@@ -60,26 +60,8 @@ document.addEventListener("DOMContentLoaded", function () {
         attachment_id: attachmentId,
         file_path: relativeFilePath,
       });
-      console.log(requestData);
+
       xhr.send(requestData);
     });
   });
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-  successMessage = document
-    .getElementById("session-data")
-    .getAttribute("data-success-message");
-
-  if (successMessage && successMessage.trim() != "" && successMessage != null) {
-    showSuccessToast(successMessage);
-  }
-
-  errorMessage = document
-    .getElementById("session-data")
-    .getAttribute("data-error-message");
-
-  if (errorMessage && errorMessage.trim() != "" && errorMessage != null) {
-    showErrorToast(errorMessage);
-  }
 });

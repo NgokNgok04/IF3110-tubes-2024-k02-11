@@ -31,11 +31,16 @@ class LowonganController extends Controller
     public function editLowonganPage($id)
     {
         $lowongan = $this->model->getLowonganByID(($id));
-        $attchments = $this->attachmentModel->getAttachmentByLowonganID($id);
-        $this->view('Company', 'EditLowongan', [
-            'lowongan' => $lowongan,
-            'attachments' => $attchments
-        ]);
+        if ($lowongan['company_id'] != $_SESSION['id']) {
+            $this->view('Error', 'NoAccess');
+        } else {
+            $attchments = $this->attachmentModel->getAttachmentByLowonganID($id);
+            $this->view('Company', 'EditLowongan', [
+                'lowongan' => $lowongan,
+                'attachments' => $attchments
+            ]);
+        }
+
     }
 
     //detail lowongan Page
@@ -43,11 +48,16 @@ class LowonganController extends Controller
     {
         if (isset($_SESSION['role']) && $_SESSION['role'] == 'company') {
             $lowongan = $this->model->getLowonganByID(($id));
-            $listLamaran = $this->lamaranModel->getLamaranStatusAndNamaBYLowonganID($id);
-            $this->view('Company', 'DetailLowongan', [
-                'lowongan' => $lowongan,
-                'listLamaran' => $listLamaran
-            ]);
+            if ($lowongan['company_id'] != $_SESSION['id']) {
+                $this->view('Error', 'NoAccess');
+            } else {
+                $listLamaran = $this->lamaranModel->getLamaranStatusAndNamaBYLowonganID($id);
+                $this->view('Company', 'DetailLowongan', [
+                    'lowongan' => $lowongan,
+                    'listLamaran' => $listLamaran
+                ]);
+            }
+
         } else if (isset($_SESSION['role']) && $_SESSION['role'] == 'jobseeker') {
             $detailLowongan = $this->model->getDetailLowonganByID($id, $_SESSION['id']);
             $date = $this->model->getLamaranDateUserInLowongan($id, $_SESSION['id']);
@@ -61,13 +71,20 @@ class LowonganController extends Controller
     public function deleteLowongan($id)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $lowongan = $this->model->getLowonganByID($id);
+            if ($lowongan['company_id'] != $_SESSION['id']) {
+                $_SESSION['error_message'] = 'THIS IS NOT YOUR JOB POST!!!';
+                header('Location: /');
+                exit;
+            }
+
             $isDeleted = $this->model->deleteLowonganByID($id);
 
             if ($isDeleted) {
                 $_SESSION['success_message'] = 'Job deleted successfully!';
                 header('Location: /');
             } else {
-                $_SESSION['error_message'] = 'Unable to delte job!';
+                $_SESSION['error_message'] = 'Unable to delete job!';
                 header('Location: /');
             }
         } else {
@@ -79,14 +96,20 @@ class LowonganController extends Controller
     public function deleteAttachment($id)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = json_decode(file_get_contents('php://input'), true);
 
+            $lowongan = $this->model->getLowonganByID($id);
+            if ($lowongan['company_id'] != $_SESSION['id']) {
+                http_response_code(400);
+                echo json_encode(['status' => 'error', 'message' => 'No image path provided.']);
+                exit;
+            }
+
+            $data = json_decode(file_get_contents('php://input'), true);
             if (isset($data['file_path'])) {
                 $originalPath = $data['file_path'];
                 $decodedFilePath = urldecode($originalPath);
                 $file_path = WORK_DIR . $decodedFilePath;
 
-                // if ($file_path && file_exists($file_path)) {
                 if ($file_path && file_exists($file_path)) {
                     try {
                         if (!unlink($file_path)) {
@@ -106,8 +129,8 @@ class LowonganController extends Controller
                     echo json_encode(['status' => 'error', 'message' => 'Image not found.' . $file_path]);
                 }
             } else {
-                http_response_code(400);
-                echo json_encode(['status' => 'error', 'message' => 'No image path provided.']);
+                http_response_code(403);
+                echo json_encode(['status' => 'error', 'message' => 'THIS IS NOT YOUR JOB POSTING']);
             }
         } else {
             http_response_code(405);
@@ -118,31 +141,49 @@ class LowonganController extends Controller
     public function updateLowonganIsOpen($id)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $lowongan = $this->model->getLowonganByID($id);
+            if ($lowongan['company_id'] == $_SESSION['id']) {
+                header('Content-Type: application/json', true, 403);
+                echo json_encode(['status' => 'error', 'message' => 'THIS IS NOT YOUR JOB POST!!!']);
+                exit;
+            }
             if ($_POST['is_open'] === 'Open') {
                 $is_open = 1;
             } else if ($_POST['is_open'] === 'Closed') {
                 $is_open = 0;
             }
 
-            // var_dump($is_open);
-            // exit;
             $isUpdated = $this->model->updateIsOpen($id, $is_open);
             if ($isUpdated) {
                 header('Content-Type: application/json');
-                echo json_encode(['status' => 'success', 'message' => 'Status Lowongan Berhasiil Diganti Menjadi' . $is_open]);
+                if ($is_open === 1) {
+                    echo json_encode(['status' => 'success', 'message' => 'Job Opened ']);
+                } else {
+                    echo json_encode(['status' => 'success', 'message' => 'Job ']);
+                }
             } else {
                 header('Content-Type: application/json', true, 500);
-                echo json_encode(['status' => 'error', 'message' => 'Gagal menutup lowongan']);
+                echo json_encode(['status' => 'error', 'message' => 'Failed to Update Job Status']);
             }
+
+
         } else {
             http_response_code(405);
-            echo json_encode(['message' => 'Metode tidak diizinkan.']);
+            echo json_encode(['message' => 'Method Not Allowed']);
         }
     }
 
     public function updateLowongan($id)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $lowongan = $this->model->getLowonganByID($id);
+            if ($lowongan['company_id'] != $_SESSION['id']) {
+                http_response_code(403);
+                $_SESSION['error_message'] = 'THIS IS NOT YOUR JOB POST!!!';
+                header('Location: /');
+                exit;
+            }
+
             $posisi = $_POST['posisi'] ?? null;
             $deskripsi = $_POST['deskripsi'] ?? null;
             $jenis_pekerjaan = $_POST['jenis_pekerjaan'] ?? null;
