@@ -11,11 +11,9 @@ function debounceSearch() {
     const statuses = [
       ...document.querySelectorAll('input[name="statuses[]"]:checked'),
     ].map((checkbox) => checkbox.value); // Get the checked statuses
-    // console.log(statuses);
     const jobtypes = [
       ...document.querySelectorAll('input[name="jobtypes[]"]:checked'),
     ].map((checkbox) => checkbox.value); // Get the checked jobtypes
-    // console.log(jobtypes);
     const sort = document.getElementById("sort-by").value; // Get the selected sort option
 
     const locationQuery =

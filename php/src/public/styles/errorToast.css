@@ -26,7 +26,6 @@
   box-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
   background-color: #e14d45;
   transition: right 0.5s ease-out;
-  /* opacity: 1; */
   transition: margin-top 0.5s ease-out;
   z-index: 999;
 }
