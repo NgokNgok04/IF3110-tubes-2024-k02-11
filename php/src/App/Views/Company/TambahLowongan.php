@@ -33,7 +33,8 @@
     generateNavbar('Company')
         ?>
 
-    <div class="container">
+
+    <main>
         <div class="card">
             <h1 class="title">Add Job</h1>
 
@@ -82,7 +83,7 @@
                 <button type="submit" class="btn">Post Job</button>
             </form>
         </div>
-    </div>
+    </main>
 
     <!-- Quill.js JS -->
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
