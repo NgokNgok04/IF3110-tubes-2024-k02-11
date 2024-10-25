@@ -31,7 +31,6 @@
 
             <label for="video">Upload Video</label>
             <input type="file" id="video" name="video" accept=".mkv,.mp4">
-            
             <button type="submit">Submit</button>
         </form>
     </div>
