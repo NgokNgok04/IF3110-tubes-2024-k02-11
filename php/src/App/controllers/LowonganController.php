@@ -124,19 +124,21 @@ class LowonganController extends Controller
                 $is_open = 0;
             }
 
-            // var_dump($is_open);
-            // exit;
             $isUpdated = $this->model->updateIsOpen($id, $is_open);
             if ($isUpdated) {
                 header('Content-Type: application/json');
-                echo json_encode(['status' => 'success', 'message' => 'Status Lowongan Berhasiil Diganti Menjadi' . $is_open]);
+                if ($is_open === 1) {
+                    echo json_encode(['status' => 'success', 'message' => 'Job Opened ']);
+                } else {
+                    echo json_encode(['status' => 'success', 'message' => 'Job ']);
+                }
             } else {
                 header('Content-Type: application/json', true, 500);
-                echo json_encode(['status' => 'error', 'message' => 'Gagal menutup lowongan']);
+                echo json_encode(['status' => 'error', 'message' => 'Failed to Update Job Status']);
             }
         } else {
             http_response_code(405);
-            echo json_encode(['message' => 'Metode tidak diizinkan.']);
+            echo json_encode(['message' => 'Method Not Allowed']);
         }
     }
 

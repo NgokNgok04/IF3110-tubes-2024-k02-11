@@ -13,21 +13,24 @@
 </head>
 
 <body>
-    <?php
-    include(APP_DIR . '/components/error-toast.php');
-    include(APP_DIR . '/components/success-toast.php');
-    generateErrorToast();
-    generateSuccessToast();
+    <aside>
 
-    $errorMessage = $_SESSION['error_message'] ?? null;
-    unset($_SESSION['error_message']);
-    $successMessage = $_SESSION['success_message'] ?? null;
-    unset($_SESSION['success_message']);
-    ?>
+        <?php
+        include(APP_DIR . '/components/error-toast.php');
+        include(APP_DIR . '/components/success-toast.php');
+        generateErrorToast();
+        generateSuccessToast();
 
-    <div hidden id="session-data" data-error-message="<?php echo $errorMessage ?>"
-        data-success-message="<?php echo $successMessage ?>">
-    </div>
+        $errorMessage = $_SESSION['error_message'] ?? null;
+        unset($_SESSION['error_message']);
+        $successMessage = $_SESSION['success_message'] ?? null;
+        unset($_SESSION['success_message']);
+        ?>
+
+        <div hidden id="session-data" data-error-message="<?php echo $errorMessage ?>"
+            data-success-message="<?php echo $successMessage ?>">
+        </div>
+    </aside>
 
     <div class="container">
         <div class="card">

@@ -229,19 +229,17 @@ document.addEventListener("DOMContentLoaded", function () {
     // Handle the response
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4) {
+        const response = JSON.parse(xhr.responseText);
         if (xhr.status === 200) {
-          const response = JSON.parse(xhr.responseText);
-          alert(response.message); // Show success or error message
+          showSuccessToast(response.message);
           document.getElementById("job-isOpen-" + index).innerText =
             selectElement.value;
         } else {
-          alert("Error updating status");
+          showErrorToast(response.message);
         }
       }
     };
 
-    // Send the form data
-    console.log(form);
     xhr.send(formData);
   });
 });
