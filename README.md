@@ -19,6 +19,28 @@
 2. Aplikasi dapat dibuka pada `http://localhost:8000`
 3. Menghentikan aplikasi dapat dilakukan dengan menjalankan perintah `docker compose down` pada root directory 
 
+## Screenshot 
+1. Company
+<img src="./photo/company/HomeCompany.png">
+<img src="./photo/company/DetailLamaranCompany-1.png">
+<img src="./photo/company/DetailLamaranCompany-2.png"> 
+<img src="./photo/company/DetailLowonganCompany.png">
+<img src="./photo/company/EditLowongan-1.png">
+<img src="./photo/company/EditLowongan-2.png">
+<img src="./photo/company/EditStatusLamaran.png">
+<img src="./photo/company/TambahLowongan.png">
+
+2. JobSeeker
+<img src="./photo/jobseeker/DetailLowongan.png">
+<img src="./photo/jobseeker/HomeJobSeeker.png">
+<img src="./photo/jobseeker/LamaranJobSeeker.png">
+<img src="./photo/jobseeker/ModalLowongan.png">
+<img src="./photo/jobseeker/Riwayat.png">
+
+3. Login & Register
+<img src="./photo/Login.png">
+<img src="./photo/Register.png">
+
 ## Pembagian Tugas
 ### Server Side 
 | Fitur                | Nim      |
