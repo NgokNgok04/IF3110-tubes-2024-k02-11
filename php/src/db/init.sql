@@ -104,27 +104,27 @@ ALTER SEQUENCE lamaran_lamaran_id_seq RESTART WITH 1;
 -- Insert Users
 INSERT INTO users (nama, password, email, role) VALUES
 -- Job Seekers
-('John Doe', 'hashed_password123', 'john@example.com', 'jobseeker'),
-('Jane Smith', 'hashed_password456', 'jane@example.com', 'jobseeker'),
-('Michael Brown', 'hashed_password789', 'michael@example.com', 'jobseeker'),
-('Sarah Wilson', 'hashed_password101', 'sarah@example.com', 'jobseeker'),
-('Robert Johnson', 'hashed_password102', 'robert@example.com', 'jobseeker'),
-('Emily Davis', 'hashed_password103', 'emily@example.com', 'jobseeker'),
-('David Miller', 'hashed_password104', 'david@example.com', 'jobseeker'),
-('Lisa Anderson', 'hashed_password105', 'lisa@example.com', 'jobseeker'),
-('James Wilson', 'hashed_password106', 'james@example.com', 'jobseeker'),
-('Maria Garcia', 'hashed_password107', 'maria@example.com', 'jobseeker'),
+('John Doe', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'john@example.com', 'jobseeker'),
+('Jane Smith', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'jane@example.com', 'jobseeker'),
+('Michael Brown', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'michael@example.com', 'jobseeker'),
+('Sarah Wilson', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'sarah@example.com', 'jobseeker'),
+('Robert Johnson', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'robert@example.com', 'jobseeker'),
+('Emily Davis', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'emily@example.com', 'jobseeker'),
+('David Miller', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'david@example.com', 'jobseeker'),
+('Lisa Anderson', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'lisa@example.com', 'jobseeker'),
+('James Wilson', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'james@example.com', 'jobseeker'),
+('Maria Garcia', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'maria@example.com', 'jobseeker'),
 -- Companies
-('Google Inc.', 'company_password123', 'careers@google.com', 'company'),
-('Microsoft', 'company_password456', 'careers@microsoft.com', 'company'),
-('Amazon', 'company_password789', 'careers@amazon.com', 'company'),
-('Meta', 'company_password101', 'careers@meta.com', 'company'),
-('Netflix', 'company_password102', 'careers@netflix.com', 'company'),
-('Apple', 'company_password103', 'careers@apple.com', 'company'),
-('Twitter', 'company_password104', 'careers@twitter.com', 'company'),
-('LinkedIn', 'company_password105', 'careers@linkedin.com', 'company'),
-('Spotify', 'company_password106', 'careers@spotify.com', 'company'),
-('Adobe', 'company_password107', 'careers@adobe.com', 'company');
+('Google Inc.', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'careers@google.com', 'company'),
+('Microsoft', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'careers@microsoft.com', 'company'),
+('Amazon', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'careers@amazon.com', 'company'),
+('Meta', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'careers@meta.com', 'company'),
+('Netflix', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'careers@netflix.com', 'company'),
+('Apple', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'careers@apple.com', 'company'),
+('Twitter', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'careers@twitter.com', 'company'),
+('LinkedIn', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'careers@linkedin.com', 'company'),
+('Spotify', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'careers@spotify.com', 'company'),
+('Adobe', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'careers@adobe.com', 'company');
 
 -- Insert Company Details
 INSERT INTO company_detail (company_id, company_name, lokasi, about) VALUES
@@ -193,66 +193,66 @@ INSERT INTO lowongan (company_id, posisi, deskripsi, jenis_pekerjaan, jenis_loka
 
 -- Insert Attachments for Job Listings
 INSERT INTO attachment_lowongan (lowongan_id, file_path) VALUES
-(1, '/public/attachment_1.png'),
-(1, '/public/attachment_2.png'),
-(1, '/public/attachment_3.png'),
-(2, '/public/attachment_4.png'),
-(3, '/public/attachment_5.png'),
-(4, '/public/attachment_6.png'),
-(4, '/public/attachment_7.png'),
-(5, '/public/attachment_8.png'),
-(6, '/public/attachment_9.png'),
-(7, '/public/attachment_10.png'),
-(10, '/public/attachment_11.png'),
-(13, '/public/attachment_12.png'),
-(16, '/public/attachment_13.png'),
-(19, '/public/attachment_14.png'),
-(22, '/public/attachment_15.png'),
-(25, '/public/attachment_16.png'),
-(28, '/public/attachment_17.png');
+(1, '/public/uploads/test.png'),
+(1, '/public/uploads/test.png'),
+(1, '/public/uploads/test.png'),
+(2, '/public/uploads/test.png'),
+(3, '/public/uploads/test.png'),
+(4, '/public/uploads/test.png'),
+(4, '/public/uploads/test.png'),
+(5, '/public/uploads/test.png'),
+(6, '/public/uploads/test.png'),
+(7, '/public/uploads/test.png'),
+(10,'/public/uploads/test.png'),
+(13,'/public/uploads/test.png'),
+(16,'/public/uploads/test.png'),
+(19,'/public/uploads/test.png'),
+(22,'/public/uploads/test.png'),
+(25,'/public/uploads/test.png'),
+(28,'/public/uploads/test.png');
 
 
 -- Insert Job Applications (Lamaran)
 INSERT INTO lamaran (user_id, lowongan_id, cv_path, video_path, status, status_reason) VALUES
 -- John Doe's Applications
-(1, 1, '/cv/john_doe_cv.pdf', '/video/john_doe_intro.mp4', 'waiting', NULL),
-(1, 4, '/cv/john_doe_cv.pdf', '/video/john_doe_frontend.mp4', 'accepted', 'Excellent technical assessment results'),
-(1, 19, '/cv/john_doe_cv.pdf', NULL, 'rejected', 'Limited distributed systems experience'),
+(1, 1, '/public/uploads/test.pdf', '/public/uploads/test.mp4', 'waiting', NULL),
+(1, 4, '/public/uploads/test.pdf', '/public/uploads/test.mp4', 'accepted', 'Excellent technical assessment results'),
+(1, 19, '/public/uploads/test.pdf', NULL, 'rejected', 'Limited distributed systems experience'),
 
 -- Jane Smith's Applications
-(2, 2, '/cv/jane_smith_cv.pdf', '/video/jane_smith_pm.mp4', 'accepted', 'Strong product vision and leadership skills'),
-(2, 22, '/cv/jane_smith_cv.pdf', NULL, 'waiting', NULL),
-(2, 13, '/cv/jane_smith_cv.pdf', '/video/jane_smith_algo.mp4', 'rejected', 'More ML experience required'),
+(2, 2, '/public/uploads/test.pdf', '/public/uploads/test.mp4', 'accepted', 'Strong product vision and leadership skills'),
+(2, 22, '/public/uploads/test.pdf', NULL, 'waiting', NULL),
+(2, 13, '/public/uploads/test.pdf', '/public/uploads/test.mp4', 'rejected', 'More ML experience required'),
 
 -- Michael Brown's Applications
-(3, 3, '/cv/michael_brown_cv.pdf', '/video/michael_brown_ml.mp4', 'accepted', 'Impressive ML portfolio'),
-(3, 7, '/cv/michael_brown_cv.pdf', NULL, 'waiting', NULL),
-(3, 25, '/cv/michael_brown_cv.pdf', '/video/michael_brown_audio.mp4', 'rejected', 'Looking for more audio engineering background'),
+(3, 3, '/public/uploads/test.pdf', '/public/uploads/test.mp4', 'accepted', 'Impressive ML portfolio'),
+(3, 7, '/public/uploads/test.pdf', NULL, 'waiting', NULL),
+(3, 25, '/public/uploads/test.pdf', '/public/uploads/test.mp4', 'rejected', 'Looking for more audio engineering background'),
 
 -- Sarah Wilson's Applications
-(4, 10, '/cv/sarah_wilson_cv.pdf', '/video/sarah_wilson_vr.mp4', 'accepted', 'Excellent VR development portfolio'),
-(4, 16, '/cv/sarah_wilson_cv.pdf', NULL, 'waiting', NULL),
+(4, 10, '/public/uploads/test.pdf', '/public/uploads/test.mp4', 'accepted', 'Excellent VR development portfolio'),
+(4, 16, '/public/uploads/test.pdf', NULL, 'waiting', NULL),
 
 -- Robert Johnson's Applications
-(5, 5, '/cv/robert_johnson_cv.pdf', '/video/robert_devops.mp4', 'accepted', 'Strong Azure certification and experience'),
-(5, 8, '/cv/robert_johnson_cv.pdf', NULL, 'rejected', 'Position filled internally'),
+(5, 5, '/public/uploads/test.pdf', '/public/uploads/test.mp4', 'accepted', 'Strong Azure certification and experience'),
+(5, 8, '/public/uploads/test.pdf', NULL, 'rejected', 'Position filled internally'),
 
 -- Emily Davis's Applications
-(6, 28, '/cv/emily_davis_cv.pdf', '/video/emily_graphics.mp4', 'waiting', NULL),
-(6, 6, '/cv/emily_davis_cv.pdf', NULL, 'rejected', 'More gaming industry experience needed'),
+(6, 28, '/public/uploads/test.pdf', '/public/uploads/test.mp4', 'waiting', NULL),
+(6, 6, '/public/uploads/test.pdf', NULL, 'rejected', 'More gaming industry experience needed'),
 
 -- David Miller's Applications
-(7, 14, '/cv/david_miller_cv.pdf', '/video/david_platform.mp4', 'accepted', 'Strong system design skills'),
-(7, 20, '/cv/david_miller_cv.pdf', NULL, 'waiting', NULL),
+(7, 14, '/public/uploads/test.pdf', '/public/uploads/test.mp4', 'accepted', 'Strong system design skills'),
+(7, 20, '/public/uploads/test.pdf', NULL, 'waiting', NULL),
 
 -- Lisa Anderson's Applications
-(8, 11, '/cv/lisa_anderson_cv.pdf', '/video/lisa_privacy.mp4', 'accepted', 'Excellent privacy framework knowledge'),
-(8, 17, '/cv/lisa_anderson_cv.pdf', NULL, 'rejected', 'Position no longer available'),
+(8, 11, '/public/uploads/test.pdf', '/public/uploads/test.mp4', 'accepted', 'Excellent privacy framework knowledge'),
+(8, 17, '/public/uploads/test.pdf', NULL, 'rejected', 'Position no longer available'),
 
 -- James Wilson's Applications
-(9, 23, '/cv/james_wilson_cv.pdf', '/video/james_ai.mp4', 'waiting', NULL),
-(9, 26, '/cv/james_wilson_cv.pdf', NULL, 'accepted', 'Strong algorithmic background'),
+(9, 23, '/public/uploads/test.pdf', '/public/uploads/test.mp4', 'waiting', NULL),
+(9, 26, '/public/uploads/test.pdf', NULL, 'accepted', 'Strong algorithmic background'),
 
 -- Maria Garcia's Applications
-(10, 29, '/cv/maria_garcia_cv.pdf', '/video/maria_support.mp4', 'rejected', 'Looking for more enterprise support experience'),
-(10, 15, '/cv/maria_garcia_cv.pdf', NULL, 'waiting', NULL);
+(10, 29, '/public/uploads/test.pdf', '/public/uploads/test.mp4', 'rejected', 'Looking for more enterprise support experience'),
+(10, 15, '/public/uploads/test.pdf', NULL, 'waiting', NULL);
