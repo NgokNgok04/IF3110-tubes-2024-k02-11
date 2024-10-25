@@ -70,6 +70,23 @@ if (isset($_GET['status']) && (isset($_SESSION['success_message']) || isset($_SE
             <p><strong>Job Type:</strong> <?php echo htmlspecialchars($data['jenis_pekerjaan']); ?></p>
             <p><strong>Location:</strong> <?php echo htmlspecialchars($data['jenis_lokasi']); ?></p>
             <p><strong>Status:</strong> <?php echo $data['is_open'] ? 'Open' : 'Closed'; ?></p>
+            <p><strong>Document: </strong></p>
+            <ul>
+                <li>
+                    <?php
+                    if(isset($data['cv_path'])):
+                    ?>
+                        <a href="<?php echo $data['cv_path']; ?>" style="color: blue; text-decoration: underline;" target="_blank">Your Application</a>
+                    <?php endif; ?>
+                </li>
+                <li>
+                    <?php
+                    if(isset($data['video_path'])):
+                    ?>
+                        <a href="<?php echo $data['video_path']; ?>" style="color: blue; text-decoration: underline;" target="_blank">Your Introduction Video</a>
+                    <?php endif; ?>
+                </li>
+            </ul>
         </section>
         <hr>
         <section class="application-status">
