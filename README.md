@@ -46,6 +46,25 @@
    <img src="./photo/Login.png">
    <img src="./photo/Register.png">
 
+## Lighthouse
+
+1. Company
+   <img src="./photo/lighthouse/HomeCompany.png">
+   <img src="./photo/lighthouse/DetailLamaranCompany.png">
+   <img src="./photo/lighthouse/DetailLowonganCompany.png">
+   <img src="./photo/lighthouse/EditLowongan.png">
+   <img src="./photo/lighthouse/TambahLowongan.png">
+
+2. JobSeeker
+   <img src="./photo/lighthouse/DetailLowonganJobseeker.png">
+   <img src="./photo/lighthouse/HomeJobSeeker.png">
+   <img src="./photo/lighthouse/Lamaran.png">
+   <img src="./photo/lighthouse/Riwayat.png">
+
+3. Login & Register
+   <img src="./photo/lighthouse/Login.png">
+   <img src="./photo/lighthouse/Register.png">
+
 ## Pembagian Tugas
 
 ### Server Side
