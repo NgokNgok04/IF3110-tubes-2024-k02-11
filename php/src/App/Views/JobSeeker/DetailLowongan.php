@@ -89,6 +89,16 @@ if (isset($_GET['status']) && (isset($_SESSION['success_message']) || isset($_SE
                     <?php endif; ?>
                 </li>
             </ul>
+            <div class="modal-attachment">
+                <?php foreach($attachmentLowongan as $attachment):?>
+                    <h1 class="display-none attachment"><?php echo htmlspecialchars($attachment['file_path'])?></h1>
+                <?php endforeach ?>
+                <div class="modal-image">
+                    <img id="Attachment-Image" src="/public/uploads/default.png" alt="Attachment Image">
+                </div>
+                <button class="modal-image-btn prev" id="btn-prev">&#10094;</button>
+                <button class="modal-image-btn next" id="btn-next">&#10095;</button>
+            </div>
         </section>
         <hr>
         <section class="application-status">
@@ -133,6 +143,7 @@ if (isset($_GET['status']) && (isset($_SESSION['success_message']) || isset($_SE
         </section>
     </div>
 </body>
+<script src="../../../public/js/detailLowonganJobseeker.js" defer></script>
 <script>
     function showSuccessToast(message) {
         const successToast = document.getElementById("success-toast");

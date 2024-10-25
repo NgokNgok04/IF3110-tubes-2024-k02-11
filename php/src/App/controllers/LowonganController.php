@@ -63,7 +63,12 @@ class LowonganController extends Controller
             if (!$detailLowongan) {
                 $detailLowongan = $this->model->getDetailLowonganByIDWithoutLamaran($id);
             }
-            $this->view('JobSeeker', 'DetailLowongan', ['lowongan' => $detailLowongan, 'date' => $date]);
+            $attachmentLowongan = $this->attachmentModel->getAttachmentByLowonganID($id);
+            $this->view('JobSeeker', 'DetailLowongan', [
+                'lowongan' => $detailLowongan, 
+                'date' => $date,
+                'attachmentLowongan' => $attachmentLowongan
+            ]);
         }
     }
 

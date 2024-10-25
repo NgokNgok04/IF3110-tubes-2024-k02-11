@@ -14,7 +14,6 @@ function debounceSearch() {
     const jobtypes = [
       ...document.querySelectorAll('input[name="jobtypes[]"]:checked'),
     ].map((checkbox) => checkbox.value);
-    console.log(jobtypes);
     const sort = document.getElementById("sort-by").value;
 
     const locationQuery =
@@ -145,7 +144,6 @@ function openModal(index) {
   const AttachmentModal = document.querySelectorAll(`.attachment-${index}`);
   document.getElementById(`btn-prev-${index}`).classList.remove("display-none");
   document.getElementById(`btn-next-${index}`).classList.remove("display-none");
-  console.log(AttachmentModal);
   document.getElementById("Attachment-Image").src =
     AttachmentModal[0].innerText;
   modalSelectForm.value = document
@@ -203,22 +201,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function moveSlide(step, index) {
     const images = document.getElementById("Attachment-Image");
-    console.log("INDEXX : ", index);
     const AttachmentLink = document.querySelectorAll(`.attachment-${index}`);
-
-    console.log("ATTACHMENT LINK", AttachmentLink);
     currentIndex += step;
-    console.log("CURRENT INDEX BEFORE:", currentIndex);
     if (currentIndex < 0) {
       currentIndex = AttachmentLink.length - 1;
     } else if (currentIndex >= AttachmentLink.length) {
       currentIndex = 0;
     }
 
-    console.log("CURRENT INDEX :", currentIndex);
     currentImage = AttachmentLink[currentIndex].innerText;
-    console.log("CURRENT IMAGE :", currentIndex);
-    console.log(currentImage);
     images.src = currentImage;
   }
 

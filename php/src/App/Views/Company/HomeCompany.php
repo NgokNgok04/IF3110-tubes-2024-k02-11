@@ -220,8 +220,7 @@
                 </div>
                 <h1 class="desc">Description</h1>
                 <div id="modal-desc" class="modal-desc"></div>
-                <div class="modal-attachment">
-                    
+                <div class="modal-attachment">     
                     <div class="modal-image">
                         <img id="Attachment-Image" src="/public/uploads/default.png" alt="Attachment Image">
                     </div>

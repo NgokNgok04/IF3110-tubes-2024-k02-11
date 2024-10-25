@@ -31,7 +31,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const errorAbout = document.getElementById("error-about");
 
   roleSelect.addEventListener("change", function () {
-    // console.log(roleSelect.value);
     if (roleSelect.value != "") {
       errorRole.classList.add("display-none");
     } else {
@@ -69,7 +68,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const formObject = {};
     formData.forEach((value, key) => {
       formObject[key] = value;
-      // console.log(formObject[key]);
     });
     if (formObject["role"] == null) {
       isValid = false;
@@ -99,7 +97,6 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       errorConfirmPassword.classList.add("display-none");
     }
-    // console.log(formObject["role"]);
     if (formObject["role"] == "company") {
       if (formObject["location"].trim() == "") {
         isValid = false;
@@ -119,7 +116,6 @@ document.addEventListener("DOMContentLoaded", function () {
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
       // Prepare data to send
-      console.log("jwaodjajdowa");
       const formDataParam = new URLSearchParams();
       formDataParam.append("role", formObject["role"]);
       formDataParam.append("name", formObject["name"]);
@@ -127,8 +123,6 @@ document.addEventListener("DOMContentLoaded", function () {
       formDataParam.append("password", formObject["password"]);
       formDataParam.append("location", formObject["location"]);
       formDataParam.append("about", formObject["about"]);
-      console.log(formObject);
-      console.log(formDataParam.toString());
 
       xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -139,7 +133,6 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = "http://localhost:8000/login";
           } else {
             if (response.data === "The email has been used") {
-              console.error(response.data);
               errorEmailUsed.classList.remove("display-none");
             }
           }
