@@ -26,19 +26,19 @@ function showErrorToast(message) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  successMessage = document
-    .getElementById("session-data")
-    .getAttribute("data-success-message");
+  const sessionDataElement = document.getElementById("session-data");
+  if (sessionDataElement) {
+    const successMessage = sessionDataElement.getAttribute(
+      "data-success-message"
+    );
+    const errorMessage = sessionDataElement.getAttribute("data-error-message");
 
-  if (successMessage && successMessage.trim() != "" && successMessage != null) {
-    showSuccessToast(successMessage);
-  }
+    if (successMessage && successMessage.trim() !== "") {
+      showSuccessToast(successMessage);
+    }
 
-  errorMessage = document
-    .getElementById("session-data")
-    .getAttribute("data-error-message");
-
-  if (errorMessage && errorMessage.trim() != "" && errorMessage != null) {
-    showErrorToast(errorMessage);
+    if (errorMessage && errorMessage.trim() !== "") {
+      showErrorToast(errorMessage);
+    }
   }
 });
