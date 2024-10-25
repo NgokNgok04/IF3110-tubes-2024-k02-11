@@ -1,13 +1,3 @@
-<?php
-include(APP_DIR . '/components/error-toast.php');
-if (isset($_SESSION['id']) && isset($_SESSION['error_message'])) {
-    generateErrorToast();
-}
-$errorMessage = $_SESSION['error_message'] ?? null;
-unset($_SESSION['error_message']);
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,8 +12,16 @@ unset($_SESSION['error_message']);
 </head>
 
 <body>
+    <?php
+    include(APP_DIR . '/components/error-toast.php');
+    generateErrorToast();
+    $errorMessage = $_SESSION['error_message'] ?? null;
+    unset($_SESSION['error_message']);
+    ?>
+
     <div hidden id="session-data" data-error-message="<?php echo $errorMessage ?>">
     </div>
+
 
     <div class="container">
         <div class="card">
