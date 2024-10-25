@@ -94,7 +94,7 @@
                                 if(isset($lowonganAttachment[$job['lowongan_id']]) && !empty($lowonganAttachment[$job['lowongan_id']])):
                             ?>
                             <?php foreach ($lowonganAttachment[$job['lowongan_id']] as $attach):?>
-                                <h1 class="attachment-<?php echo $index;?>">
+                                <h1 class="display-none attachment-<?php echo $index;?>">
                                     <?php echo htmlspecialchars($attach['file_path']); ?>
                                 </h1>
                             <?php endforeach; ?>
@@ -192,7 +192,7 @@
                 </div>
             </form>
         </section>
-        <div id="myModal" class="modal display-none">
+        <div id="myModal" class="myModal modal display-none">
             <div class="modal-content" id="modalContent">
                 <button class="close" id="close-modal">
                     <img src="../../../public/icons/close.png" class="back-logo">
