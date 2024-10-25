@@ -49,15 +49,15 @@ class LamaranController extends Controller
                 $this->model->updateStatus($id, $status, $reason);
             } catch (\Exception $e) {
                 http_response_code(500);
-                echo json_encode(['message' => 'Failed to update lowongan: ' . $e->getMessage()]);
+                echo json_encode(['message' => 'Failed to update Application: ' . $e->getMessage()]);
                 return;
             }
 
             http_response_code(200);
-            echo json_encode(['message' => 'Lowongan berhasil diperbarui']);
+            echo json_encode(['message' => 'Application Updated']);
         } else {
             http_response_code(405);
-            echo json_encode(['message' => 'Metode tidak diizinkan.']);
+            echo json_encode(['message' => 'Method Not Allowed.']);
         }
     }
 
@@ -66,27 +66,27 @@ class LamaranController extends Controller
     {
         $lowongan_id = $id;
         $user_id = $_SESSION['id'];
-        if(isset($_FILES['cv']) && $_FILES['cv']['name'] != ''){
-            $cv_path = '/public/uploads/' . pathinfo($_FILES['cv']['name'], PATHINFO_FILENAME) . '-' . $user_id . '-' . $lowongan_id. '.pdf';
+        if (isset($_FILES['cv']) && $_FILES['cv']['name'] != '') {
+            $cv_path = '/public/uploads/' . pathinfo($_FILES['cv']['name'], PATHINFO_FILENAME) . '-' . $user_id . '-' . $lowongan_id . '.pdf';
         }
-        if(isset($_FILES['video']) && $_FILES['video']['name'] != ''){
-            $video_path = '/public/uploads/' . pathinfo($_FILES['video']['name'], PATHINFO_FILENAME) . '-' . $user_id . '-' . $lowongan_id .'.' . pathinfo($_FILES['video']['name'], PATHINFO_EXTENSION);
+        if (isset($_FILES['video']) && $_FILES['video']['name'] != '') {
+            $video_path = '/public/uploads/' . pathinfo($_FILES['video']['name'], PATHINFO_FILENAME) . '-' . $user_id . '-' . $lowongan_id . '.' . pathinfo($_FILES['video']['name'], PATHINFO_EXTENSION);
         } else {
             $video_path = null;
         }
-    
+
         $cv_uploaded = false;
         $video_uploaded = false;
-        if(isset($cv_path) && isset($_FILES['cv']) && $_FILES['cv']['name'] != ''){
+        if (isset($cv_path) && isset($_FILES['cv']) && $_FILES['cv']['name'] != '') {
             $cv_uploaded = $this->uploadFile($lowongan_id, $_FILES['cv'], ['pdf'], 100 * 1024 * 1024);
         }
-        if(isset($video_path) && isset($_FILES['video']) && $_FILES['video']['name'] != ''){
+        if (isset($video_path) && isset($_FILES['video']) && $_FILES['video']['name'] != '') {
             $video_uploaded = $this->uploadFile($lowongan_id, $_FILES['video'], ['mp4', 'avi', 'mkv', 'mov', 'webm'], 100 * 1024 * 1024);
         }
         if ($cv_uploaded || (isset($video_uploaded) && $video_uploaded)) {
             $status = 'waiting';
             $result = $this->model->addLamaran($user_id, $lowongan_id, $cv_path, $video_path, $status, "");
-    
+
             if ($result) {
                 $_SESSION['success_message'] = 'Lamaran berhasil dikirim';
                 header("Location: /detail-lowongan/$lowongan_id?status=success");
@@ -99,14 +99,14 @@ class LamaranController extends Controller
             header("Location: /detail-lowongan/$lowongan_id?status=failed");
         }
     }
-    
 
 
 
-    public function uploadFile($lowongan_id, $file, $allowedTypes, $maxSize,)
+
+    public function uploadFile($lowongan_id, $file, $allowedTypes, $maxSize, )
     {
         $target_dir = FILE_DIR;
-        
+
         // Generate a new filename: original_name-user_id.extension
         $filename = pathinfo($file["name"], PATHINFO_FILENAME) . '-' . $_SESSION['id'] . '-' . $lowongan_id;
         $extension = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
@@ -115,17 +115,17 @@ class LamaranController extends Controller
         $uploadOK = 1;
 
         // Check if the file already exists
-        if(file_exists($target_file)) {
+        if (file_exists($target_file)) {
             $uploadOK = 0;
         }
 
         // Validate file type
-        if(!in_array($extension, $allowedTypes)) {
+        if (!in_array($extension, $allowedTypes)) {
             $uploadOK = 0;
         }
 
         // Validate file size
-        if($file["size"] > $maxSize) {
+        if ($file["size"] > $maxSize) {
             header("Location: /detail-lowongan/$lowongan_id?status=too-large");
             $uploadOK = 0;
         }

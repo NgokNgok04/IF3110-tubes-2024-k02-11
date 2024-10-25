@@ -52,7 +52,6 @@ document.addEventListener("DOMContentLoaded", function () {
           showSuccessToast(response.message);
           this.closest(".attachment-container").remove();
         } else {
-          const response = JSON.parse(xhr.responseText);
           showErrorToast(response.message);
         }
       }.bind(this);
