@@ -40,7 +40,6 @@ class LowonganController extends Controller
                 'attachments' => $attchments
             ]);
         }
-
     }
 
     //detail lowongan Page
@@ -142,11 +141,12 @@ class LowonganController extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $lowongan = $this->model->getLowonganByID($id);
-            if ($lowongan['company_id'] == $_SESSION['id']) {
+            if ($lowongan['company_id'] != $_SESSION['id']) {
                 header('Content-Type: application/json', true, 403);
                 echo json_encode(['status' => 'error', 'message' => 'THIS IS NOT YOUR JOB POST!!!']);
                 exit;
             }
+
             if ($_POST['is_open'] === 'Open') {
                 $is_open = 1;
             } else if ($_POST['is_open'] === 'Closed') {
