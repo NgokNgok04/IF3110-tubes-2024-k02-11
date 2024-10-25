@@ -18,16 +18,26 @@ class LamaranController extends Controller
     }
     public function lamaranPage($id)
     {
+        $company_id = $this->model->getCompanyFromLamaran($id);
+        if ($company_id != $_SESSION['id']) {
+            $this->view('Error', 'NoAccess');
+            exit;
+        }
         $data = $this->model->getLamaranPage($id);
         $this->view('JobSeeker', 'Lamaran', [
             'data' => $data
         ]);
-
     }
 
     // Company bisa melihat lamaran tertentu
     public function detailLamaranPage($id)
     {
+        $company_id = $this->model->getCompanyFromLamaran($id);
+        if ($company_id != $_SESSION['id']) {
+            $this->view('Error', 'NoAccess');
+            exit;
+        }
+
         $lamaran = $this->model->getLamaranById($id);
         $users = $this->usersModel->getUserById($lamaran['user_id']);
         $this->view('Company', 'DetailLamaran', [
@@ -38,7 +48,13 @@ class LamaranController extends Controller
 
     public function updateStatus($id)
     {
-
+        $company_id = $this->model->getCompanyFromLamaran($id);
+        if ($company_id != $_SESSION['id']) {
+            http_response_code(403);
+            echo json_encode(['message' => 'THIS IS NOT YOUR JOB POST!!!']);
+            header('Location: /');
+            exit;
+        }
         if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
             $putData = json_decode(file_get_contents("php://input"), true);
 

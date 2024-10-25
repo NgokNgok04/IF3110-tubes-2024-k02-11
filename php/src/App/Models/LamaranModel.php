@@ -114,7 +114,8 @@ class LamaranModel extends Model
         return false;
     }
 
-    public function getLamaranByLowonganID($id){
+    public function getLamaranByLowonganID($id)
+    {
         $sql = "SELECT * FROM lamaran WHERE lowongan_id = :lowongan_id";
         $params = [':lowongan_id' => $id];
         $result = $this->db->fetch($sql, $params);
@@ -171,8 +172,26 @@ class LamaranModel extends Model
         ";
         $params = [':user_id' => $id];
         $result = $this->db->fetchAll($sql, $params);
-        if ($result) return $result;
-        else return false;
+        if ($result)
+            return $result;
+        else
+            return false;
     }
 
+    public function getCompanyFromLamaran($id)
+    {
+        $sql = "
+            SELECT cd.company_id
+            FROM lamaran AS l
+            JOIN lowongan AS lo 
+                ON l.lowongan_id = lo.lowongan_id
+            JOIN company_detail AS cd
+                ON lo.company_id = cd.company_id
+            WHERE l.lamaran_id = :lamaran_id
+        ";
+        $params = [':lamaran_id' => $id];
+        $result = $this->db->fetch($sql, $params);
+
+        return $result ? $result['company_id'] : false;
+    }
 }
