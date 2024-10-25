@@ -6,22 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Job</title>
 
+    <link rel="stylesheet" href="../../../public/styles/global.css">
+    <link rel="stylesheet" href="../../../public/styles/navbar.css">
     <link rel="stylesheet" href="../../../public/styles/company/edit-lowongan.css">
     <link rel="stylesheet" href="../../../public/styles/errorToast.css">
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/3816d0d83d.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
+    <aside>
+        <?php
+        include(APP_DIR . '/components/error-toast.php');
+        generateErrorToast();
+        $errorMessage = $_SESSION['error_message'] ?? null;
+        unset($_SESSION['error_message']);
+        ?>
+
+        <div hidden id="session-data" data-error-message="<?php echo $errorMessage ?>">
+        </div>
+    </aside>
+
     <?php
-    include(APP_DIR . '/components/error-toast.php');
-    generateErrorToast();
-    $errorMessage = $_SESSION['error_message'] ?? null;
-    unset($_SESSION['error_message']);
-    ?>
-
-    <div hidden id="session-data" data-error-message="<?php echo $errorMessage ?>">
-    </div>
-
+    include(__DIR__ . "/../../Components/navbar.php");
+    generateNavbar('Company')
+        ?>
 
     <div class="container">
         <div class="card">

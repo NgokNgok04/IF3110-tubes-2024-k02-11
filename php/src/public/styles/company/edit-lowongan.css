@@ -1,11 +1,20 @@
-body {
-  background-color: #f3f2ef;
-  font-family: Arial, sans-serif;
+@font-face {
+  font-family: "MontserratSemiBold";
+  src: url("../fonts/Montserrat-SemiBold.ttf") format("truetype");
+  font-weight: normal;
+  font-weight: normal;
 }
 
+@font-face {
+  font-family: "MontserratMedium";
+  src: url("../fonts/Montserrat-Medium.ttf") format("truetype");
+  font-weight: normal;
+  font-weight: normal;
+}
 .container {
   margin: 50px auto;
   max-width: 800px;
+  margin-top:70px;
 }
 
 .card {
@@ -22,8 +31,10 @@ body {
 }
 
 .title {
+  font-family: 'MontserratSemiBold';
   text-align: center;
   margin-bottom: 20px;
+  font-size: 30px;
 }
 
 .form-group {
