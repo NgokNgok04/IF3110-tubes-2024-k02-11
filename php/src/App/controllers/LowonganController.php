@@ -159,7 +159,7 @@ class LowonganController extends Controller
                 if ($is_open === 1) {
                     echo json_encode(['status' => 'success', 'message' => 'Job Opened ']);
                 } else {
-                    echo json_encode(['status' => 'success', 'message' => 'Job ']);
+                    echo json_encode(['status' => 'success', 'message' => 'Job Closed']);
                 }
             } else {
                 header('Content-Type: application/json', true, 500);

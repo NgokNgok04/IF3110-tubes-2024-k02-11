@@ -247,7 +247,7 @@
     <div id="modalOverlay" class="modal-overlay display-none"></div>
 
 </body>
-<script src="../../../public/js/HomeCompany.js" defer></script>
+<script src="../../../public/js/toast.js" defer></script>
 <script src="../../../public/js/HomeCompany.js" defer></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {

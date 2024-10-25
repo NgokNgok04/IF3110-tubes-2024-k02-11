@@ -255,6 +255,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (xhr.readyState === 4) {
         const response = JSON.parse(xhr.responseText);
         if (xhr.status === 200) {
+          console.log(selectElement.value);
           showSuccessToast(response.message);
           document.getElementById("job-isOpen-" + index).innerText =
             selectElement.value;
