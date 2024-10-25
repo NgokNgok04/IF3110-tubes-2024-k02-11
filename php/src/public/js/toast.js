@@ -3,7 +3,7 @@ function showSuccessToast(message) {
   const successMessage = document.getElementById("success-message-content");
   if (successToast && successMessage) {
     successMessage.innerText = message;
-    successToast.style.marginTop = "70px";
+    successToast.classList.add("show-initial");
     successToast.classList.remove("hide");
     setTimeout(() => {
       successToast.classList.add("hide");
@@ -17,7 +17,7 @@ function showErrorToast(message) {
 
   if (errorToast && errorMessage) {
     errorMessage.innerText = message;
-    errorToast.style.marginTop = "70px";
+    errorToast.classList.add("show-initial");
     errorToast.classList.remove("hide");
     setTimeout(() => {
       errorToast.classList.add("hide");
