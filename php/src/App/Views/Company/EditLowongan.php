@@ -6,10 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Job</title>
 
+    <link rel="stylesheet" href="../../../public/styles/global.css">
+    <link rel="stylesheet" href="../../../public/styles/navbar.css">
     <link rel="stylesheet" href="../../../public/styles/company/edit-lowongan.css">
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <link rel="stylesheet" href="../../../public/styles/errorToast.css">
     <link rel="stylesheet" href="../../../public/styles/successToast.css">
+    <script src="https://kit.fontawesome.com/3816d0d83d.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -32,28 +35,14 @@
         </div>
     </aside>
 
+    <?php
+    include(__DIR__ . "/../../Components/navbar.php");
+    generateNavbar('Company')
+        ?>
+
     <div class="container">
         <div class="card">
             <h3 class="title">Edit Job</h3>
-            <div class="form-group">
-                <?php if ($attachments): ?>
-                    <label>Current Attachments</label>
-                    <div id="current-attachments">
-                        <?php foreach ($attachments as $attach): ?>
-                            <?php if (isset($attach['file_path'])): ?>
-                                <div class="attachment-container">
-                                    <img src="<?php echo htmlspecialchars($attach['file_path']); ?>"
-                                        alt="<?php echo htmlspecialchars($attach['file_path']); ?>" class="attachment-image">
-                                    <button type="button" class="remove-attachment"
-                                        data-id="<?php echo htmlspecialchars($attach['attachment_id']); ?>">Remove</button>
-
-                                </div>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    </div>
-                <? endif; ?>
-            </div>
-
             <form id="edit-lowongan-form" method="POST" enctype="multipart/form-data">
                 <!-- Job Title -->
                 <div class="form-group">
@@ -116,6 +105,26 @@
 
                 <button type="submit" class="btn">Update Job</button>
             </form>
+
+            <div class="form-group">
+                <?php if ($attachments): ?>
+                    <label>Current Attachments</label>
+                    <div id="current-attachments">
+                        <?php foreach ($attachments as $attach): ?>
+                            <?php if (isset($attach['file_path'])): ?>
+                                <div class="attachment-container">
+                                    <img src="<?php echo htmlspecialchars($attach['file_path']); ?>"
+                                        alt="<?php echo htmlspecialchars($attach['file_path']); ?>" class="attachment-image">
+                                    <button type="button" class="remove-attachment"
+                                        data-id="<?php echo htmlspecialchars($attach['attachment_id']); ?>">Remove</button>
+
+                                </div>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+                <? endif; ?>
+            </div>
+
         </div>
     </div>
 
