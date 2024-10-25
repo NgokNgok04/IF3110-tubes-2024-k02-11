@@ -59,3 +59,22 @@
   box-shadow: 0px 0px 0px rgba(0, 0, 0, 1);
   transform: translateX(4px) translateY(4px);
 }
+
+@media (max-width: 600px) {
+  .detail-container {
+    width: 90%;
+    min-height: auto;
+    padding: 15px;
+  }
+
+  .detail-table-head tr th,
+  .detail-table-row td {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .detail-action {
+    padding: 6px 10px;
+    font-size: 14px;
+  }
+}

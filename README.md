@@ -50,32 +50,32 @@
 
 ### Server Side
 
-| Fitur                       | Nim                |
-| --------------------------- | ------------------ |
-| Login, Register             | 13522093           |
-| Home (JobSeeker)            | 13522119, 13522093 |
-| Riwayat (JobSeeker)         | 13522119           |
-| Detail Lowongan (JobSeeker) | 13522119           |
-| Lamaran (JobSeeker)         | 13522119           |
-| Home (Company)              | 13522119, 13522093 |
-| Tambah Lowongan (Company)   | 13522118, 13522119 |
-| Detail Lowongan (Company)   | 13522118, 13522119 |
-| Detail Lamaran (Company)    | 13522118, 13522119 |
-| Edit Lowongan (Company)     | 13522118, 13522119 |
-| Profil (Company)            | 13522118, 13522119 |
+| Fitur                       | Nim                          |
+| --------------------------- | ---------------------------- |
+| Login, Register             | 13522093                     |
+| Home (JobSeeker)            | 13522119, 13522093           |
+| Riwayat (JobSeeker)         | 13522119                     |
+| Detail Lowongan (JobSeeker) | 13522119                     |
+| Lamaran (JobSeeker)         | 13522119                     |
+| Home (Company)              | 13522118, 13522119, 13522093 |
+| Tambah Lowongan (Company)   | 13522118, 13522119           |
+| Detail Lowongan (Company)   | 13522118, 13522119           |
+| Detail Lamaran (Company)    | 13522118, 13522119           |
+| Edit Lowongan (Company)     | 13522118, 13522119           |
+| Profil (Company)            | 13522118, 13522119           |
 
 ### Client Side
 
-| Fitur                       | Nim                |
-| --------------------------- | ------------------ |
-| Login, Register             | 13522093           |
-| Home (JobSeeker)            | 13522119, 13522093 |
-| Riwayat (JobSeeker)         | 13522093, 13522119 |
-| Detail Lowongan (JobSeeker) | 13522093, 13522119 |
-| Lamaran (JobSeeker)         | 13522093, 13522119 |
-| Home (Company)              | 13522093, 13522119 |
-| Tambah Lowongan (Company)   | 13522093           |
-| Detail Lowongan (Company)   | 13522093           |
-| Detail Lamaran (Company)    | 13522093           |
-| Edit Lowongan (Company)     | 13522093           |
-| Profil (Company)            | 13522093           |
+| Fitur                       | Nim                          |
+| --------------------------- | ---------------------------- |
+| Login, Register             | 13522093                     |
+| Home (JobSeeker)            | 13522119, 13522093           |
+| Riwayat (JobSeeker)         | 13522093, 13522119           |
+| Detail Lowongan (JobSeeker) | 13522093, 13522119           |
+| Lamaran (JobSeeker)         | 13522093, 13522119           |
+| Home (Company)              | 13522118, 13522093, 13522119 |
+| Tambah Lowongan (Company)   | 13522118, 13522093           |
+| Detail Lowongan (Company)   | 13522118, 13522093           |
+| Detail Lamaran (Company)    | 13522118, 13522093           |
+| Edit Lowongan (Company)     | 13522118, 13522093           |
+| Profil (Company)            | 13522118, 13522093           |
