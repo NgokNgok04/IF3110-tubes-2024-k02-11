@@ -64,15 +64,15 @@ class LowonganController extends Controller
             $isDeleted = $this->model->deleteLowonganByID($id);
 
             if ($isDeleted) {
+                $_SESSION['success_message'] = 'Job deleted successfully!';
                 header('Location: /');
-                echo json_encode(['status' => 'success', 'message' => 'Lowongan berhasil dihapus']);
             } else {
-                header('Content-Type: application/json', true, 500);
-                echo json_encode(['status' => 'error', 'message' => 'Gagal menghapus lowongan']);
+                $_SESSION['error_message'] = 'Unable to delte job!';
+                header('Location: /');
             }
         } else {
-            header('HTTP/1.1 405 Method Not Allowed');
-            echo json_encode(['status' => 'error', 'message' => 'Method tidak diizinkan']);
+            $_SESSION['error_message'] = 'Metode Not Allowed.';
+            header('Location: /');
         }
     }
 
@@ -163,7 +163,6 @@ class LowonganController extends Controller
                             continue;
                         }
 
-
                         if ($attachments['error'][$key] === UPLOAD_ERR_OK) {
                             $originalName = $attachments['name'][$key];
                             $fileType = mime_content_type($tempPath);
@@ -171,7 +170,6 @@ class LowonganController extends Controller
                             if (!in_array($fileType, $allowedTypes)) {
                                 throw new Exception("Invalid file type: " . $originalName . ". Only JPEG and PNG files are allowed.");
                             }
-
 
                             $newFileName = uniqid() . '_' . basename($originalName);
                             $relativePath = RELATIVE_FILE_DIR . $newFileName;
@@ -197,7 +195,8 @@ class LowonganController extends Controller
 
                 $this->model->updateLowongan($id, $posisi, $deskripsi, $jenis_pekerjaan, $jenis_lokasi, $is_open);
                 http_response_code(200);
-                echo json_encode(['message' => 'Lowongan berhasil diperbarui']);
+                $_SESSION['success_message'] = 'Job updated successfully!';
+                header('Location: /edit-lowongan/' . $id);
             } catch (Exception $e) {
                 // undo
                 foreach ($uploadedFilePaths as $filePath) {
@@ -210,13 +209,15 @@ class LowonganController extends Controller
                     $this->attachmentModel->deleteAttachmentByID($attachmentId);
                 }
 
-                // http_response_code(500);
-                $_SESSION(['error_message' => 'Failed to update lowongan: ' . $e->getMessage()]);
+                http_response_code(500);
+                $_SESSION['error_message'] = 'Failed to update lowongan: ' . $e->getMessage();
+                header('Location: /edit-lowongan/' . $id);
                 return;
             }
         } else {
             http_response_code(405);
-            echo json_encode(['error_message' => 'Metode tidak diizinkan.']);
+            $_SESSION(['error_message' => 'Metode Not Allowed.']);
+            header('Location: /edit-lowongan/' . $id);
         }
     }
 
@@ -281,6 +282,7 @@ class LowonganController extends Controller
                 } else {
                     $lowongan_id = $this->model->addLowongan($company_id, $posisi, $deskripsi, $jenis_pekerjaan, $jenis_lokasi);
                 }
+                $_SESSION['success_message'] = 'Job added successfully!';
                 header('Location: /');
             } catch (Exception $e) {
                 // undo
@@ -301,13 +303,14 @@ class LowonganController extends Controller
                 if (!headers_sent()) {
                     http_response_code(500);
                 }
-                $_SESSION['error_message'] = 'Failed to add lowongan: ' . $e->getMessage();
+                $_SESSION['error_message'] = 'Failed to add job: ' . $e->getMessage();
                 header('Location: /tambah-lowongan');
                 return;
             }
         } else {
             http_response_code(405);
-            echo json_encode(['message' => 'Metode tidak diizinkan.']);
+            $_SESSION['error_message'] = 'Metode not allowed.';
+            header('Location: /tambah-lowongan');
         }
     }
 }

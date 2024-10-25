@@ -8,9 +8,27 @@
 
     <link rel="stylesheet" href="../../../public/styles/company/edit-lowongan.css">
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../../public/styles/errorToast.css">
+    <link rel="stylesheet" href="../../../public/styles/successToast.css">
 </head>
 
 <body>
+    <?php
+    include(APP_DIR . '/components/error-toast.php');
+    include(APP_DIR . '/components/success-toast.php');
+    generateErrorToast();
+    generateSuccessToast();
+
+    $errorMessage = $_SESSION['error_message'] ?? null;
+    unset($_SESSION['error_message']);
+    $successMessage = $_SESSION['success_message'] ?? null;
+    unset($_SESSION['success_message']);
+    ?>
+
+    <div hidden id="session-data" data-error-message="<?php echo $errorMessage ?>"
+        data-success-message="<?php echo $successMessage ?>">
+    </div>
+
     <div class="container">
         <div class="card">
             <h3 class="title">Edit Job</h3>
@@ -33,7 +51,7 @@
                 <? endif; ?>
             </div>
 
-            <form id="edit-lowongan-form">
+            <form id="edit-lowongan-form" method="POST" enctype="multipart/form-data">
                 <!-- Job Title -->
                 <div class="form-group">
                     <label for="position">Job Title</label>
@@ -101,7 +119,9 @@
     <!-- Quill.js JS -->
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
     <script src="../../../public/js/edit-lowongan.js"></script>
+    <script src="../../../public/js/toast.js"></script>
     <script src="../../../public/js/quill-setup.js"></script>
+
 </body>
 
 </html>

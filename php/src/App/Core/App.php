@@ -50,7 +50,6 @@ class App
         $this->router->post('/detail-lowongan/update/{id}', LowonganController::class, 'updateLowonganIsOpen', ['company']);
         $this->router->post('/profil', CompanyController::class, 'updateProfile', ['company']);
 
-        $this->router->put('/edit-lowongan/{id}', LowonganController::class, 'updateLowongan', ['company']);
         $this->router->post('/edit-lowongan/{id}', LowonganController::class, 'updateLowongan', ['company']);
         $this->router->post('/edit-lowongan/{id}/delete', LowonganController::class, 'deleteAttachment', ['company']);
 

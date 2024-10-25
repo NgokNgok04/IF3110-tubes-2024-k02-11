@@ -15,8 +15,6 @@
     <?php
     include(APP_DIR . '/components/error-toast.php');
     generateErrorToast();
-    if (isset($_SESSION['id']) && isset($_SESSION['error_message'])) {
-    }
     $errorMessage = $_SESSION['error_message'] ?? null;
     unset($_SESSION['error_message']);
     ?>

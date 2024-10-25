@@ -11,57 +11,26 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // event listener untuk form
-  document.getElementById("edit-lowongan-form").onsubmit = function (e) {
-    e.preventDefault();
-
+  document.getElementById("edit-lowongan-form").onsubmit = function (event) {
     const description = quill.root.innerHTML;
     document.getElementById("description").value = description;
 
     // attachment extension validation
     const attachments = document.getElementById("attachments").files;
     const allowedTypes = ["image/jpeg", "image/png"];
-    let valid = true;
 
     for (let i = 0; i < attachments.length; i++) {
       if (!allowedTypes.includes(attachments[i].type)) {
-        alert(
+        showErrorToast(
           "Invalid file type: " +
             attachments[i].name +
             ". Please upload images only (JPG, JPEG, PNG)."
         );
-        valid = false;
-        break;
+        event.preventDefault();
       }
     }
 
-    if (!valid) return;
-
-    // form
-    const formData = new FormData(this);
-
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", window.location.href, true);
-
-    // Menangani respon dari server
-    xhr.onload = function () {
-      const response = JSON.parse(xhr.responseText);
-      if (xhr.status >= 200 && xhr.status < 300) {
-        alert("Job updated successfully!");
-        window.location.reload();
-      } else {
-        alert(
-          "An error occurred while updating the job. Status: " +
-            xhr.status +
-            response.message
-        );
-      }
-    };
-
-    xhr.onerror = function () {
-      alert("Request failed. There was an error during the transaction.");
-    };
-
-    xhr.send(formData);
+    return true;
   };
 
   // Event listener untuk setiap tombol hapus
@@ -78,13 +47,13 @@ document.addEventListener("DOMContentLoaded", function () {
       xhr.setRequestHeader("Content-Type", "application/json");
 
       xhr.onload = function () {
+        const response = JSON.parse(xhr.responseText);
         if (xhr.status === 200) {
-          const response = JSON.parse(xhr.responseText);
-          alert(response.message);
+          showSuccessToast(response.message);
           this.closest(".attachment-container").remove();
         } else {
           const response = JSON.parse(xhr.responseText);
-          alert(response.message);
+          showErrorToast(response.message);
         }
       }.bind(this);
 
@@ -96,4 +65,22 @@ document.addEventListener("DOMContentLoaded", function () {
       xhr.send(requestData);
     });
   });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  successMessage = document
+    .getElementById("session-data")
+    .getAttribute("data-success-message");
+
+  if (successMessage && successMessage.trim() != "" && successMessage != null) {
+    showSuccessToast(successMessage);
+  }
+
+  errorMessage = document
+    .getElementById("session-data")
+    .getAttribute("data-error-message");
+
+  if (errorMessage && errorMessage.trim() != "" && errorMessage != null) {
+    showErrorToast(errorMessage);
+  }
 });
