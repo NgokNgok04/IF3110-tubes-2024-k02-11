@@ -91,7 +91,7 @@
                                 <?php echo htmlspecialchars($job['lowongan_id']); ?>
                             </h1>
                             <?php foreach ($lowonganAttachment[$job['lowongan_id']] as $attach):?>
-                                <h1 class="display-none attachment-<?php echo $index;?>">
+                                <h1 class=" attachment-<?php echo $index;?>">
                                     <?php echo htmlspecialchars($attach['file_path']); ?>
                                 </h1>
                             <?php endforeach; ?>
