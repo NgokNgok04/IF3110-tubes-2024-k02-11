@@ -36,7 +36,9 @@ class HomeController extends Controller implements ControllerInterface
         $locationFilter = $_GET['locations'] ?? '';
         $statusFilter = $_GET['statuses'] ?? '';
         $jobtypeFilter = $_GET['jobtypes'] ?? '';
-        $sort = $_GET['sort'] ?? 'posisi'; // Default sort by 'posisi'
+        $sort = $_GET['sort'] ?? 'ASC'; // Default sort by 'Newest'
+
+        // var_dump($sort);
 
         $currentPage = (int) ($_GET['page'] ?? 1);
 
@@ -60,9 +62,6 @@ class HomeController extends Controller implements ControllerInterface
         $statuses = array_map(function ($status) {
             return $status == 1 ? 'Open' : 'Closed';
         }, $statuses);
-        // var_dump($statuses);
-        $locations = array_unique(array_column($lowonganList, 'jenis_lokasi'));
-        $jobtypes = array_unique(array_column($lowonganList, 'jenis_pekerjaan'));
 
         // Pagination setup
         $itemsPerPage = 12;
@@ -80,14 +79,8 @@ class HomeController extends Controller implements ControllerInterface
         $currentItems = array_slice($lowonganList, $offset, $itemsPerPage);
         $this->view('JobSeeker', 'HomeJobSeeker', [
             'lowonganList' => $currentItems,
-            // 'statuses' => $statuses,
-            // 'locations' => $locations,
-            // 'jobtypes' => $jobtypes,
             'currentPage' => $currentPage,
             'totalPages' => $totalPages,
-            // 'locationFilter' => $locationFilter,
-            // 'statusFilter' => $statusFilter,
-            // 'jobtypeFilter' => $jobtypeFilter,
             'searchTerm' => $search,
             'sort' => $sort
         ]);
@@ -100,12 +93,11 @@ class HomeController extends Controller implements ControllerInterface
         $companyData = $this->modelUsers->getUserById($company_id);
 
 
-        //initialize the filters and sort 
         $search = $_GET['search'] ?? '';
         $locationFilter = $_GET['locations'] ?? '';
         $statusFilter = $_GET['statuses'] ?? '';
         $jobtypeFilter = $_GET['jobtypes'] ?? '';
-        $sort = $_GET['sort'] ?? 'posisi'; // Default sort by 'posisi'
+        $sort = $_GET['sort'] ?? 'ASC'; // Default sort by 'Newest'
 
         $currentPage = (int) ($_GET['page'] ?? 1);
 

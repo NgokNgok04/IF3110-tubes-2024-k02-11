@@ -4,10 +4,12 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Models\LamaranModel;
 use App\Models\UsersModel;
+use App\Models\LowonganModel;
 
 class LamaranController extends Controller
 {
     private LamaranModel $model;
+    private LowonganModel $lowonganModel;
     private UsersModel $usersModel;
     // Page Untuk melamar ke lowongan tertentu
 
@@ -15,6 +17,7 @@ class LamaranController extends Controller
     {
         $this->model = $this->model('LamaranModel');
         $this->usersModel = $this->model('UsersModel');
+        $this->lowonganModel = $this->model('lowonganModel');
     }
 
     // Jobseeker
@@ -158,5 +161,38 @@ class LamaranController extends Controller
     {
         $lamarans = $this->model->getAllLamaran();
         $this->view('User', 'DebugPage', ['lamarans' => $lamarans]);
+    }
+
+    public function exportApplicantsCsv($id)
+    {
+        $lowongan = $this->lowonganModel->getLowonganByID($id);
+        if (!$lowongan || $lowongan['company_id'] != $_SESSION['id']) {
+            $this->view('Error', 'NoAccess');
+        }
+
+        $lamaran = $this->model->getDataExportByLowonganId($id);
+
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename="applicants.csv"');
+
+        $output = fopen('php://output', 'w');
+        fputcsv($output, ['Nama', 'Pekerjaan yang Dilamar', 'Tanggal Melamar', 'URL CV', 'URL Video', 'Status']);
+
+        foreach ($lamaran as $pelamar) {
+
+            $formattedDate = date('d M Y', strtotime($pelamar['update_at']));
+
+            fputcsv($output, [
+                $pelamar['nama'],
+                $lowongan['posisi'],
+                $formattedDate,
+                BASE_URL . $pelamar['cv_path'],
+                BASE_URL . $pelamar['video_path'],
+                $pelamar['status'],
+            ]);
+        }
+
+        fclose($output);
+        exit;
     }
 }

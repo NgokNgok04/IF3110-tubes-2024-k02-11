@@ -31,7 +31,7 @@ class LowonganController extends Controller
     public function editLowonganPage($id)
     {
         $lowongan = $this->model->getLowonganByID(($id));
-        if ($lowongan['company_id'] != $_SESSION['id']) {
+        if (!$lowongan || $lowongan['company_id'] != $_SESSION['id']) {
             $this->view('Error', 'NoAccess');
         } else {
             $attchments = $this->attachmentModel->getAttachmentByLowonganID($id);
@@ -47,7 +47,7 @@ class LowonganController extends Controller
     {
         if (isset($_SESSION['role']) && $_SESSION['role'] == 'company') {
             $lowongan = $this->model->getLowonganByID(($id));
-            if ($lowongan['company_id'] != $_SESSION['id']) {
+            if (!$lowongan || $lowongan['company_id'] != $_SESSION['id']) {
                 $this->view('Error', 'NoAccess');
             } else {
                 $listLamaran = $this->lamaranModel->getLamaranStatusAndNamaBYLowonganID($id);
@@ -65,7 +65,7 @@ class LowonganController extends Controller
             }
             $attachmentLowongan = $this->attachmentModel->getAttachmentByLowonganID($id);
             $this->view('JobSeeker', 'DetailLowongan', [
-                'lowongan' => $detailLowongan, 
+                'lowongan' => $detailLowongan,
                 'date' => $date,
                 'attachmentLowongan' => $attachmentLowongan
             ]);
@@ -76,7 +76,7 @@ class LowonganController extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $lowongan = $this->model->getLowonganByID($id);
-            if ($lowongan['company_id'] != $_SESSION['id']) {
+            if (!$lowongan || $lowongan['company_id'] != $_SESSION['id']) {
                 $_SESSION['error_message'] = 'THIS IS NOT YOUR JOB POST!!!';
                 header('Location: /');
                 exit;
@@ -102,7 +102,7 @@ class LowonganController extends Controller
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $lowongan = $this->model->getLowonganByID($id);
-            if ($lowongan['company_id'] != $_SESSION['id']) {
+            if (!$lowongan || $lowongan['company_id'] != $_SESSION['id']) {
                 http_response_code(400);
                 echo json_encode(['status' => 'error', 'message' => 'No image path provided.']);
                 exit;
@@ -146,7 +146,7 @@ class LowonganController extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $lowongan = $this->model->getLowonganByID($id);
-            if ($lowongan['company_id'] != $_SESSION['id']) {
+            if (!$lowongan || $lowongan['company_id'] != $_SESSION['id']) {
                 header('Content-Type: application/json', true, 403);
                 echo json_encode(['status' => 'error', 'message' => 'THIS IS NOT YOUR JOB POST!!!']);
                 exit;
@@ -182,7 +182,7 @@ class LowonganController extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $lowongan = $this->model->getLowonganByID($id);
-            if ($lowongan['company_id'] != $_SESSION['id']) {
+            if (!$lowongan || $lowongan['company_id'] != $_SESSION['id']) {
                 http_response_code(403);
                 $_SESSION['error_message'] = 'THIS IS NOT YOUR JOB POST!!!';
                 header('Location: /');

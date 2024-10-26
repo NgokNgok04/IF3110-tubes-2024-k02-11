@@ -260,7 +260,7 @@ class LowonganModel extends Model
             return false;
     }
 
-    public function getSearchQuery($query, $locations = [], $statuses = [], $jobtypes = [], $sort = 'posisi')
+    public function getSearchQuery($query, $locations = [], $statuses = [], $jobtypes = [], $type = 'ASC')
     {
         // Base SQL query 
         $sql = "SELECT * FROM lowongan WHERE (posisi LIKE :query OR deskripsi LIKE :query)";
@@ -305,11 +305,11 @@ class LowonganModel extends Model
         }
 
         // Sort by the specified field
-        $allowedSortFields = ['posisi', 'created_at', 'company_id'];
-        if (in_array($sort, $allowedSortFields)) {
-            $sql .= " ORDER BY $sort";
-        } else {
-            $sql .= " ORDER BY posisi"; //default
+        $typeSorting = ['ASC', 'DESC'];
+        if (in_array($type, $typeSorting)) {
+            $sql .= " ORDER BY created_at $type";
+        } else{
+            $sql .= " ORDER BY created_at"; //default
         }
         $result = $this->db->fetchAll($sql, $params);
         if ($result)
@@ -318,7 +318,7 @@ class LowonganModel extends Model
             return false;
     }
 
-    public function getSearchQueryCompany($company_id, $query, $locations = [], $statuses = [], $jobtypes = [], $sort = 'posisi')
+    public function getSearchQueryCompany($company_id, $query, $locations = [], $statuses = [], $jobtypes = [], $type = 'ASC')
     {
         $sql = "SELECT * FROM lowongan WHERE company_id = :company_id AND (posisi LIKE :query OR deskripsi LIKE :query)";
 
@@ -357,11 +357,11 @@ class LowonganModel extends Model
         }
 
         // Sort by the specified field
-        $allowedSortFields = ['posisi', 'created_at', 'company_id'];
-        if (in_array($sort, $allowedSortFields)) {
-            $sql .= " ORDER BY $sort";
-        } else {
-            $sql .= " ORDER BY posisi"; //default
+        $typeSorting = ['ASC', 'DESC'];
+        if (in_array($type, $typeSorting)) {
+            $sql .= " ORDER BY created_at $type";
+        } else{
+            $sql .= " ORDER BY created_at"; //default
         }
         $result = $this->db->fetchAll($sql, $params);
         if ($result)

@@ -118,7 +118,21 @@ class LamaranModel extends Model
     {
         $sql = "SELECT * FROM lamaran WHERE lowongan_id = :lowongan_id";
         $params = [':lowongan_id' => $id];
-        $result = $this->db->fetch($sql, $params);
+        $result = $this->db->fetchAll($sql, $params);
+        if ($result)
+            return $result;
+        else
+            return false;
+    }
+
+    public function getDataExportByLowonganId($id)
+    {
+        $sql = 'SELECT nama, l.update_at as update_at, cv_path, video_path, status 
+                FROM lamaran l
+                JOIN users u ON l.user_id = u.user_id
+                WHERE l.lowongan_id = :id';
+        $params = [':id' => $id];
+        $result = $this->db->fetchAll($sql, $params);
         if ($result)
             return $result;
         else
