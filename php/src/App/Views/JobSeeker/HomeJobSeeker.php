@@ -176,12 +176,10 @@ unset($_SESSION['success_message']);
                     </label><br>
                 </div>
                 <div>
-                    <label for="sort-by">Sort By:</label>
+                    <label for="sort-by">Date Sort:</label>
                     <select id="sort-by" class="filter-sortby" name="sort" onchange="debounceSearch()">
-                        <option value="posisi" <?php echo $sort === 'posisi' ? 'selected' : ''; ?>>Position</option>
-                        <option value="created_at" <?php echo $sort === 'created_at' ? 'selected' : ''; ?>>Date</option>
-                        <option value="company_id" <?php echo $sort === 'company_id' ? 'selected' : ''; ?>>Company
-                        </option>
+                        <option value="DESC" <?php echo $sort === 'DESC' ? 'selected' : ''; ?>>Newest</option>
+                        <option value="ASC" <?php echo $sort === 'ASC' ? 'selected' : ''; ?>>Oldest</option>
                     </select>
                 </div>
             </div>
