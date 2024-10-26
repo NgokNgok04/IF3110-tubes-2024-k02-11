@@ -166,7 +166,7 @@ class LamaranController extends Controller
     public function exportApplicantsCsv($id)
     {
         $lowongan = $this->lowonganModel->getLowonganByID($id);
-        if ($lowongan && $lowongan['company_id'] != $_SESSION['id']) {
+        if (!$lowongan || $lowongan['company_id'] != $_SESSION['id']) {
             $this->view('Error', 'NoAccess');
         }
 
