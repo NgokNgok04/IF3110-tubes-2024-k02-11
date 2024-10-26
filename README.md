@@ -14,8 +14,7 @@
 ## Installation
 
 1. Clone Repository berikut
-2. Lakukan pembuatan docker image dengan perintah `docker build -t milestone-1:latest` pada terminal root
-3. Buat sebuah file `.env` pada folder root seperti pada `.env.example`
+2. Buat sebuah file `.env` pada folder root seperti pada `.env.example`
 
 ## Running Server
 
