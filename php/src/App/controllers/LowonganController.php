@@ -146,7 +146,7 @@ class LowonganController extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $lowongan = $this->model->getLowonganByID($id);
-            if ($lowongan || $lowongan['company_id'] != $_SESSION['id']) {
+            if (!$lowongan || $lowongan['company_id'] != $_SESSION['id']) {
                 header('Content-Type: application/json', true, 403);
                 echo json_encode(['status' => 'error', 'message' => 'THIS IS NOT YOUR JOB POST!!!']);
                 exit;
