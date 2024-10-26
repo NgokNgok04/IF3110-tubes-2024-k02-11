@@ -44,6 +44,8 @@ class App
         $this->router->get('/edit-lowongan/{id}', LowonganController::class, 'editLowonganPage', ['company']);
         $this->router->get('/profil', CompanyController::class, 'profilePage', ['company']);
 
+        $this->router->get('/export-applicants/{id}', LamaranController::class, 'exportApplicantsCsv');
+
         $this->router->put('/detail-lamaran/{id}', LamaranController::class, 'updateStatus', ['company']);
         $this->router->post('/tambah-lowongan', LowonganController::class, 'storeLowongan', ['company']);
         $this->router->post('/detail-lowongan/delete/{id}', LowonganController::class, 'deleteLowongan', ['company']);
